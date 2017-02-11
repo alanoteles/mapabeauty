@@ -11,6 +11,7 @@
 ~MSle0~/require
 
 # Histórico de Linha de comando (mais recente primeiro):
+:x!
 :q!
 :x
 
@@ -29,24 +30,24 @@
 	c
 
 # Marcas nos arquivos:
-'0  23  0  ~/.env
-'1  30  0  ~/config/app.php
-'2  7  14  ~/.gitignore
-'3  21  0  ~/www/.htaccess
-'4  24  49  ~/app/Http/routes.php
-'5  40  27  ~/public/index.php
-'6  41  2  ~/public/index.php
-'7  142  19  ~/config/app.php
-'8  4  35  ~/www/.env
-'9  11  20  ~/www/.env
+'0  1  0  ~/.gitignore
+'1  23  0  ~/.env
+'2  30  0  ~/config/app.php
+'3  7  14  ~/.gitignore
+'4  21  0  ~/www/.htaccess
+'5  24  49  ~/app/Http/routes.php
+'6  40  27  ~/public/index.php
+'7  41  2  ~/public/index.php
+'8  142  19  ~/config/app.php
+'9  4  35  ~/www/.env
 
 # Lista de saltos (mais recente primeiro):
+-'  1  0  ~/.gitignore
 -'  23  0  ~/.env
 -'  30  0  ~/config/app.php
 -'  96  8  ~/config/app.php
 -'  142  8  ~/config/app.php
 -'  7  14  ~/.gitignore
--'  1  0  ~/.gitignore
 -'  21  0  ~/www/.htaccess
 -'  1  0  ~/www/.htaccess
 -'  24  49  ~/app/Http/routes.php
@@ -129,8 +130,21 @@
 -'  30  0  ~/config/app.php
 -'  96  8  ~/config/app.php
 -'  142  8  ~/config/app.php
+-'  23  0  ~/.env
+-'  30  0  ~/config/app.php
+-'  96  8  ~/config/app.php
+-'  142  8  ~/config/app.php
+-'  21  0  ~/www/.htaccess
+-'  1  0  ~/www/.htaccess
+-'  24  49  ~/app/Http/routes.php
 
 # Histórico de marcas nos arquivos (mais recente primeiro):
+
+> ~/.gitignore
+	"	1	0
+	^	7	15
+	.	7	1
+	+	7	1
 
 > ~/.env
 	"	23	0
@@ -146,12 +160,6 @@
 	^	142	20
 	.	42	57
 	+	42	57
-
-> ~/.gitignore
-	"	7	14
-	^	7	15
-	.	7	1
-	+	7	1
 
 > ~/www/.htaccess
 	"	21	0
