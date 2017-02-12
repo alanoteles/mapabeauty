@@ -11,9 +11,9 @@
 ~MSle0~/require
 
 # Histórico de Linha de comando (mais recente primeiro):
-:x!
-:q!
 :x
+:q!
+:x!
 
 # Histórico de Expressões de busca (mais recente primeiro):
 ?/require
@@ -27,29 +27,34 @@
 
 # Registradores:
 ""-	CHAR	0
-	c
+	k
 
 # Marcas nos arquivos:
-'0  1  0  ~/.gitignore
-'1  23  0  ~/.env
-'2  30  0  ~/config/app.php
-'3  7  14  ~/.gitignore
-'4  21  0  ~/www/.htaccess
-'5  24  49  ~/app/Http/routes.php
-'6  40  27  ~/public/index.php
-'7  41  2  ~/public/index.php
-'8  142  19  ~/config/app.php
-'9  4  35  ~/www/.env
+'0  7  12  ~/.gitignore
+'1  1  0  ~/www/.htaccess
+'2  15  0  ~/www/index.php
+'3  23  0  ~/.env
+'4  1  0  ~/config/services.php
+'5  1  0  ~/git
+'6  30  0  ~/config/app.php
+'7  8  14  ~/.gitignore
+'8  21  0  ~/www/.htaccess
+'9  24  49  ~/app/Http/routes.php
 
 # Lista de saltos (mais recente primeiro):
+-'  7  12  ~/.gitignore
 -'  1  0  ~/.gitignore
+-'  1  0  ~/www/.htaccess
+-'  15  0  ~/www/index.php
+-'  1  0  ~/www/index.php
 -'  23  0  ~/.env
+-'  1  0  ~/config/services.php
+-'  1  0  ~/git
 -'  30  0  ~/config/app.php
 -'  96  8  ~/config/app.php
 -'  142  8  ~/config/app.php
--'  7  14  ~/.gitignore
+-'  8  14  ~/.gitignore
 -'  21  0  ~/www/.htaccess
--'  1  0  ~/www/.htaccess
 -'  24  49  ~/app/Http/routes.php
 -'  1  0  ~/app/Http/routes.php
 -'  40  27  ~/public/index.php
@@ -130,42 +135,46 @@
 -'  30  0  ~/config/app.php
 -'  96  8  ~/config/app.php
 -'  142  8  ~/config/app.php
--'  23  0  ~/.env
 -'  30  0  ~/config/app.php
 -'  96  8  ~/config/app.php
 -'  142  8  ~/config/app.php
--'  21  0  ~/www/.htaccess
--'  1  0  ~/www/.htaccess
--'  24  49  ~/app/Http/routes.php
 
 # Histórico de marcas nos arquivos (mais recente primeiro):
 
 > ~/.gitignore
+	"	7	12
+	^	7	13
+	.	7	12
+	+	8	1
+	+	7	12
+
+> ~/www/.htaccess
 	"	1	0
-	^	7	15
-	.	7	1
-	+	7	1
+	^	21	0
+	.	20	11
+	+	20	11
+
+> ~/www/index.php
+	"	15	0
 
 > ~/.env
 	"	23	0
-	^	23	41
-	.	19	41
+	^	23	51
+	.	23	50
 	+	13	35
 	+	14	15
 	+	15	22
 	+	19	41
+	+	23	50
+
+> ~/config/services.php
+	"	1	0
 
 > ~/config/app.php
 	"	30	0
 	^	142	20
 	.	42	57
 	+	42	57
-
-> ~/www/.htaccess
-	"	21	0
-	^	21	0
-	.	20	11
-	+	20	11
 
 > ~/app/Http/routes.php
 	"	24	49
