@@ -11,14 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::group(['middleware' => ['web']], function () {
 
-Route::auth();
+	Route::get('/', function () {
+	    return view('welcome');
+	});
+	Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
 
-Route::get('/home', 'HomeController@index');
+	Route::auth();
 
-// OAuth Routes
-Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+	Route::get('/home', 'HomeController@index');
+
+	// OAuth Routes
+	Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
+	Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+//});
