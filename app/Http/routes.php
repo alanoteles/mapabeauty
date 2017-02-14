@@ -11,18 +11,17 @@
 |
 */
 
-//Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web']], function () {
 
-	Route::get('/', function () {
-	    return view('welcome');
-	});
 	Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
 
 	Route::auth();
 
 	Route::get('/home', 'HomeController@index');
 
+	Route::any('/profile/{page?}/{id?}', 'ProfileController@index'); //Using REST verbs
+
 	// OAuth Routes
 	Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 	Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
-//});
+});

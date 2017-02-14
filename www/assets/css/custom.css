@@ -429,7 +429,7 @@ h4 {
 }
 
 p {
-	margin 0 0 15px;
+	margin: 0 0 15px;
 }
 p.lead {
 	font-weight: normal;
@@ -470,12 +470,19 @@ button.btn:focus {
 	border-color: #77E4D4;
 }
 
+div > a.btn-link {
+    color: #2AD4BA;
+}
+div > a.btn-link:hover {
+    color: #77E4D4;
+}
+
 img {
 	max-width: 100%;
 }
 
 .modal-content {
- 	background: url('/../img/tile.jpg') top left repeat;
+ 	background: url('../img/tile.jpg') top left repeat;
 }
 
 .badge.social {
@@ -525,9 +532,10 @@ blockquote:before {
 	margin-right: 1px !important;
 }*/
 
-#map-container { 
-	height: 260px 
-	/*width: 535px;*/
+#map-container {
+    height: 260px;
+	width: 535px;
+
 }
 
 .col-direita {
