@@ -6,10 +6,10 @@
 		<link rel="profile" href="http://gmpg.org/xfn/11">
 
 		<!-- Bootstrap core CSS -->
-		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 		
 		<!-- Font Awesome Icons -->
-		<link href="assets/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="{{ asset('assets/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 		
 		<!-- Custom CSS -->
 		<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
@@ -42,7 +42,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/"><img src="assets/img/logo1.png" alt="Mapa Beauty"></a>
+							<a class="navbar-brand" href="/"><img src="{{ asset('assets/img/logo1.png') }}" alt="Mapa Beauty"></a>
 						</div>
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav navbar-right">
@@ -64,10 +64,10 @@
 		<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>	 -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<!-- <script src="assets/js/jquery-2.2.4.min.js"></script> -->
-		<script src="assets/js/bootstrap.min.js"></script>
-		<script src="assets/js/main.js"></script>
-		<script src="https://use.typekit.net/gla7wnd.js"></script>
-		<script>try{Typekit.load();}catch(e){}</script>
+		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('assets/js/main.js') }}"></script>
+		{{--<script src="https://use.typekit.net/gcy4xta.js"></script>--}}
+		{{--<script>try{Typekit.load({ async: true });}catch(e){}</script>--}}
 	</body>
 </html>
 
