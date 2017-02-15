@@ -30,7 +30,7 @@
 								</div> --><!-- price -->
 							<!-- </div> -->
 
-							<p><a class="btn btn-lg btn-success" href="/" role="button">Seja nosso parceiro !  &raquo;</a></p>
+							<p><a class="btn btn-lg btn-success" href="/profile/login" role="button">Seja nosso parceiro !  &raquo;</a></p>
 						
 						</div><!-- col -->
 

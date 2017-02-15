@@ -19,9 +19,15 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/home', 'HomeController@index');
 
+
 	Route::any('/profile/{page?}/{id?}', 'ProfileController@index'); //Using REST verbs
 
 	// OAuth Routes
 	Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
 	Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+
+    Route::get('/contact',                  ['as' => 'contact',                'uses' => 'ContactController@index']);
+    Route::post('/contact-send',            ['as' => 'contact-send',           'uses' => 'ContactcoController@send']);
+
+    Route::get('/about', 'AboutUsController@index');
 });

@@ -23,5 +23,12 @@ $(function() {
 			
 		}); // end window scroll
 	});
+
+
+	//Activate current menu
+	jQuery("*").find("li > a[href='/"+ $('body').data('page') +"']").each(function(){
+		$('li').removeClass('active');
+		$(this).parent().addClass("active");
+	})
 	
 });

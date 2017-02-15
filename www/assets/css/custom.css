@@ -98,6 +98,11 @@ div.hero-text > p.lead {
 	color: #99EBDF !important;
 }
 
+.page-about > li > a {
+    /*color: white;*/
+    color: #99EBDF !important;
+}
+
 /* Small menu. */
 .menu-toggle,
 .main-navigation.toggled ul {

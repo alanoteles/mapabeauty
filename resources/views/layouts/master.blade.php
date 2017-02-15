@@ -24,7 +24,7 @@
 		<![endif]-->
 	</head>
 
-	<body>
+	<body data-page="{{ $page or '-'}}">>
 		<!-- HEADER
 		================================================== -->
 		<header class="site-header" role="banner">
@@ -47,9 +47,9 @@
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav navbar-right">
 								<li class="active"><a href="/">Início</a></li>
-								<li><a href="#">Sobre nós</a></li>
-								<li><a href="#">Fale conosco</a></li>
-								<li><a href="cadastro1.html">Login de parceiros</a></li>	
+								<li><a href="/about">Sobre nós</a></li>
+								<li><a href="/contact">Fale conosco</a></li>
+								<li><a href="/profile/login">Login de parceiros</a></li>
 							</ul>
 						</div>
 					</div>
