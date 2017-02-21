@@ -24,7 +24,7 @@
 		<![endif]-->
 	</head>
 
-	<body data-page="{{ $page or '-'}}">>
+	<body data-page="{{ $page or '-'}}">
 		<!-- HEADER
 		================================================== -->
 		<header class="site-header" role="banner">
@@ -42,7 +42,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/"><img src="{{ asset('assets/img/logo1.png') }}" alt="Mapa Beauty"></a>
+							<a class="navbar-brand" href="/"><img src="{{ asset('assets/img/logo3.png') }}" alt="Mapa Beauty"></a>
 						</div>
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav navbar-right">
