@@ -21,13 +21,22 @@
        {{--}}--}}
 
     {{--{{ Form::hidden('id',  (isset($id) ? $id : ''),array('id' => 'id')) }}--}}
+    <div class="container">
+        <div class="row" id="primary">
+            <div id="content" class="col-sm-12">
+                <form class="form-horizontal" action="profile" method="post">
 
-    @if($page == '1')
+    {{--@if($page == '1')--}}
 	    @include('layouts.includes.register_page1')
-    @elseif($page == '2')
+    {{--@elseif($page == '2')--}}
         @include('layouts.includes.register_page2')
-    @else
-        @include('layouts.includes.register_login')
-    @endif
+    {{--@else--}}
+        {{--@include('layouts.includes.register_login')--}}
+    {{--@endif--}}
 
+                {!! csrf_field() !!}
+                </form>
+            </div><!-- content -->
+        </div><!-- primary -->
+    </div><!-- container -->
 @endsection

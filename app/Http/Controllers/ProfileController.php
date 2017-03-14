@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Products;
+use App\State;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\City;
+use App\Product;
 
 class ProfileController extends Controller
 {
@@ -15,7 +19,17 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        return view('layouts.profile', ['page' => 'profile']);
+        $params = $request->all();
+        
+//        echo '<pre>';
+//        print_r($params);die;
+        return view('layouts.profile', [
+                    'page' => '1',
+                    'cities'    => City::get(),
+                    'states'    => State::get(),
+                    'products'  => Product::get()
+
+        ]);
     }
 
     /**
@@ -36,7 +50,10 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        echo '<pre>';
+        print_r($params);die;
+        echo 'aaa';die;
     }
 
     /**

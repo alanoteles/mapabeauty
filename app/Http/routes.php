@@ -20,7 +20,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/home', 'HomeController@index');
 
 
-	Route::any('/profile/{page?}/{id?}', 'ProfileController@index'); //Using REST verbs
+	Route::get('profile-login/', 'ProfileController@index'); //Using REST verbs
+	Route::resource('profile/', 'ProfileController'); //Using REST verbs
+	Route::get('profile/busca_cep/{cep}','ProfileController@busca_cep');
 
 	// OAuth Routes
 	Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');

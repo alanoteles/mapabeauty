@@ -15,6 +15,9 @@ class IndexController extends Controller
      */
     public function index()
     {
+
+        //curl freegeoip.net/json/82.0.175.11
+
         return view('layouts.index');
     }
 
