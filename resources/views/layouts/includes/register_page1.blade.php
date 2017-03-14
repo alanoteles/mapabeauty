@@ -154,9 +154,11 @@
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button class="btn btn-success btn-block">
-                                    Clique para capturarmos a sua localização no mapa
-                                </button>
+                                {{--<button class="btn btn-success btn-block" onclick="javascript:showlocation()">--}}
+                                    {{--Clique para capturarmos a sua localização no mapa--}}
+                                {{--</button>--}}
+                                <input type="button" class="btn btn-success btn-block" value="Clique para capturarmos a sua localização no mapa"
+                                       onclick="javascript:showlocation()" /> 	<br/>
                             </div>
                         </div>
 
@@ -167,42 +169,18 @@
                         <div class="form-group ">
                             <div class="col-sm-12"  id="map-container" style="margin-left: 15px;">
                                 <!-- <script src="http://maps.google.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA&sensor=false"></script> -->
+                                {{--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>--}}
                                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA" type="text/javascript"></script>
-                                <script>
 
-//                                    function init_map() {
-//                                        var var_location = new google.maps.LatLng(45.430817,12.331516);
-//
-//                                        var var_mapoptions = {
-//                                            scrollwheel: false,
-//                                            center: var_location,
-//                                            zoom: 14
-//                                        };
-//
-//                                        var var_marker = new google.maps.Marker({
-//                                            position: var_location,
-//                                            map: var_map,
-//                                            title:"Venice"});
-//
-//                                        var var_map = new google.maps.Map(document.getElementById("map-container"),
-//                                                var_mapoptions);
-//
-//                                        var_marker.setMap(var_map);
-//
-//                                    }
-
-                                    google.maps.event.addDomListener(window, 'load', init_map);
-
-                                </script>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Latitude">
+                                <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude">
                             </div>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Longitude">
+                                <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Longitude">
                             </div>
                         </div>
 

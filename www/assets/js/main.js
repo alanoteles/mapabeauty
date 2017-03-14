@@ -186,7 +186,101 @@ $(function() {
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
 
 
-
-
-	
 });
+
+
+var map = null;
+
+function showlocation() {
+	// One-shot position request.
+	//navigator.geolocation.getCurrentPosition(callback, errorHandler,{timeout:10000});
+	navigator.geolocation.getCurrentPosition(init_map, errorHandler,{timeout:10000});
+}
+//
+//function callback(position) {
+//	console.log(position.coords.latitude);
+//
+//	var lat = position.coords.latitude;
+//	var lon = position.coords.longitude;
+//
+//	$('#latitude').val(position.coords.latitude);
+//	$('#longitude').val(position.coords.longitude);
+//
+//	var latLong = new google.maps.LatLng(lat, lon);
+//
+//	var marker = new google.maps.Marker({
+//		position: latLong
+//	});
+//
+//	marker.setMap(map);
+//	map.setZoom(8);
+//	map.setCenter(marker.getPosition());
+//
+//	google.maps.event.addDomListener(window, 'load', initMap);
+//	//google.maps.event.addDomListener(window, 'load', init_map);
+//
+//
+//}
+//
+//function initMap() {
+//	var mapOptions = {
+//		center: new google.maps.LatLng(0, 0),
+//		zoom: 1,
+//		mapTypeId: google.maps.MapTypeId.ROADMAP
+//	};
+//	map = new google.maps.Map(document.getElementById("map-container"), mapOptions);
+//
+//}
+
+function errorHandler(error) {
+	switch(error.code) {
+		case error.PERMISSION_DENIED:
+			alert("O usuário negou acesso à sua localizacão.");
+			break;
+		case error.POSITION_UNAVAILABLE:
+			alert("Informações de localização não disponíveis.");
+			break;
+		case error.TIMEOUT:
+			alert("Tempo limite esgotado para receber os dados de lozalização.");
+			break;
+		case error.UNKNOWN_ERROR:
+			alert("Um erro desconhecido ocorreu.");
+			break;
+	}
+}
+
+
+
+
+function init_map(position) {
+
+	var lat = position.coords.latitude;
+	var lon = position.coords.longitude;
+
+	$('#latitude').val(position.coords.latitude);
+	$('#longitude').val(position.coords.longitude);
+
+
+	var var_location = new google.maps.LatLng(lat,lon);
+
+	var var_mapoptions = {
+		scrollwheel: false,
+		center: var_location,
+		zoom: 15,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+
+	var var_marker = new google.maps.Marker({
+		position: var_location,
+		map: var_map});
+
+	var var_map = new google.maps.Map(document.getElementById("map-container"),
+		var_mapoptions);
+
+	var_marker.setMap(var_map);
+
+	google.maps.event.addDomListener(window, 'load', init_map);
+}
+
+//google.maps.event.addDomListener(window, 'load', init_map);
+

@@ -15,7 +15,7 @@
 		<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 		
 		<!-- Google Fonts -->
-		<link href='http://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
 
 		<!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
