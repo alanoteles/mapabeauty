@@ -24,6 +24,123 @@ $(function() {
 		}); // end window scroll
 	});
 
+	$('#salvar').on('click',function(){
+		$('#form').attr('action', 'profile');
+		$('#form').submit();
+	});
+
+
+	$('.insert-image').on('click',function(){
+
+		//this.text('Enviando...');
+		alert('aaa');
+		//$('#visualizar').html('<img src="ajax-loader.gif" alt="Enviando..."/> Enviando...');
+
+		//$('#progress').show();
+		/* Efetua o Upload sem dar refresh na pagina */
+
+		$('#form').attr('action', '/profile/uploadAnexo');
+		$('#form').submit();
+
+
+		//success: function(data) {
+		//	console.log(data);
+        //
+		//	//uploaded_files = []
+		//	//
+		//	////$('#uploads').val();
+		//	//
+		//	//uploaded_files.push(jQuery.parseJSON(JSON.stringify(data)));
+		//	//
+		//	//$('#uploads').val(uploaded_files)
+		//	//
+		//	//console.log(uploaded_files);
+		//	//console.log($('#uploads').val());
+        //
+		//	//$("#return").fadeOut(10000);
+		//},
+
+
+		//$('#form').ajaxForm({
+		//	target:'#progress',
+		//	success: showResponse(),
+		//	error: function(data){
+        //
+		//		retorno = jQuery.parseJSON(JSON.stringify(data));
+        //
+		//		bootbox.alert(retorno.responseJSON, function() {});
+		//		$(".bootbox .modal-footer .btn-primary").html("Fechar");
+		//		return false;
+        //
+		//		//console.log();
+		//	}
+		//}).submit();
+
+		//$.ajax({
+		//	type: "POST",
+		//	url: '/profile/uploadAnexo',
+		//	data: $('#form').serialize(),
+		//	dataType: 'json',
+		//	success: function (data) {
+        //
+		//		console.log(data);
+		//	}
+		//});
+
+
+	});
+
+	$("#form").on('submit',(function(e) {
+
+		if($(this).attr('action') != 'profile'){
+			
+			e.preventDefault();
+
+			$.ajax({
+				url: "/profile/uploadAnexo",
+				type: "POST",
+				data: new FormData(this),
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function (data) {
+					retorno = data.file_info_uploaded;
+
+					if ($('#uploads').val() != '') {
+						data.rows = jQuery.parseJSON(($('#uploads').val()))
+						data.rows[data.rows.length] = retorno;
+
+						console.log(data.rows);
+						$('#uploads').val(JSON.stringify(data.rows));
+
+					} else {
+						console.log(retorno);
+						data = {
+								rows: [
+									retorno
+								]
+						};
+						//data.rows[0] = retorno;
+						$('#uploads').val(JSON.stringify(data.rows));
+					}
+
+					console.log(retorno.filename);
+
+					console.log($('#uploads').val());
+				},
+				error: function (data) {
+					retorno = jQuery.parseJSON(JSON.stringify(data));
+
+					bootbox.alert(retorno.responseJSON, function () {
+					});
+					$(".bootbox .modal-footer .btn-primary").html("Fechar");
+					return false;
+				}
+			});
+			return false;
+		}
+	}));
+
 
 	//Activate current menu
 	jQuery("*").find("li > a[href='/"+ $('body').data('page') +"']").each(function(){
@@ -36,6 +153,8 @@ $(function() {
 
 	$('#proximapg').click(function(){
 	//$('#voltapg').click(function(){
+$('#page1, #page2').toggle();
+return false;
 
 		var mensagem = "";
 
@@ -231,6 +350,27 @@ function showlocation() {
 //	map = new google.maps.Map(document.getElementById("map-container"), mapOptions);
 //
 //}
+
+function showResponse(responseText, statusText, xhr, $form)  {
+	// for normal html responses, the first argument to the success callback
+	// is the XMLHttpRequest object's responseText property
+
+	// if the ajaxForm method was passed an Options Object with the dataType
+	// property set to 'xml' then the first argument to the success callback
+	// is the XMLHttpRequest object's responseXML property
+
+	// if the ajaxForm method was passed an Options Object with the dataType
+	// property set to 'json' then the first argument to the success callback
+	// is the json data object returned by the server
+
+	//retorno = jQuery.parseJSON(JSON.stringify(data));
+
+	console.log(statusText);
+	console.log(responseText);
+	alert('status: ' + statusText + '\n\nresponseText: \n' + responseText +
+		'\n\nThe output div should have already been updated with the responseText.');
+}
+
 
 function errorHandler(error) {
 	switch(error.code) {

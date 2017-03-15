@@ -67,6 +67,7 @@
 		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 		<script src="{{ asset('assets/js/bootbox.min.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery.mask.min.js') }}"></script>
+		<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
 		<script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
 		<script src="{{ asset('assets/js/main.js') }}"></script>
 		{{--<script src="https://use.typekit.net/gcy4xta.js"></script>--}}

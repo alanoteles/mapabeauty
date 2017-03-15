@@ -101,8 +101,8 @@
                     <div class="col-sm-6 col-direita">
                         <div class="form-group">
                             <div class="col-sm-12">
-                            <h4>Informe seu endereço e localização</h4>
-                                </div>
+                                <h4>Informe seu endereço e localização</h4>
+                            </div>
                         </div>
 
                         <div class="form-group">

@@ -24,7 +24,8 @@
     <div class="container">
         <div class="row" id="primary">
             <div id="content" class="col-sm-12">
-                <form class="form-horizontal" action="profile" method="post">
+                <form class="form-horizontal" id="form" action="profile" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="uploads[{'a':'3', 'b':'5'}, {'d':'9', 'e':'66'}]" id="uploads" value="">
 
     {{--@if($page == '1')--}}
 	    @include('layouts.includes.register_page1')
