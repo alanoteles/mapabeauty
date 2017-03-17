@@ -110,7 +110,7 @@ class ProfileController extends Controller
 
         $params =  $request->all();
         $file   = $params['file'];
-//echo public_path() . '<pre>';
+//echo '<pre>';
 //print_r($params);die;
 
         //Verificando upload pt_br
@@ -128,6 +128,13 @@ class ProfileController extends Controller
             $file->mime      = $files->getClientMimeType();
             $file->origin    = 'telescope';
             $file->hash      = md5($file->filename . $file->size);
+            $file->subtitle  = $params['file_subtitle'];
+
+            if(!empty($params['logo'])){
+                $file->logo    = '1';
+            }else{
+                $file->logo    = '0';
+            }
 
             if(in_array($file->extension,$permitidos)) {
 

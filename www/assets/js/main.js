@@ -32,68 +32,54 @@ $(function() {
 
 	$('.insert-image').on('click',function(){
 
-		//this.text('Enviando...');
-		alert('aaa');
-		//$('#visualizar').html('<img src="ajax-loader.gif" alt="Enviando..."/> Enviando...');
-
-		//$('#progress').show();
-		/* Efetua o Upload sem dar refresh na pagina */
-
 		$('#form').attr('action', '/profile/uploadAnexo');
 		$('#form').submit();
 
-
-		//success: function(data) {
-		//	console.log(data);
-        //
-		//	//uploaded_files = []
-		//	//
-		//	////$('#uploads').val();
-		//	//
-		//	//uploaded_files.push(jQuery.parseJSON(JSON.stringify(data)));
-		//	//
-		//	//$('#uploads').val(uploaded_files)
-		//	//
-		//	//console.log(uploaded_files);
-		//	//console.log($('#uploads').val());
-        //
-		//	//$("#return").fadeOut(10000);
-		//},
-
-
-		//$('#form').ajaxForm({
-		//	target:'#progress',
-		//	success: showResponse(),
-		//	error: function(data){
-        //
-		//		retorno = jQuery.parseJSON(JSON.stringify(data));
-        //
-		//		bootbox.alert(retorno.responseJSON, function() {});
-		//		$(".bootbox .modal-footer .btn-primary").html("Fechar");
-		//		return false;
-        //
-		//		//console.log();
-		//	}
-		//}).submit();
-
-		//$.ajax({
-		//	type: "POST",
-		//	url: '/profile/uploadAnexo',
-		//	data: $('#form').serialize(),
-		//	dataType: 'json',
-		//	success: function (data) {
-        //
-		//		console.log(data);
-		//	}
-		//});
-
-
 	});
 
+
+	$(document).on('click', "a.remove-item", function(e) {
+		e.preventDefault();
+
+		var item = $(this);
+		item.parent().parent().remove();
+
+		img = item.parent().parent().find('td').eq(0).find('a').attr('data-file');
+
+		hash = img.substr(0, img.length - 4);
+
+		data = jQuery.parseJSON(($('#uploads').val()));
+
+		index_removed = '';
+
+		$.each(data, function(index, value) {
+			x = jQuery.parseJSON(JSON.stringify(value));
+
+			if(x.hash == hash){
+				index_removed = index;
+			}
+
+		});
+
+		data.splice(parseInt(index_removed),1);
+
+		$('#uploads').val(JSON.stringify(data));
+	});
+
+
+	//-- Abre modal exibindo a foto do cadastro
+	$('#myModal').on('show.bs.modal', function(event) {
+		$('#modal_image').attr('src','uploads/fotos/' + $(event.relatedTarget).data('file'));
+	});
+
+
+
+
+	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem
 	$("#form").on('submit',(function(e) {
 
 		if($(this).attr('action') != 'profile'){
-			
+
 			e.preventDefault();
 
 			$.ajax({
@@ -124,6 +110,29 @@ $(function() {
 						$('#uploads').val(JSON.stringify(data.rows));
 					}
 
+					//-- Mount table with images
+					$('.fotos-cadastro').find('tr').remove();
+
+					$.each(data.rows, function(name, value) {
+
+						logo = (value['logo'] == '1') ? 'Logo' : '';
+						$('.fotos-cadastro > tbody').append(
+							'<tr>' +
+								'<td  class="col-sm-2" style="vertical-align:middle">' +
+									'<a class="myModal" data-toggle="modal" data-target="#myModal" data-file="' + value['hash'] + '.'+ value['extension'] +'">' +
+									'<img src="' + value['path'] + value['hash'] + '.'+ value['extension'] + '" alt="">' +
+									'</a>'+ logo +
+								'</td>' +
+								'<td class="col-sm-8">' +
+									'<span class="small">' + value['subtitle'] + '</span>' +
+								'</td>' +
+								'<td class="col-sm-2" style="vertical-align:middle">' +
+									'<a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>' +
+								'</td>' +
+							'</tr>');
+
+						$('#file_subtitle').val('');
+					});
 					console.log(retorno.filename);
 
 					console.log($('#uploads').val());
@@ -214,16 +223,9 @@ return false;
 
 
 
-
+	//-- Verifica se o CPF ou CNPJ digitado é válido
 	$('#document').on('blur', function(){
 
-		//if(valCpf(this.value)){
-		//	return false;
-        //
-		//}else{
-		//	bootbox.alert('CPF inválido.');
-		//	return false;
-		//}
 		if ( valida_cpf_cnpj( this.value ) ) {
 			return false;
 		} else {
@@ -234,6 +236,7 @@ return false;
 
 
 
+	//-- Modifica "placeholder", classe da máscara e tamanho máximo permitido do campo CPF/CNPJ
 	$('#professional_type').on('change', function(){
 
 		if(this.value == 'PF'){

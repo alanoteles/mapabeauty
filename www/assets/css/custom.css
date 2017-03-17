@@ -582,6 +582,16 @@ blockquote:before {
 	padding-bottom: 15px;
 	border-bottom: 1px solid #ccc;
 }
+.fotos-cadastro a {
+	/*vertical-align: middle;*/
+	/*text-align:middle !important;*/
+	vertical-align:middle !important;
+}
+
+.fotos-cadastro a:hover {
+	background-color: #2AD4BA !important;
+}
+
 .fotos-cadastro span {
 	vertical-align: middle;
 }

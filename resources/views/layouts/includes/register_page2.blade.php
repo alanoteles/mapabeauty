@@ -105,7 +105,7 @@
                             <div class="col-sm-3">
                                 <div class="checkbox pull-right">
                                     <label>
-                                        <input class="pull-right" type="checkbox" value="logo" name="logo" id="logo"> Logomarca
+                                        <input class="pull-right" type="checkbox" value="1" name="logo" id="logo"> Logomarca
                                     </label>
                                 </div>
                             </div>
@@ -142,84 +142,6 @@
                             <div class="col-sm-12">
                                 <table class="table table-striped fotos-cadastro">
                                     <tbody>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="col-sm-2">
-                                            <img src="{{ asset('assets/img/icon-rocket.png') }}" alt="">
-                                        </td>
-                                        <td class="col-sm-8">
-                                            <span class="small">Lorem ipsum dolor sit amet</span>
-                                        </td>
-                                        <td class="col-sm-2">
-                                            <a href="#" class="btn btn-danger btn-sm  pull-right">Remover</a>
-                                        </td>
-                                    </tr>
-
                                     </tbody>
                                 </table>
                             </div>

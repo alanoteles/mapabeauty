@@ -67,12 +67,12 @@
 							</select>
 						</div>
 						<div class="form-group  col-sm-4 pull-right">
-							<button class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">
+							<a class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">
 								Buscar
-							</button>
+							</a>
 						</div>
 					</div>	
-					
+				</form>
 				</div>
 			</div>
 		</section>
