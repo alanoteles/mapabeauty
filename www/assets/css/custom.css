@@ -452,6 +452,15 @@ a:hover {
 	color: #c9302c;
 }
 
+
+a:hover .remove-item {
+	background-color: #FF5354 !important;
+	border-color: #FF5354 !important;
+
+}
+
+
+
 button, input, .btn, a.btn {
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
@@ -467,6 +476,11 @@ button.btn:focus {
 .btn-danger {
 	background-color: #dd5638;
 	border-color: #d95131;
+}
+
+.btn-danger:hover {
+	background-color: #FF5354 !important;
+	border-color: #FF5354 !important;
 }
 .btn-success {
 	/*background: #79b044;*/

@@ -11,9 +11,10 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block">
-                                Cadastrar com Facebook
-                            </button>
+                            {{--<button class="btn btn-success btn-block">--}}
+                                {{--Cadastrar com Facebook--}}
+                            {{--</button>--}}
+                            <a href="{{ url('/auth/facebook') }}" class="btn btn-success btn-block"> Cadastrar com Facebook</a>
                         </div>
                     </div>
 
@@ -44,17 +45,19 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block">
-                                Acessar com Facebook
-                            </button>
+                            {{--<button class="btn btn-success btn-block">--}}
+                                {{--Acessar com Facebook--}}
+                            {{--</button>--}}
+                            <a href="{{ url('/auth/facebook') }}" class="btn btn-success btn-block"> Acessar com Facebook</a>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block">
-                                Acessar com Google+
-                            </button>
+                            {{--<button class="btn btn-success btn-block">--}}
+                                {{--Acessar com Google+--}}
+                            {{--</button>--}}
+                            <a href="{{ url('/auth/google') }}" class="btn btn-success btn-block"> Acessar com Google+</a>
                         </div>
                     </div>
 

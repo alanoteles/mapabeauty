@@ -1,75 +1,44 @@
 @extends('layouts.master')
 
+<section class="feature-image feature-image-default" data-type="background" data-speed="2">
+    <h1>Cadastro de Parceiros</h1>
+</section>
+
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+    {{--{!! Html::ul($errors->all()) !!}--}}
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
+    {{--{{ Form::open(--}}
+       {{--array(--}}
+           {{--'url'   => 'profile/' .  (isset($id) ? $id : '' ),--}}
+           {{--'name'  => 'frm',--}}
+           {{--'id'    => 'frm',--}}
+           {{--'class' => 'form-horizontal',--}}
+           {{--'role'  => 'form',--}}
+           {{--'files' => true,--}}
+           {{--'method'    =>  'PUT' )--}}
+           {{--)--}}
+       {{--}}--}}
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+    {{--{{ Form::hidden('id',  (isset($id) ? $id : ''),array('id' => 'id')) }}--}}
+    <div class="container">
+        <div class="row" id="primary">
+            <div id="content" class="col-sm-12">
+                <form class="form-horizontal" id="form" action="{{ url('/login') }}" method="post">
+                    <input type="hidden" name="uploads" id="uploads" value="">
+                    <input type="hidden" name="services" id="services" value="">
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+    {{--@if($page == '1')--}}
+	    {{--@include('layouts.includes.register_page1')--}}
+    {{--@elseif($page == '2')--}}
+        {{--@include('layouts.includes.register_page2')--}}
+    {{--@else--}}
+        @include('layouts.includes.register_login')
+    {{--@endif--}}
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-
-                         <hr>
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <a href="{{ url('/auth/google') }}" class="btn btn-google"><i class="fa fa-google"></i> Google+</a>
-                                <a href="{{ url('/auth/twitter') }}" class="btn btn-twitter"><i class="fa fa-twitter"></i> Twitter</a>
-                                <a href="{{ url('/auth/facebook') }}" class="btn btn-facebook"><i class="fa fa-facebook"></i> Facebook</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                {!! csrf_field() !!}
+                </form>
+            </div><!-- content -->
+        </div><!-- primary -->
+    </div><!-- container -->
 @endsection

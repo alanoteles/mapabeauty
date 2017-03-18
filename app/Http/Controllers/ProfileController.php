@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Gallery;
 use App\Products;
+use App\Profile;
+use App\Service;
 use App\State;
 use Illuminate\Http\Request;
 
@@ -27,7 +30,8 @@ class ProfileController extends Controller
                     'page' => '2',
                     'cities'    => City::get(),
                     'states'    => State::get(),
-                    'products'  => Product::get()
+                    'products'  => Product::get(),
+                    'services'  => Service::get()
 
         ]);
     }
@@ -52,7 +56,31 @@ class ProfileController extends Controller
     {
         $params = $request->all();
 
+        $user = User::create(array(
+            'name'  => $params['responsible_name'],
+            'email' => $params['responsible_email'],
+        ));
+        $gallery    = json_decode($params['uploads'], true);
+
+        $profile = Profile::create($params);
+
+        foreach($gallery as $img){
+
+            $img['filename'] = $img['hash'] . '.' . $img['extension'];
+            Gallery::create($img);
+        }
+
+
+//        foreach($gallery as $img){
+//
+//            $img['filename'] = $img['hash'] . '.' . $img['extension'];
+//            Gallery::create($img);
+//        }
+
+        $services   = json_decode($params['services'], true);
         echo '<pre>';
+        print_r($gallery);
+        print_r($services);
         //$data = json_decode($params['uploads'], true);
         print_r($params);die;
         echo 'www';die;

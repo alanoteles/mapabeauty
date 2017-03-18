@@ -30,12 +30,83 @@ $(function() {
 	});
 
 
+	$('.insert-service').on('click',function(){
+
+		service_id 		= $('#services-select option:selected').val();
+		service_price 	= ($('#price').val() != '') ? $('#price').val() : 'Sob consulta';
+
+		console.log(service_price);
+
+		record = {"id":service_id, "price":service_price};
+
+		if ($('#services').val() != '') {
+			data.rows 					= jQuery.parseJSON(($('#services').val()))
+			data.rows[data.rows.length] = record;
+
+			$('#services').val(JSON.stringify(data.rows));
+
+		} else {
+			data = {
+				rows: [
+					record
+				]
+			};
+
+			$('#services').val(JSON.stringify(data.rows));
+		}
+
+		$('#table-services > tbody').append(
+			'<tr data-id="' + service_id + '">' +
+				'<td>' + $('#services-select option:selected').text() + '</td>' +
+				'<td class="text-right">' + service_price + '</td>' +
+				'<td class="col-sm-2" style="vertical-align:middle">' +
+					'<a href="#" class="btn btn-success pull-right remove-service">Remover</a>' +
+				'</td>' +
+			'</tr>');
+
+		$('#price').val('');
+
+		return false;
+	});
+
 	$('.insert-image').on('click',function(){
 
+		//console.log($(this));
 		$('#form').attr('action', '/profile/uploadAnexo');
 		$('#form').submit();
 
 	});
+
+
+
+	$(document).on('click', "a.remove-service", function(e) {
+		e.preventDefault();
+
+		var item = $(this);
+		item.parent().parent().remove();
+
+		id = item.parent().parent().attr('data-id');
+        //
+		//hash = img.substr(0, img.length - 4);
+
+		data = jQuery.parseJSON(($('#services').val()));
+
+		index_removed = '';
+
+		$.each(data, function(index, value) {
+			x = jQuery.parseJSON(JSON.stringify(value));
+
+			if(x.id == id){
+				index_removed = index;
+			}
+
+		});
+
+		data.splice(parseInt(index_removed),1);
+
+		$('#services').val(JSON.stringify(data));
+	});
+
 
 
 	$(document).on('click', "a.remove-item", function(e) {
@@ -96,11 +167,11 @@ $(function() {
 						data.rows = jQuery.parseJSON(($('#uploads').val()))
 						data.rows[data.rows.length] = retorno;
 
-						console.log(data.rows);
+						//console.log(data.rows);
 						$('#uploads').val(JSON.stringify(data.rows));
 
 					} else {
-						console.log(retorno);
+						//console.log(retorno);
 						data = {
 								rows: [
 									retorno
@@ -133,9 +204,9 @@ $(function() {
 
 						$('#file_subtitle').val('');
 					});
-					console.log(retorno.filename);
+					//console.log(retorno.filename);
 
-					console.log($('#uploads').val());
+					//console.log($('#uploads').val());
 				},
 				error: function (data) {
 					retorno = jQuery.parseJSON(JSON.stringify(data));
@@ -148,6 +219,7 @@ $(function() {
 			});
 			return false;
 		}
+
 	}));
 
 
@@ -162,8 +234,8 @@ $(function() {
 
 	$('#proximapg').click(function(){
 	//$('#voltapg').click(function(){
-$('#page1, #page2').toggle();
-return false;
+//$('#page1, #page2').toggle();
+//return false;
 
 		var mensagem = "";
 
@@ -240,14 +312,15 @@ return false;
 	$('#professional_type').on('change', function(){
 
 		if(this.value == 'PF'){
-			$('#cpf_cnpj').addClass('cpf');
-			$('#cpf_cnpj').attr('placeholder', 'CPF do profissional')
-			$('#cpf_cnpj').attr('maxlength', '14')
+
+			$('#document').addClass('cpf');
+			$('#document').attr('placeholder', 'CPF do profissional')
+			$('#document').attr('maxlength', '14')
 
 		}else{
-			$('#cpf_cnpj').addClass('cnpj');
-			$('#cpf_cnpj').attr('placeholder', 'CNPJ da empresa')
-			$('#cpf_cnpj').attr('maxlength', '18')
+			$('#document').addClass('cnpj');
+			$('#document').attr('placeholder', 'CNPJ da empresa')
+			$('#document').attr('maxlength', '18')
 		}
 
 		return false;
@@ -266,12 +339,7 @@ return false;
 
 		//alert(num_cep);
 
-		if( num_cep == "" ){
-			// nao faz nada a pedido do robson
-			// }else if( num_cep.length < 10 ){
-			//   bootbox.alert("<p class='lead blue'>Notificação</p><p>CEP inválido</p>", function() {});
-			//   cep.val('');
-		}else{
+		if( num_cep != "" ){
 
 			url = '/profile/busca_cep/' + num_cep;
 			console.log(url);
@@ -306,6 +374,7 @@ return false;
 	$('.telefone').mask('(00) 0000-00009');
 	$('.cpf').mask('000.000.000-00', {reverse: true});
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+	$('.money').mask('000.000.000.000.000,00', {reverse: true});
 
 
 });

@@ -26,13 +26,14 @@
             <div id="content" class="col-sm-12">
                 <form class="form-horizontal" id="form" action="profile" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="uploads" id="uploads" value="">
+                    <input type="hidden" name="services" id="services" value="">
 
     {{--@if($page == '1')--}}
-	    @include('layouts.includes.register_page1')
+	    {{--@include('layouts.includes.register_page1')--}}
     {{--@elseif($page == '2')--}}
-        @include('layouts.includes.register_page2')
+        {{--@include('layouts.includes.register_page2')--}}
     {{--@else--}}
-        {{--@include('layouts.includes.register_login')--}}
+        @include('layouts.includes.register_login')
     {{--@endif--}}
 
                 {!! csrf_field() !!}

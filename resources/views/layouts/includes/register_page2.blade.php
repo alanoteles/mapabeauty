@@ -35,20 +35,22 @@
                         <div class="form-group" id="servicos_oferecidos">
                             <div class="form-group">
                                 <div class="col-sm-6">
-                                    <select class="form-control" name="servicos" id="servicos">
+                                    <select class="form-control" name="services-select" id="services-select">
                                         <option value="">Serviços oferecidos</option>
-                                        <option value="PF">Corte Masculino</option>
-                                        <option value="129">Maquiagem</option>
+
+                                        @foreach($services as $service)
+                                            <option value="{{ $service->id }}">{{ $service->description }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="input-group">
                                         <div class="input-group-addon">R$</div>
-                                        <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Valor (opcional)">
+                                        <input type="text" class="form-control money" name="price" id="price" placeholder="Valor (opcional)">
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <a href="#" class="btn btn-success pull-right">Incluir</a>
+                                    <a href="#" class="btn btn-success pull-right insert-service">Incluir</a>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -57,31 +59,16 @@
                         </div>
 
                         <div class="form-group" id="deseja_topo">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="table-services">
                                 <thead>
-                                <tr>
-                                    <td class="col-sm-6"><strong>Serviços oferecidos</strong></td>
-                                    <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
-                                    <td class="col-sm-2"></td>
-                                </tr>
-                                <tr>
-                                    <td>Serviço #1</td>
-                                    <td class="text-right">50,00</td>
-                                    <td><a href="#" class="btn btn-success pull-right">Remover</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Serviço #2</td>
-                                    <td class="text-right">250,00</td>
-                                    <td><a href="#" class="btn btn-success pull-right">Remover</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Serviço #3</td>
-                                    <td class="text-right">Sob consulta</td>
-                                    <td><a href="#" class="btn btn-success pull-right">Remover</a></td>
-                                </tr>
-
-
+                                    <tr>
+                                        <td class="col-sm-6"><strong>Serviços oferecidos</strong></td>
+                                        <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
+                                        <td class="col-sm-2"></td>
+                                    </tr>
                                 </thead>
+                                <tbody>
+                                </tbody>
 
                             </table>
                         </div>
