@@ -20,17 +20,54 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block">
-                                Cadastrar com Google+
-                            </button>
+                            <a href="{{ url('/auth/twitter') }}" class="btn btn-success btn-block"> Cadastrar com Twitter</a>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block">
+                            <a href="{{ url('/auth/google') }}" class="btn btn-success btn-block"> Cadastrar com Google+</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <a href="{{ url('/auth/instagram') }}" class="btn btn-success btn-block"> Cadastrar com Instagram</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-success btn-block" onclick="$('#login-email').show('fast')">
                                 Cadastrar com E-mail
                             </button>
+                        </div>
+                    </div>
+
+                    <div id="login-email" style="display: none">
+                        <div class="form-group">
+
+                            <div class="col-sm-12">
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Digite seu nome">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-sm-6 {{ $errors->has('email') ? ' has-error' : '' }}">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Digite seu e-mail">
+                            </div>
+                            <div class="col-sm-6 {{ $errors->has('password') ? ' has-error' : '' }}">
+                                <input id="password" type="password" class="form-control" name="password" placeholder="Digite sua senha">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <button class="btn btn-info btn-block">
+                                    Salvar
+                                </button>
+                            </div>
                         </div>
                     </div>
 
