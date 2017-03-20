@@ -6,7 +6,9 @@
 
                 <div class="col-sm-6 col-esquerda">
                     <div class="form-group">
-                        <h4>Quero ser um parceiro</h4>
+                        <div class="col-sm-12">
+                            <h4>Quero ser um parceiro</h4>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -30,11 +32,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <a href="{{ url('/auth/instagram') }}" class="btn btn-success btn-block"> Cadastrar com Instagram</a>
-                        </div>
-                    </div>
+                    {{--<div class="form-group">--}}
+                        {{--<div class="col-sm-12">--}}
+                            {{--<a href="{{ url('/auth/instagram') }}" class="btn btn-success btn-block"> Cadastrar com Instagram</a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <div class="form-group">
                         <div class="col-sm-12">
