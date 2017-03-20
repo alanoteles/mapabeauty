@@ -20,11 +20,11 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável *">
+                            <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável *" value="{{ $user->name }}">
                         </div>
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *">
+                            <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *" value="{{ $user->email }}">
                         </div>
 
                         <div class="form-group">

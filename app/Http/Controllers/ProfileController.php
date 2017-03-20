@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Gallery;
 use App\Products;
 use App\Profile;
+use App\User;
 use App\Service;
 use App\State;
 use Illuminate\Http\Request;
@@ -94,7 +95,16 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        //
+
+        return view('layouts.profile', [
+            'page' => '2',
+            'cities'    => City::get(),
+            'states'    => State::get(),
+            'products'  => Product::get(),
+            'services'  => Service::get(),
+            'user'      => User::find($id)
+
+        ]);
     }
 
     /**

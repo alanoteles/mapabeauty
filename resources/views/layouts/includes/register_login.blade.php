@@ -49,8 +49,11 @@
                     <div id="login-email" style="display: none">
                         <div class="form-group">
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Digite seu nome">
+                            </div>
+                            <div class="col-sm-6 {{ $errors->has('email') ? ' has-error' : '' }}">
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Digite seu e-mail">
                             </div>
                         </div>
 

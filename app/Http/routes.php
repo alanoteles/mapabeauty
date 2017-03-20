@@ -21,7 +21,7 @@ Route::group(['middleware' => ['web']], function () {
 
 
 	Route::get('profile-login/', 'ProfileController@index'); //Using REST verbs
-	Route::resource('profile/', 'ProfileController'); //Using REST verbs
+	Route::resource('profile', 'ProfileController'); //Using REST verbs
 	Route::get('profile/busca_cep/{cep}','ProfileController@busca_cep');
 	Route::post('/profile/uploadAnexo','ProfileController@uploadAnexo');
 
