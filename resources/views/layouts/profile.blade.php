@@ -33,7 +33,7 @@
     {{--@elseif($page == '2')--}}
         {{--@include('layouts.includes.register_page2')--}}
     {{--@else--}}
-        //@include('layouts.includes.register_login')
+        {{--@include('layouts.includes.register_login')--}}
     {{--@endif--}}
 
                 {!! csrf_field() !!}
