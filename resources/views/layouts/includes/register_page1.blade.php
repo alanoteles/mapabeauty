@@ -63,8 +63,14 @@
                 <div class="col-sm-6">
                     <select class="form-control" name="topo_listagem" id="topo_listagem">
                         <option value="">Selecione uma opção</option>
-                        <option value="S" {{ $purchase->detach == '1' ? 'selected' : '' }}>Sim - {{ $detached_value }}</option>
-                        <option value="N" {{ $purchase->detach != '1' ? 'selected' : '' }}>Não</option>
+
+                        <?php if(!empty($purchase->detach)){ ?>
+                            <option value="S" {{ $purchase->detach == '1' ? 'selected' : '' }}>Sim - {{ $detached_value }}</option>
+                            <option value="N" {{ $purchase->detach != '1' ? 'selected' : '' }}>Não</option>
+                        <?php } else { ?>
+                            <option value="S">Sim - {{ $detached_value }}</option>
+                            <option value="N">Não</option>
+                        <?php } ?>
                     </select>
                 </div>
             </div>
