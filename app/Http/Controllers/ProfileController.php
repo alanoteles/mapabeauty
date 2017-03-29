@@ -134,7 +134,7 @@ class ProfileController extends Controller
                 'payers'            => Payer::where('status', '1')->get(),
                 'user'              => $user[0],
                 'detached_value'    => $detached_value,
-                'purchase'          => ( !empty($purchases) ? $purchases[0] : ''),
+                'purchase'          => ( count($purchases) ? $purchases[0] : ''),
                 'remaining_days'    => $remaining_days
 
             ]);
