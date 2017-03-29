@@ -29,6 +29,16 @@ $(function() {
 		$('#form').submit();
 	});
 
+//console.log($('#latitude').val());
+//console.log($('#longitude').val());
+
+	//-- Carrega o mapa com as coordenadas já cadastradas --//
+	if($('#latitude').val() != '' && $('#longitude').val() != ''){
+		$('#load_map_buttom').click();
+		//$( "#target" ).click();		//eval(panel.trigger('click'));
+	}
+
+
 
 	$('.insert-service').on('click',function(){
 
@@ -264,10 +274,10 @@ $(function() {
 			mensagem += "<div> - Email do responsável;</div>";
 		}
 
-		if( $("#responsible_cellphone").val() == "" ){
-			$("#responsible_cellphone").parent().addClass('has-error');
-			mensagem += "<div> - Celular do responsável;</div>";
-		}
+		//if( $("#responsible_cellphone").val() == "" ){
+		//	$("#responsible_cellphone").parent().addClass('has-error');
+		//	mensagem += "<div> - Celular do responsável;</div>";
+		//}
 
 		if( $("#product_id").val() == "" ){
 			$("#product_id").parent().addClass('has-error');
@@ -375,6 +385,7 @@ $(function() {
 	$('.cpf').mask('000.000.000-00', {reverse: true});
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
 	$('.money').mask('000.000.000.000.000,00', {reverse: true});
+	$('.money2').mask("#.##0,00", {reverse: true});
 
 
 });

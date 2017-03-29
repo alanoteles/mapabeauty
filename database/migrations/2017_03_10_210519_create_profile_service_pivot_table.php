@@ -18,6 +18,7 @@ class CreateProfileServicePivotTable extends Migration
             $table->integer('service_id')->unsigned()->index();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->primary(['profile_id', 'service_id']);
+            $table->double('price', 13, 2)->nullable();
         });
     }
 

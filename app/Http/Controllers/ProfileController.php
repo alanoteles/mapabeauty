@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Gallery;
+use App\Payer;
 use App\Products;
 use App\Profile;
+use App\Purchase;
 use App\User;
 use App\Service;
 use App\State;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 //use App\Http\Requests;
 use App\City;
@@ -96,15 +99,49 @@ class ProfileController extends Controller
     public function show($id)
     {
 
-        return view('layouts.profile', [
-            'page' => '2',
-            'cities'    => City::get(),
-            'states'    => State::get(),
-            'products'  => Product::get(),
-            'services'  => Service::get(),
-            'user'      => User::find($id)
+        $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
+                    ->where('users.id', $id)->get();
 
-        ]);
+        if(count($user)){
+
+            //-- Check if the user have a valid purchase and how many days left
+            $purchases = Purchase::where('user_id', $id)->orderBy('created_at')->take(1)->get();
+
+            if(count($purchases)){
+//echo '<pre>';
+//print_r($purchases);die;
+                $created            = new Carbon($purchases[0]['transaction_date']);
+                $now                = Carbon::now();
+
+                $product_total_days = Product::find($purchases[0]['product_id'])->days;
+                $remaining_days     = $product_total_days - $created->diff($now)->days;
+
+            }
+
+            //-- Value to be paid if user wants to be detached
+            $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
+
+//echo $detached_value;die;
+//echo '<pre>';
+//print_r($user);die;
+
+            return view('layouts.profile', [
+                'page' => '1',
+                'cities'            => City::get(),
+                'states'            => State::get(),
+                'products'          => Product::where('status', '1')->get(),
+                'services'          => Service::where('status', '1')->get(),
+                'payers'            => Payer::where('status', '1')->get(),
+                'user'              => $user[0],
+                'detached_value'    => $detached_value,
+                'purchase'          => ( !empty($purchases) ? $purchases[0] : ''),
+                'remaining_days'    => $remaining_days
+
+            ]);
+        }else{
+            return redirect('login');
+        }
+
     }
 
     /**

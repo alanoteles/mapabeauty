@@ -19,6 +19,8 @@ class CreatePurchasesTable extends Migration
             $table->string('transaction_id', 250);
             $table->dateTime('transaction_date');
             $table->char('status', 1);
+            $table->char('detached', 1);
+            $table->char('courtesy', 1);
         });
 
         Schema::table('purchases', function($table) {
