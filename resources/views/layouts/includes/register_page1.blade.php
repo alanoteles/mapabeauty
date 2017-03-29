@@ -103,7 +103,10 @@
                     @foreach($payers as $payer)
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="forma_pagamento" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}" {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}>
+                            <input type="radio" name="forma_pagamento" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
+                                <?php if(!empty($purchase)){ ?>
+                                    {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}>
+                                <?php } ?>
                             {{ $payer->name }}
                         </label>
                     </div>
