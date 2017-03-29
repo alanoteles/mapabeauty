@@ -86,7 +86,7 @@
                 </label>
                 <!-- </div> -->
                 <div class="col-sm-6">
-                    <strong>R$ {{ number_format($purchase->value,2,',','.')  }}</strong>
+                    <strong>R$ {{ !empty($purchase) ? number_format($purchase->value,2,',','.')  : '' }}</strong>
                 </div>
             </div>
 
