@@ -135,7 +135,7 @@ class ProfileController extends Controller
                 'user'              => $user[0],
                 'detached_value'    => $detached_value,
                 'purchase'          => ( count($purchases) ? $purchases[0] : ''),
-                'remaining_days'    => $remaining_days
+                'remaining_days'    => ( !empty($remaining_days) ? $remaining_days : '')
 
             ]);
         }else{
