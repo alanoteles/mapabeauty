@@ -47,7 +47,11 @@
                         <option value="">Selecione o período desejado</option>
 
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}" {{ ($product->id == $purchase->product_id) ? 'selected' : '' }}>{{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}</option>
+                            <option value="{{ $product->id }}"
+                                <?php if(!empty($purchase->product_id)){ ?>
+                                    {{ ($product->id == $purchase->product_id) ? 'selected' : '' }}
+                                <?php } ?>
+                                >{{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}</option>
                         @endforeach
 
                     </select>
