@@ -99,7 +99,7 @@
                     @endif
 
                 </label>
-                <div class="col-sm-6">{{ $payer }}
+                <div class="col-sm-6">{{ $payers }}
                     @foreach($payers as $payer)
                     <div class="radio-inline">
                         <label>
