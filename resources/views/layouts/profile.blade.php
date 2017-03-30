@@ -22,8 +22,17 @@
 
     {{--{{ Form::hidden('id',  (isset($id) ? $id : ''),array('id' => 'id')) }}--}}
     <div class="container">
+
         <div class="row" id="primary">
             <div id="content" class="col-sm-12">
+
+                @if(!empty($message))
+                    <div class="alert alert-{{ $message['type'] }} fade in">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{ $message['msg'] }}
+                    </div>
+                @endif
+
                 <form class="form-horizontal" id="form" action="profile" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="uploads" id="uploads" value="">
@@ -45,3 +54,6 @@
         </div><!-- primary -->
     </div><!-- container -->
 @endsection
+
+<!-- <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script> -->
+<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>

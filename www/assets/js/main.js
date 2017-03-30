@@ -25,7 +25,8 @@ $(function() {
 	});
 
 	$('#salvar').on('click',function(){
-		$('#form').attr('action', 'profile');
+		$(this).text('Carregando...');
+		$('#form').attr('action', '');
 		$('#form').submit();
 	});
 
@@ -158,9 +159,9 @@ $(function() {
 
 	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem
 	$("#form").on('submit',(function(e) {
-
-		if($(this).attr('action') != 'profile'){
-
+console.log($(this).attr('action'));
+		if($(this).attr('action') != 'profile' && $(this).attr('action') != ''){ //-- O submit foi feito para o envio de imagens
+console.log('if');
 			e.preventDefault();
 
 			$.ajax({
@@ -228,6 +229,48 @@ $(function() {
 				}
 			});
 			return false;
+
+		}else{ //-- O submit foi feito para postar o form completo
+
+			//-- Se o produto escolhido foi o mês grátis, seta a cortesia como "1", indicando que foi utilizada. Não faz a compra.
+			product_id = $('#product_id option:selected').val();
+
+			if(product_id != '1'){ //-- Se não for o mês grátis, registra a compra.
+
+				if($('#pagseguro').is(":checked")){
+					url = '/purchase/register-pagseguro';
+				}else{
+					url = '/purchase/register-paypal';
+				}
+
+				$.ajax({
+					url: url,
+					type: 'POST',
+					data: {'product_id': product_id},
+					success: function (response) {
+
+						codigo = response;
+
+						isOpenLightbox = PagSeguroLightbox({
+							code: codigo
+						}, {
+							success : function(transactionCode) {
+								alert("success - " + transactionCode);
+								window.location.href = window.location.protocol + "//" + window.location.hostname + '/purchase/returned/' + transactionCode
+							},
+							abort : function() {
+								alert("abort");
+							}
+						});
+
+
+					}
+				});
+				e.preventDefault();
+				return false;
+
+			}
+			return false;
 		}
 
 	}));
@@ -239,13 +282,15 @@ $(function() {
 		$(this).parent().addClass("active");
 	})
 
-	//$('#page1').show();
-	//$('#page2').hide();
+
+	$('#voltapg').click(function() {
+		$('#page1, #page2').toggle();
+		return false;
+	});
+
 
 	$('#proximapg').click(function(){
-	//$('#voltapg').click(function(){
-//$('#page1, #page2').toggle();
-//return false;
+
 
 		var mensagem = "";
 
@@ -345,7 +390,6 @@ $(function() {
 		num_cep = cep.val();
 
 		num_cep = num_cep.replace(/[^\d]+/g, '')
-
 
 		//alert(num_cep);
 

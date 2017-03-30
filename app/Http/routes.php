@@ -20,10 +20,20 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/home', 'HomeController@index');
 
 
+
 	Route::get('profile-login/', 'ProfileController@index'); //Using REST verbs
 	Route::resource('profile', 'ProfileController'); //Using REST verbs
 	Route::get('profile/busca_cep/{cep}','ProfileController@busca_cep');
 	Route::post('/profile/uploadAnexo','ProfileController@uploadAnexo');
+
+
+	Route::post('purchase/register-paypal', 'PurchaseController@registerPaypal');
+	Route::get('purchase/returned-paypal/{tc}', 'PurchaseController@returnedPaypal');
+	Route::post('purchase/register-pagseguro', 'PurchaseController@registerPagseguro');
+	Route::get('purchase/returned-pagseguro/{tc}', 'PurchaseController@returnedPagSeguro');
+
+	Route::resource('purchase', 'PurchaseController'); //Using REST verbs
+
 
 	// OAuth Routes
 	Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');

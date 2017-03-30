@@ -99,14 +99,15 @@
                     @endif
 
                 </label>
-                <div class="col-sm-6">{{ $payers }}
+                <div class="col-sm-6">
                     @foreach($payers as $payer)
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="forma_pagamento" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
+                            <input type="radio" name="payer" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
                                 <?php if(!empty($purchase)){ ?>
-                                    {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}>
+                                    {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}
                                 <?php } ?>
+                            >
                             {{ $payer->name }}
                         </label>
                     </div>
@@ -123,6 +124,9 @@
                 </div>
             </div>
         </div><!-- col esquerda -->
+
+
+        <!-----------------------------------    SEPARADOR DE COLUNAS -------------------------->
 
         <div class="col-sm-6 col-direita">
             <div class="form-group">

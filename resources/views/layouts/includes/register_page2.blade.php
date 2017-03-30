@@ -135,14 +135,14 @@
                     </table>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-2 col-sm-4">
-                    <a href="" class="btn btn-info " id="voltapg">Voltar</a>
+            <div class="form-group pull-right">
+                <div class="col-sm-3">
+                    <a class="btn btn-info pull-right" id="voltapg">Voltar</a>
                 </div>
-                <div class="col-sm-6">
-                    {{--<a href="cadastro2.html" class="btn btn-info btn-block pull-right">Salvar cadastro e efetuar pagamento</a>--}}
-                    {{--<buttom onClick="this.submit" class="btn btn-info btn-block pull-right">Salvar</buttom>--}}
-                    <input type="submit" id="salvar" value="Salvar">
+                <div class="col-sm-9">
+                    <a class="btn btn-info btn-block pull-right" id="salvar">Salvar cadastro e efetuar pagamento</a>
+                    {{--<buttom class="btn btn-info btn-block pull-right">Salvar cadastro e efetuar pagamento</buttom>--}}
+                    {{--<input type="submit" class="btn btn-info btn-block pull-right" style="font-size:14px;" id="salvar" value="Salvar cadastro e efetuar pagamento">--}}
                 </div>
             </div>
         </div><!-- col direita -->

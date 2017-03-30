@@ -95,7 +95,11 @@ class AuthController extends Controller
      */
     public function handleProviderCallback($provider)
     {
+//        echo '<pre>';
+//        print_r($provider);die;
+
         $user = Socialite::driver($provider)->user();
+
 
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);

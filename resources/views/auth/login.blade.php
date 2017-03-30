@@ -8,17 +8,7 @@
 
     {{--{!! Html::ul($errors->all()) !!}--}}
 
-    {{--{{ Form::open(--}}
-       {{--array(--}}
-           {{--'url'   => 'profile/' .  (isset($id) ? $id : '' ),--}}
-           {{--'name'  => 'frm',--}}
-           {{--'id'    => 'frm',--}}
-           {{--'class' => 'form-horizontal',--}}
-           {{--'role'  => 'form',--}}
-           {{--'files' => true,--}}
-           {{--'method'    =>  'PUT' )--}}
-           {{--)--}}
-       {{--}}--}}
+
 
     {{--{{ Form::hidden('id',  (isset($id) ? $id : ''),array('id' => 'id')) }}--}}
     <div class="container">

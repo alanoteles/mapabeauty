@@ -135,6 +135,7 @@ return [
     |
     */
 
+//    'domain' => 'mapabeauty.com.br',
     'domain' => 'mapabeauty.com.br',
 
     /*

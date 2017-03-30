@@ -24,13 +24,7 @@
 		<![endif]-->
 
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
-		<script type="text/javascript">
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}
-			});
-		</script>
+
 	</head>
 
 	<body data-page="{{ $page or '-'}}">
@@ -81,7 +75,13 @@
 		<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
 		<script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
 
-
+		<script type="text/javascript">
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+		</script>
 
 		<script src="{{ asset('assets/js/main.js') }}"></script>
 		{{--<script src="https://use.typekit.net/gcy4xta.js"></script>--}}
