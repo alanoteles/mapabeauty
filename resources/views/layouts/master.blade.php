@@ -52,7 +52,7 @@
 								<li class="active"><a href="/">Início</a></li>
 								<li><a href="/about">Sobre nós</a></li>
 								<li><a href="/contact">Fale conosco</a></li>
-								<li><a href="/login">Login de parceiros</a></li>
+								<li><a href="/profile">Login de parceiros</a></li>
 							</ul>
 						</div>
 					</div>

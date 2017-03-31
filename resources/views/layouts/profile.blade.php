@@ -38,6 +38,7 @@
                     <input type="hidden" name="uploads" id="uploads" value="">
                     <input type="hidden" name="services" id="services" value="">
                     <input type="hidden" name="city" id="city" value="{{ !empty($user) ? $user->city : '' }}">
+                    <input type="hidden" name="detached_selected" id="detached_selected" value="">
 
 
     {{--@if($page == '1')--}}

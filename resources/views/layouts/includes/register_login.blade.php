@@ -21,9 +21,9 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12">
+                       {{--  <div class="col-sm-12">
                             <a href="{{ url('/auth/twitter') }}" class="btn btn-success btn-block"> Cadastrar com Twitter</a>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="form-group">

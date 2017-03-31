@@ -8,8 +8,17 @@
 
                 <select class="form-control" name="professional_type" id="professional_type">
                     <option value="">Pessoa Física ou Jurídica ? *</option>
-                    <option value="F" {{ ($user->professional_type == 'F' ? 'selected' : '') }}>Pessoa Física</option>
-                    <option value="J" {{ ($user->professional_type == 'J' ? 'selected' : '') }}>Pessoa Jurídica</option>
+                    <option value="F" 
+                        @if(!empty($user))
+                            {{ ($user->professional_type == 'F' ? 'selected' : '') }}
+                        @endif
+
+                    >Pessoa Física</option>
+                    <option value="J" 
+                        @if(!empty($user))
+                            {{ ($user->professional_type == 'J' ? 'selected' : '') }}
+                        @endif
+                        >Pessoa Jurídica</option>
                 </select>
             </div>
             <div class="form-group">
@@ -21,22 +30,32 @@
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável *" value="{{ !empty($user->name) ? $user->name : $user->responsible_name }}">
+                <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável *" 
+                    @if(!empty($user->name))
+                        value="{{ !empty($user->name) ? $user->name : $user->responsible_name }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *" value="{{ !empty($user->email) ? $user->email : $user->responsible_email }}">
+                <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *" 
+                    @if(!empty($user->email))
+                        value="{{ !empty($user->email) ? $user->email : $user->responsible_email }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group">
                 <input type="text" class="form-control telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável *" value="{{ !empty($user->responsible_cellphone) ? $user->responsible_cellphone : '' }}">
             </div>
             <div class="form-group text-center">
-                @if($remaining_days < 0)
-                    <h4>Como deseja participar ?</h4>
-                @else
-                    <h4>Plano atual</h4>
-                @endif
+                {{-- @if(!empty($remaining_days)) --}}
+                    @if(empty($remaining_days))
+                        <h4>Como deseja participar ?</h4>
+                    @else
+                        <h4>Plano atual</h4>
+                    @endif
+                {{-- @endif --}}
             </div>
 
 
@@ -47,7 +66,7 @@
                         <option value="">Selecione o período desejado</option>
 
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}"
+                            <option value="{{ $product->id }}#{{ $product->value }}"
                                 <?php if(!empty($purchase->product_id)){ ?>
                                     {{ ($product->id == $purchase->product_id) ? 'selected' : '' }}
                                 <?php } ?>
@@ -61,16 +80,16 @@
             <div class="form-group" id="deseja_topo">
                 <label for="periodo_contratacao" class="col-sm-6 control-label small text-left">Deseja aparecer no topo da listagem ?</label>
                 <div class="col-sm-6">
-                    <select class="form-control" name="topo_listagem" id="topo_listagem">
+                    <select class="form-control" name="detach" id="detach">
                         <option value="">Selecione uma opção</option>
 
-                        <?php if(!empty($purchase->detach)){ ?>
-                            <option value="S" {{ $purchase->detach == '1' ? 'selected' : '' }}>Sim - {{ $detached_value }}</option>
-                            <option value="N" {{ $purchase->detach != '1' ? 'selected' : '' }}>Não</option>
-                        <?php } else { ?>
-                            <option value="S">Sim - {{ $detached_value }}</option>
-                            <option value="N">Não</option>
-                        <?php } ?>
+                        @if(!empty($purchase->detach))
+                            <option value="S#{{ $detached_value }}" {{ $purchase->detach == '1' ? 'selected' : '' }}>Sim - R$ {{ $detached_value }}</option>
+                            <option value="N#0" {{ $purchase->detach != '1' ? 'selected' : '' }}>Não</option>
+                        @else
+                            <option value="S#{{ $detached_value }}">Sim - R$ {{ $detached_value }}</option>
+                            <option value="N#0">Não</option>
+                        @endif
                     </select>
                 </div>
             </div>
@@ -78,15 +97,17 @@
             <div class="form-group" id="deseja_topo">
                 <!-- <div class="col-sm-6"> -->
                 <label for="valor" class="col-sm-6 control-label small">
-                    @if($remaining_days < 0)
-                        Valor da sua compra :
-                    @else
-                        Valor pago :
-                    @endif
+                    {{-- @if(!empty($remaining_days))  --}}
+                        @if($remaining_days < 0 || $remaining_days == '')
+                            Valor da sua compra :
+                        @else
+                            Valor pago :
+                        @endif
+                    {{-- @endif --}}
                 </label>
                 <!-- </div> -->
                 <div class="col-sm-6">
-                    <strong>R$ {{ !empty($purchase) ? number_format($purchase->value,2,',','.')  : '' }}</strong>
+                    <strong>R$ <span id="total">{{ !empty($purchase) ? number_format($purchase->value,2,',','.')  : '0,00' }}</span></strong>
                 </div>
             </div>
 
@@ -101,28 +122,30 @@
                 </label>
                 <div class="col-sm-6">
                     @foreach($payers as $payer)
-                    <div class="radio-inline">
-                        <label>
-                            <input type="radio" name="payer" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
-                                <?php if(!empty($purchase)){ ?>
-                                    {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}
-                                <?php } ?>
-                            >
-                            {{ $payer->name }}
-                        </label>
-                    </div>
+                        <div class="radio-inline">
+                            <label>
+                                <input type="radio" name="payer" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
+                                    <?php if(!empty($purchase)){ ?>
+                                        {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}
+                                    <?php } ?>
+                                >
+                                {{ $payer->name }}
+                            </label>
+                        </div>
                     @endforeach
                 </div>
             </div>
 
-            <div class="form-group" id="dias_restantes">
-                <div class="col-sm-6 control-label small">
-                    <h5>Quantidade de dias restantes :</h5>
+            @if($remaining_days != '')
+                <div class="form-group" id="dias_restantes">
+                    <div class="col-sm-6 control-label small">
+                        <h5>Quantidade de dias restantes :</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <h3 {{ $remaining_days < 5 ? 'style=color:red;' : '' }}>{{ $remaining_days }} dias</h3>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <h3 {{ $remaining_days < 5 ? 'style=color:red;' : '' }}>{{ $remaining_days }} dias</h3>
-                </div>
-            </div>
+            @endif
         </div><!-- col esquerda -->
 
 
@@ -137,7 +160,11 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                    <input type="text" class="form-control cep" name="cep" id="cep" placeholder="C.E.P." value="{{ $user->zip_code }}">
+                    <input type="text" class="form-control cep" name="cep" id="cep" placeholder="C.E.P." 
+                        @if(!empty($user->zip_code)) 
+                            value="{{ $user->zip_code }}"
+                        @endif
+                    >
                 </div>
                 <div class="col-sm-8">
                     {{--<select class="form-control" name="state" id="state">--}}
@@ -160,25 +187,46 @@
                         {{--<option value="89">São Paulo</option>--}}
                         {{--<option value="69">Rio de Janeiro</option>--}}
                     {{--</select>--}}
-                    <input type="text" class="form-control" name="city" id="city" placeholder="Cidade" value="{{ $user->city_name }}" readonly>
+                    <input type="text" class="form-control" name="city" id="city" placeholder="Cidade" readonly 
+                        @if(!empty($user->city_name)) 
+                            value="{{ $user->city_name }}" 
+                        @endif
+
+                    >
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="neighborhood" id="neighborhood" placeholder="Bairro" value="{{ $user->neighborhood }}" readonly>
+                    <input type="text" class="form-control" name="neighborhood" id="neighborhood" placeholder="Bairro" readonly 
+                        @if(!empty($user->neighborhood)) 
+                            value="{{ $user->neighborhood }}" 
+                        @endif
+                    >
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="address" id="address" placeholder="Seu endereço" value="{{ $user->address }}" readonly>
+                    <input type="text" class="form-control" name="address" id="address" placeholder="Seu endereço" readonly 
+                        @if(!empty($user->address))
+                            value="{{ $user->address }}" 
+                        @endif
+                    >
                 </div>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" name="number" id="number" placeholder="Nr." value="{{ $user->number }}">
+                    <input type="text" class="form-control" name="number" id="number" placeholder="Nr." 
+                        @if(!empty($user->number))
+                            value="{{ $user->number }}"
+                        @endif
+                    >
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="complement" id="complement" placeholder="Complemento" value="{{ $user->complement }}">
+                    <input type="text" class="form-control" name="complement" id="complement" placeholder="Complemento" 
+                        @if(!empty($user->complement))
+                            value="{{ $user->complement }}"
+                        @endif
+                    >
                 </div>
             </div>
 
@@ -207,10 +255,18 @@
 
             <div class="form-group">
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude" value="{{ $user->latitude }}">
+                    <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude" 
+                        @if(!empty($user->latitude))
+                            value="{{ $user->latitude }}"
+                        @endif
+                    >
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Longitude" value="{{ $user->longitude }}">
+                    <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Longitude" 
+                        @if(!empty($user->longitude))
+                            value="{{ $user->longitude }}"
+                        @endif
+                    >
                 </div>
             </div>
 

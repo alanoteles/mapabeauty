@@ -319,15 +319,15 @@ console.log('if');
 			mensagem += "<div> - Email do responsável;</div>";
 		}
 
-		//if( $("#responsible_cellphone").val() == "" ){
-		//	$("#responsible_cellphone").parent().addClass('has-error');
-		//	mensagem += "<div> - Celular do responsável;</div>";
-		//}
-
-		if( $("#product_id").val() == "" ){
-			$("#product_id").parent().addClass('has-error');
-			mensagem += "<div> - Período de contratação</div>";
+		if( $("#responsible_cellphone").val() == "" ){
+			$("#responsible_cellphone").parent().addClass('has-error');
+			mensagem += "<div> - Celular do responsável;</div>";
 		}
+
+		// if( $("#product_id").val() == "" ){
+		// 	$("#product_id").parent().addClass('has-error');
+		// 	mensagem += "<div> - Período de contratação</div>";
+		// }
 
 		if( $("#cep").val() == "" ){
 			$("#cep").parent().addClass('has-error');
@@ -343,7 +343,6 @@ console.log('if');
 			//$(this).submit();
 			$('#page1, #page2').toggle();
 		}
-
 
 		return false;
 	})
@@ -422,6 +421,28 @@ console.log('if');
 		return false;
 	});
 
+	//-- Calcula a soma do produto selecionado e do destaque
+	$('#detach, #product_id').on('change', function(){
+		//alert($(this).val());
+		$selected_detach 		= ($('#detach option:selected').val() != '') ? $('#detach option:selected').val() : '0#0' ;
+		$selected_product_id 	= ($('#product_id option:selected').val() != '') ? $('#product_id option:selected').val() : '0#0';
+
+		$itens_detach 		= $selected_detach.split('#');
+		$itens_product_id	= $selected_product_id.split('#');
+
+		$detach_value 		= $itens_detach[1].replace(',', '.');
+		$product_id_value 	= $itens_product_id[1].replace(',', '.');
+//console.log($product_id_value);
+		$total = parseFloat($detach_value) + parseFloat($product_id_value) ;
+
+
+//console.log($total);
+		$('#detached_selected').val($detach_value);
+		$('#total').text(parseFloat($total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
+		//$('#total').text(this.replace('.',','));
+//console.log(parseFloat($detach_value) + parseFloat($product_id_value));
+
+	});
 
 	// Máscaras
 	$('.cep').mask('00.000-000');

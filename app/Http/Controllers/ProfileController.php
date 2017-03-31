@@ -12,6 +12,7 @@ use App\Service;
 use App\State;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 
 //use App\Http\Requests;
 use App\City;
@@ -28,16 +29,41 @@ class ProfileController extends Controller
     {
         $params = $request->all();
         
-//        echo '<pre>';
-//        print_r($params);die;
-        return view('layouts.profile', [
-                    'page' => '2',
-                    'cities'    => City::get(),
-                    'states'    => State::get(),
-                    'products'  => Product::get(),
-                    'services'  => Service::get()
+        if(Auth::check()){
+            $id = Auth::user()->value('id');
+// echo $id;die;
+            $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
+                    ->where('users.id', $id)->get();
+            $user = ( !empty($user[0]) ? $user[0] : '' );
+        }else{
+            return redirect('login');
+        }
 
-        ]);
+       // echo '<pre>';
+       // print_r($user);die;
+
+       //-- Value to be paid if user wants to be detached
+        $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
+        
+        // return view('layouts.profile', [
+        //             'page' => '2',
+        //             'cities'    => City::get(),
+        //             'states'    => State::get(),
+        //             'products'  => Product::get(),
+        //             'services'  => Service::get()
+
+        // ]);
+        return view('layouts.profile', [
+                'page' => '1',
+                'cities'            => City::get(),
+                'states'            => State::get(),
+                'products'          => Product::where('status', '1')->get(),
+                'services'          => Service::where('status', '1')->get(),
+                'payers'            => Payer::where('status', '1')->get(),
+                'user'              => $user,
+                'detached_value'    => $detached_value,
+                'remaining_days'    => ''
+            ]);
     }
 
     /**
