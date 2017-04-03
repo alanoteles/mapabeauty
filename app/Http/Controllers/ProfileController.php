@@ -28,13 +28,33 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $params = $request->all();
+
+//echo Auth::user()->value('id');die;
+//echo '<pre>';print_r(Auth::user());die;
+        $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
         
         if(Auth::check()){
             $id = Auth::user()->value('id');
-// echo $id;die;
+ // echo $id;die;
             $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
                     ->where('users.id', $id)->get();
-            $user = ( !empty($user[0]) ? $user[0] : '' );
+
+            if(count($user) == 0){
+                $user = User::find($id);
+
+                return view('layouts.profile', [
+                    'page' => '1',
+                    'products'          => Product::where('status', '1')->get(),
+                    'services'          => Service::where('status', '1')->get(),
+                    'payers'            => Payer::where('status', '1')->get(),
+                    'user'              => $user,
+                    'detached_value'    => $detached_value,
+                    'remaining_days'    => ''
+                ]);
+            }
+// echo count($user);die;
+// echo '<pre>';print_r($user);die;
+            //$user = ( !empty($user[0]) ? $user[0] : '' );
         }else{
             return redirect('login');
         }
@@ -133,6 +153,7 @@ class ProfileController extends Controller
             //-- Check if the user have a valid purchase and how many days left
             $purchases = Purchase::where('user_id', $id)->orderBy('created_at')->take(1)->get();
 
+            $city_name = (!empty($user->city)) ? City::find($user->city)->value('city_name') : '';
             if(count($purchases)){
 //echo '<pre>';
 //print_r($purchases);die;
@@ -153,7 +174,7 @@ class ProfileController extends Controller
 
             return view('layouts.profile', [
                 'page' => '1',
-                'cities'            => City::get(),
+                'city_name'         => $city_name,
                 'states'            => State::get(),
                 'products'          => Product::where('status', '1')->get(),
                 'services'          => Service::where('status', '1')->get(),

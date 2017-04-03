@@ -187,7 +187,7 @@
                         {{--<option value="89">São Paulo</option>--}}
                         {{--<option value="69">Rio de Janeiro</option>--}}
                     {{--</select>--}}
-                    <input type="text" class="form-control" name="city" id="city" placeholder="Cidade" readonly 
+                    <input type="text" class="form-control" name="city_name" id="city_name" placeholder="Cidade" readonly 
                         @if(!empty($user->city_name)) 
                             value="{{ $user->city_name }}" 
                         @endif

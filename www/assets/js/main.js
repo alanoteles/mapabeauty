@@ -25,8 +25,8 @@ $(function() {
 	});
 
 	$('#salvar').on('click',function(){
-		$(this).text('Carregando...');
-		$('#form').attr('action', '');
+		
+		$('#form').attr('action', 'profile');
 		$('#form').submit();
 	});
 
@@ -216,10 +216,12 @@ console.log('if');
 						$('#file_subtitle').val('');
 					});
 					//console.log(retorno.filename);
-
+					$('#form').attr('action', 'profile');
 					//console.log($('#uploads').val());
 				},
 				error: function (data) {
+					$('#form').attr('action', 'profile');
+
 					retorno = jQuery.parseJSON(JSON.stringify(data));
 
 					bootbox.alert(retorno.responseJSON, function () {
@@ -235,7 +237,7 @@ console.log('if');
 			//-- Se o produto escolhido foi o mês grátis, seta a cortesia como "1", indicando que foi utilizada. Não faz a compra.
 			product_id = $('#product_id option:selected').val();
 
-			if(product_id != '1'){ //-- Se não for o mês grátis, registra a compra.
+			if(product_id != '1' && product_id != ''){ //-- Se não for o mês grátis, registra a compra.
 
 				if($('#pagseguro').is(":checked")){
 					url = '/purchase/register-pagseguro';
@@ -243,6 +245,7 @@ console.log('if');
 					url = '/purchase/register-paypal';
 				}
 
+				$(this).text('Carregando...');
 				$.ajax({
 					url: url,
 					type: 'POST',
@@ -262,15 +265,13 @@ console.log('if');
 								alert("abort");
 							}
 						});
-
-
 					}
 				});
 				e.preventDefault();
 				return false;
 
 			}
-			return false;
+			//return false;
 		}
 
 	}));
@@ -395,19 +396,21 @@ console.log('if');
 		if( num_cep != "" ){
 
 			url = '/profile/busca_cep/' + num_cep;
-			console.log(url);
+			//console.log(url);
 			$.ajax({
 				url: url,
 				type: 'GET',
 				dataType: 'json',
 				success: function (data) {
 
-					console.log(data);
-					console.log(data != '0');
+					 console.log(data);
+					// console.log(data != '0');
 					if(data != '0') {
-						console.log('if');
+						//console.log('if');
 						//$('#state').val(data.uf);
-						$('#city').val(data.cidade);
+						//$('#city').val(data.cidade);
+						$('#city').val(data.city_id);
+						$('#city_name').val(data.cidade);
 						$('#state').val(data.state_name);
 						$('#neighborhood').val(data.bairro);
 						$('#address').val(data.tipo_logradouro + ' ' + data.logradouro);
