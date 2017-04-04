@@ -246,6 +246,7 @@
 
             <div class="form-group ">
                 <div class="col-sm-12"  id="map-container" style="margin-left: 15px;">
+                    {{ asset('assets/img/loader.gif') }}
                     <!-- <script src="http://maps.google.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA&sensor=false"></script> -->
                     {{--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>--}}
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA" type="text/javascript"></script>

@@ -49,6 +49,10 @@
 						<div class="form-group col-sm-2">
 							<select class="form-control input-sm" name="" id="">
 								<option value="">Selecione um estado</option>
+								@foreach($states as $state)
+									<option value="{{ $state->id }}">{{ $state->name }}</option>
+								@endforeach
+
 							</select>
 						</div>
 						<div class="form-group  col-sm-2">
@@ -64,6 +68,9 @@
 						<div class="form-group col-sm-2">
 							<select class="form-control input-sm" name="" id="">
 								<option value="">O que você procura ?</option>
+								@foreach($services as $service)
+								<option value="{{ $service->id }}">{{ $service->description }}</option>
+								@endforeach
 							</select>
 						</div>
 						<div class="form-group  col-sm-4 pull-right">

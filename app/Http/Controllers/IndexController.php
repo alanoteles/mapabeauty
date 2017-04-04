@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\State;
+use App\Service;
+use Auth;
 
 use App\Http\Requests;
 
@@ -16,9 +20,24 @@ class IndexController extends Controller
     public function index()
     {
 
+        if(Auth::check()){
+            $id = Auth::user()->value('id');
+// echo $id;die;
+            $profile = Profile::where('user_id', $id)->get();
+
+
+            if(!empty($user))
+            $user = ( !empty($user[0]) ? $user[0] : '' );
+        }
+//        else{
+//            return redirect('login');
+//        }
         //curl freegeoip.net/json/82.0.175.11
 
-        return view('layouts.index');
+        return view('layouts.index', [
+            'states'    => State::get(),
+            'services'  => Service::get()
+        ]);
     }
 
     /**

@@ -366,7 +366,7 @@ console.log('if');
 	//-- Modifica "placeholder", classe da máscara e tamanho máximo permitido do campo CPF/CNPJ
 	$('#professional_type').on('change', function(){
 
-		if(this.value == 'PF'){
+		if(this.value == 'F'){
 
 			$('#document').addClass('cpf');
 			$('#document').attr('placeholder', 'CPF do profissional')
