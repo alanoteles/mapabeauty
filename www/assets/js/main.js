@@ -24,10 +24,30 @@ $(function() {
 		}); // end window scroll
 	});
 
+	//-- Save the form and, if a product was selected, open lighbox to payment
 	$('#salvar').on('click',function(){
 		
-		$('#form').attr('action', 'profile');
-		$('#form').submit();
+		var mensagem = "";
+
+		if( $("#fantasy_name").val() == "" ){
+			$("#fantasy_name").parent().addClass('has-error');
+			mensagem += "<div> - Nome de fantasia;</div>";
+		}
+
+		if( $("#services").val() == "" ){
+			$("#services-select").parent().addClass('has-error');
+			mensagem += "<div> - Serviços oferecidos;</div>";
+		}
+
+		if(mensagem){
+			bootbox.alert("<h5>Os campos abaixo são de preenchimento obrigatório:</h5>"+mensagem, function() {});
+			$(".bootbox .modal-footer .btn-primary").html("Fechar");
+			return false;
+		}else{
+			//alert('else');return false;
+			$('#form').attr('action', 'profile');
+			$('#form').submit();
+		}
 	});
 
 //console.log($('#latitude').val());
@@ -44,48 +64,57 @@ $(function() {
 	$('.insert-service').on('click',function(){
 
 		service_id 		= $('#services-select option:selected').val();
-		service_price 	= ($('#price').val() != '') ? $('#price').val() : 'Sob consulta';
 
-		console.log(service_price);
+		if(service_id != ''){
+			service_price 	= ($('#price').val() != '') ? $('#price').val() : 'Sob consulta';
 
-		record = {"id":service_id, "price":service_price};
+			//console.log(service_price);
 
-		if ($('#services').val() != '') {
-			data.rows 					= jQuery.parseJSON(($('#services').val()))
-			data.rows[data.rows.length] = record;
+			record = JSON.stringify({"id":service_id, "price":service_price});
 
-			$('#services').val(JSON.stringify(data.rows));
+			if ($('#services').val() != '') {
+				//data.rows 					= jQuery.parseJSON(($('#services').val()))
+				temp = jQuery.parseJSON(($('#services').val()));
+				temp.push(record);
 
-		} else {
-			data = {
-				rows: [
-					record
-				]
-			};
+				data = {
+					rows: [
+						temp
+					]
+				};
+				//data.rows[data.rows.length] = record;
 
-			$('#services').val(JSON.stringify(data.rows));
+				$('#services').val(JSON.stringify(data.rows));
+
+			} else {
+				data = {
+					rows: [
+						record
+					]
+				};
+
+				$('#services').val(JSON.stringify(data.rows));
+			}
+
+			$('#table-services > tbody').append(
+				'<tr data-id="' + service_id + '">' +
+					'<td>' + $('#services-select option:selected').text() + '</td>' +
+					'<td class="text-right">' + service_price + '</td>' +
+					'<td class="col-sm-2" style="vertical-align:middle">' +
+						'<a href="#" class="btn btn-success pull-right remove-service">Remover</a>' +
+					'</td>' +
+				'</tr>');
+
+			$('#price').val('');	
 		}
-
-		$('#table-services > tbody').append(
-			'<tr data-id="' + service_id + '">' +
-				'<td>' + $('#services-select option:selected').text() + '</td>' +
-				'<td class="text-right">' + service_price + '</td>' +
-				'<td class="col-sm-2" style="vertical-align:middle">' +
-					'<a href="#" class="btn btn-success pull-right remove-service">Remover</a>' +
-				'</td>' +
-			'</tr>');
-
-		$('#price').val('');
-
+		
 		return false;
 	});
 
 	$('.insert-image').on('click',function(){
-
 		//console.log($(this));
 		$('#form').attr('action', '/profile/uploadAnexo');
 		$('#form').submit();
-
 	});
 
 
@@ -126,23 +155,19 @@ $(function() {
 		var item = $(this);
 		item.parent().parent().remove();
 
-		img = item.parent().parent().find('td').eq(0).find('a').attr('data-file');
-
-		hash = img.substr(0, img.length - 4);
-
-		data = jQuery.parseJSON(($('#uploads').val()));
+		img 	= item.parent().parent().find('td').eq(0).find('a').attr('data-file');
+		hash 	= img.substr(0, img.length - 4);
+		data 	= jQuery.parseJSON(($('#uploads').val()));
 
 		index_removed = '';
 
 		$.each(data, function(index, value) {
-			x = jQuery.parseJSON(JSON.stringify(value));
+			x = jQuery.parseJSON(value);
 
-			if(x.hash == hash){
+			if(x['hash'] == hash){
 				index_removed = index;
 			}
-
 		});
-
 		data.splice(parseInt(index_removed),1);
 
 		$('#uploads').val(JSON.stringify(data));
@@ -159,9 +184,9 @@ $(function() {
 
 	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem
 	$("#form").on('submit',(function(e) {
-console.log($(this).attr('action'));
+//console.log($(this).attr('action'));
 		if($(this).attr('action') != 'profile' && $(this).attr('action') != ''){ //-- O submit foi feito para o envio de imagens
-console.log('if');
+//console.log('if');
 			e.preventDefault();
 
 			$.ajax({
@@ -172,37 +197,51 @@ console.log('if');
 				cache: false,
 				processData: false,
 				success: function (data) {
-					retorno = data.file_info_uploaded;
+					// retorno = data.file_info_uploaded;
+
+
+					record = JSON.stringify(data.file_info_uploaded);
 
 					if ($('#uploads').val() != '') {
-						data.rows = jQuery.parseJSON(($('#uploads').val()))
-						data.rows[data.rows.length] = retorno;
+						temp = jQuery.parseJSON(($('#uploads').val()));
+						temp.push(record);
 
+						//data.rows = jQuery.parseJSON(($('#uploads').val()));
+						// data = {
+						// 	rows: [
+						// 		temp
+						// 	]
+						// };
+
+//console.log(retorno);
+						//data.rows[data.rows.length] = retorno;
+//console.log(data.rows);
 						//console.log(data.rows);
-						$('#uploads').val(JSON.stringify(data.rows));
+						$('#uploads').val(JSON.stringify(temp));
 
 					} else {
 						//console.log(retorno);
-						data = {
-								rows: [
-									retorno
-								]
-						};
+						// data = {
+						// 		rows: [
+						// 			record
+						// 		]
+						// };
 						//data.rows[0] = retorno;
-						$('#uploads').val(JSON.stringify(data.rows));
+						$('#uploads').val(JSON.stringify(record));
 					}
 
 					//-- Mount table with images
 					$('.fotos-cadastro').find('tr').remove();
 
-					$.each(data.rows, function(name, value) {
+					$.each(temp, function(name, value) {
 
+						value = jQuery.parseJSON(value);
 						logo = (value['logo'] == '1') ? 'Logo' : '';
 						$('.fotos-cadastro > tbody').append(
 							'<tr>' +
 								'<td  class="col-sm-2" style="vertical-align:middle">' +
 									'<a class="myModal" data-toggle="modal" data-target="#myModal" data-file="' + value['hash'] + '.'+ value['extension'] +'">' +
-									'<img src="' + value['path'] + value['hash'] + '.'+ value['extension'] + '" alt="">' +
+									'<img src="uploads/fotos/'  + value['hash'] + '.'+ value['extension'] + '" alt="">' +
 									'</a>'+ logo +
 								'</td>' +
 								'<td class="col-sm-8">' +
@@ -218,14 +257,14 @@ console.log('if');
 					//console.log(retorno.filename);
 					$('#form').attr('action', 'profile');
 					//console.log($('#uploads').val());
+					//return false;
 				},
 				error: function (data) {
 					$('#form').attr('action', 'profile');
 
 					retorno = jQuery.parseJSON(JSON.stringify(data));
 
-					bootbox.alert(retorno.responseJSON, function () {
-					});
+					bootbox.alert(retorno.responseJSON, function () {});
 					$(".bootbox .modal-footer .btn-primary").html("Fechar");
 					return false;
 				}
@@ -292,7 +331,6 @@ console.log('if');
 
 	$('#proximapg').click(function(){
 
-
 		var mensagem = "";
 
 		if( $("#professional_type").val() == "" ){
@@ -330,8 +368,8 @@ console.log('if');
 		// 	mensagem += "<div> - Período de contratação</div>";
 		// }
 
-		if( $("#cep").val() == "" ){
-			$("#cep").parent().addClass('has-error');
+		if( $("#zip_code").val() == "" ){
+			$("#zip_code").parent().addClass('has-error');
 			mensagem += "<div> - CEP;</div>";
 		}
 
@@ -361,7 +399,14 @@ console.log('if');
 		}
 	})
 
+	$('#product_id').on('change', function(){
 
+		if(this.value != '' && this.value != '1#0'){
+			$('#salvar').text('Salvar cadastro e efetuar pagamento');
+		}else{
+			$('#salvar').text('Salvar cadastro');
+		}
+	})
 
 	//-- Modifica "placeholder", classe da máscara e tamanho máximo permitido do campo CPF/CNPJ
 	$('#professional_type').on('change', function(){
@@ -403,7 +448,7 @@ console.log('if');
 				dataType: 'json',
 				success: function (data) {
 
-					 console.log(data);
+					 //console.log(data);
 					// console.log(data != '0');
 					if(data != '0') {
 						//console.log('if');
@@ -411,7 +456,8 @@ console.log('if');
 						//$('#city').val(data.cidade);
 						$('#city').val(data.city_id);
 						$('#city_name').val(data.cidade);
-						$('#state').val(data.state_name);
+						$('#state').val(data.uf);
+						$('#state_name').val(data.state_name);
 						$('#neighborhood').val(data.bairro);
 						$('#address').val(data.tipo_logradouro + ' ' + data.logradouro);
 					}else{
@@ -437,8 +483,6 @@ console.log('if');
 		$product_id_value 	= $itens_product_id[1].replace(',', '.');
 //console.log($product_id_value);
 		$total = parseFloat($detach_value) + parseFloat($product_id_value) ;
-
-
 //console.log($total);
 		$('#detached_selected').val($detach_value);
 		$('#total').text(parseFloat($total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString());
@@ -454,7 +498,6 @@ console.log('if');
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
 	$('.money').mask('000.000.000.000.000,00', {reverse: true});
 	$('.money2').mask("#.##0,00", {reverse: true});
-
 
 });
 

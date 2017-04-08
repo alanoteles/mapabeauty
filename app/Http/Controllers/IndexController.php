@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\State;
 use App\Service;
+use App\Profile;
 use Auth;
 
 use App\Http\Requests;
@@ -28,6 +29,8 @@ class IndexController extends Controller
 
             if(!empty($user))
             $user = ( !empty($user[0]) ? $user[0] : '' );
+            // if(count($user) == 0){
+
         }
 //        else{
 //            return redirect('login');

@@ -6,21 +6,6 @@
 
 @section('content')
 
-    {{--{!! Html::ul($errors->all()) !!}--}}
-
-    {{--{{ Form::open(--}}
-       {{--array(--}}
-           {{--'url'   => 'profile/' .  (isset($id) ? $id : '' ),--}}
-           {{--'name'  => 'frm',--}}
-           {{--'id'    => 'frm',--}}
-           {{--'class' => 'form-horizontal',--}}
-           {{--'role'  => 'form',--}}
-           {{--'files' => true,--}}
-           {{--'method'    =>  'PUT' )--}}
-           {{--)--}}
-       {{--}}--}}
-
-    {{--{{ Form::hidden('id',  (isset($id) ? $id : ''),array('id' => 'id')) }}--}}
     <div class="container">
 
         <div class="row" id="primary">
@@ -35,21 +20,15 @@
 
                 <form class="form-horizontal" id="form" action="profile" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="uploads" id="uploads" value="">
-                    <input type="hidden" name="services" id="services" value="">
-                    <input type="hidden" name="city" id="city" value="{{ !empty($user) ? $user->city : '' }}">
+                    <input type="hidden" name="uploads" id="uploads" value="{{ !empty($gallery_profile) ? $gallery_profile : '' }}">
+                    <input type="hidden" name="services" id="services" value="{{ !empty($profile_service) ? $profile_service : '' }}">
+                    <input type="hidden" name="city" id="city" value="{{ !empty($city) ? $city : '' }}">
+                    <input type="hidden" name="state" id="state" value="{{ !empty($state) ? $state : '' }}">
                     <input type="hidden" name="detached_selected" id="detached_selected" value="">
 
-
-    {{--@if($page == '1')--}}
-	    @include('layouts.includes.register_page1')
-    {{--@elseif($page == '2')--}}
-        @include('layouts.includes.register_page2')
-    {{--@else--}}
-        {{--@include('layouts.includes.register_login')--}}
-    {{--@endif--}}
-
-                {{--{!! csrf_field() !!}--}}
+                    @include('layouts.includes.register_page1')
+                    @include('layouts.includes.register_page2')
+                  
                 </form>
             </div><!-- content -->
         </div><!-- primary -->

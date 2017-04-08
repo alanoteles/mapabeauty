@@ -7,25 +7,58 @@
         ======================== -->
         <div class="col-sm-6 col-esquerda">
             <div class="form-group">
-                <input type="text" class="form-control" name="nome_fantasia" id="nome_fantasia" placeholder="Nome de fantasia da empresa/profissional">
+                <input type="text" class="form-control" name="fantasy_name" id="fantasy_name" placeholder="Nome de fantasia da empresa/profissional"
+                    @if(!empty($user->profiles->fantasy_name))
+                            value="{{ $user->profiles->fantasy_name }}"
+                    @endif
+                >
+
             </div>
             <div class="form-group">
-                <textarea name="sobre" id="sobre" cols="30" rows="5"></textarea>
+                <textarea name="about" id="about" cols="30" rows="5">
+                    @if(!empty($user->profiles->about))
+                        {{ $user->profiles->about }}
+                    @endif
+                </textarea>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="facebook" id="facebook" placeholder="Informe seu Facebook ( opcional )">
+                <input type="text" class="form-control" name="facebook" id="facebook" placeholder="Informe seu Facebook ( opcional )"
+                    @if(!empty($user->profiles->facebook))
+                            value="{{ $user->profiles->facebook }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="twitter" id="twitter" placeholder="Informe seu Twitter ( opcional )">
+                <input type="text" class="form-control" name="twitter" id="twitter" placeholder="Informe seu Twitter ( opcional )"
+                    @if(!empty($user->profiles->twitter))
+                            value="{{ $user->profiles->twitter }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="youtube" id="youtube" placeholder="Informe seu Youtube ( opcional )">
+                <input type="text" class="form-control" name="youtube" id="youtube" placeholder="Informe seu Youtube ( opcional )"
+                    @if(!empty($user->profiles->youtube))
+                            value="{{ $user->profiles->youtube }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="instagram" id="instagram" placeholder="Informe seu Instagram ( opcional )">
+                <input type="text" class="form-control telefone" name="whatsapp" id="whatsapp" placeholder="Informe seu WhatsApp ( opcional )"
+                    @if(!empty($user->profiles->whatsapp))
+                            value="{{ $user->profiles->whatsapp }}"
+                    @endif
+                >
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" name="instagram" id="instagram" placeholder="Informe seu Instagram ( opcional )"
+                    @if(!empty($user->profiles->instagram))
+                            value="{{ $user->profiles->instagram }}"
+                    @endif
+                >
             </div>
 
             <div class="form-group text-center">
@@ -68,6 +101,16 @@
                             <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
                             <td class="col-sm-2"></td>
                         </tr>
+                        {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
+                        @foreach($user->profiles->services as $service)
+                            <tr>
+                                <td class="col-sm-6">{{ $service->description }}</td>
+                                <td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>
+                                <td class="col-sm-2" style="vertical-align:middle">
+                                    <a href="#" class="btn btn-success pull-right remove-service">Remover</a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </thead>
                     <tbody>
                     </tbody>
@@ -131,6 +174,24 @@
                 <div class="col-sm-12">
                     <table class="table table-striped fotos-cadastro">
                         <tbody>
+                            @foreach($user->profiles->galleries as $gallery)
+                                <tr>
+                                    <td  class="col-sm-2" style="vertical-align:middle">
+                                        <a class="myModal" data-toggle="modal" data-target="#myModal" data-file="{{ $gallery->filename }}">
+                                            <img src="uploads/fotos/{{ $gallery->filename }}" alt="">
+                                        </a>
+                                        @if(!empty($gallery->logo))
+                                            Logo
+                                        @endif
+                                    </td>
+                                    <td class="col-sm-8">
+                                        <span class="small">{{ $gallery->subtitle }}</span>
+                                    </td>
+                                    <td class="col-sm-2" style="vertical-align:middle">
+                                        <a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -140,7 +201,9 @@
                     <a class="btn btn-info pull-right" id="voltapg">Voltar</a>
                 </div>
                 <div class="col-sm-9">
-                    <a class="btn btn-info btn-block pull-right" id="salvar">Salvar cadastro e efetuar pagamento</a>
+                    <a class="btn btn-info btn-block pull-right" id="salvar">Salvar cadastro</a>
+
+                    {{-- <a class="btn btn-info btn-block pull-right" id="salvar">Salvar cadastro e efetuar pagamento</a> --}}
                     {{--<buttom class="btn btn-info btn-block pull-right">Salvar cadastro e efetuar pagamento</buttom>--}}
                     {{--<input type="submit" class="btn btn-info btn-block pull-right" style="font-size:14px;" id="salvar" value="Salvar cadastro e efetuar pagamento">--}}
                 </div>

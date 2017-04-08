@@ -29,32 +29,79 @@ class ProfileController extends Controller
     {
         $params = $request->all();
 
-//echo Auth::user()->value('id');die;
-//echo '<pre>';print_r(Auth::user());die;
+
         $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
         
         if(Auth::check()){
-            $id = Auth::user()->value('id');
- // echo $id;die;
-            $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
-                    ->where('users.id', $id)->get();
+            //echo 'sess : '. session('msg');
+            if(session()->has('msg')){
+                $message = ['msg' => session('msg'), 'type' => session('type')];
+                print_r($message);
+            }
+//print_r($params);
+            //$id =  Auth::user()->id;
+  //echo 'aaaa';die;
+            //$user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
+            //        ->where('users.id', $id)->first();
 
-            if(count($user) == 0){
-                $user = User::find($id);
+// echo $user;//die;
+            //if(count($user) == 0){ //-- User does not have profile yet
+   // echo '<pre>';//die;
+   // echo count($user);//die
+                //$user = User::find($id);
+// print_r($user);//die
+                //$city       = City::find($user->city);
+                //$city_name  = $city->name;
 
-                return view('layouts.profile', [
+                //$state      = State::find($city->state_id);
+                //$state_name = $state->name;
+            //}else{
+            $user = User::find(Auth::user()->id);
+
+            if(!empty($user->profiles)){
+                $city   = City::find($user->profiles->city);
+                $state  = State::where('code', $user->profiles->state)->first();
+
+                foreach ($user->profiles->services as $key => $value) {
+                    // echo $value->pivot->service_id
+                    // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+                    $profile_service[] = json_encode(array('id' => $value->pivot->service_id, 'price' => $value->pivot->price));
+                }
+
+                foreach ($user->profiles->galleries as $key => $value) {
+                    // echo $value->pivot->service_id
+                    // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+                    if($value->status == '1'){
+                        $file_data = explode('.', $value->filename);
+
+                        $gallery_profile[] = json_encode(array( 'hash'      => $file_data[0], 
+                                                                'extension' => $file_data[1],
+                                                                'subtitle'  => $value->subtitle,
+                                                                'size'      => $value->size,
+                                                                'logo'      => $value->logo));    
+                    }
+                }
+                //echo '<pre>';print_r($gallery_profile);
+                
+            }
+            //}
+
+            return view('layouts.profile', [
                     'page' => '1',
                     'products'          => Product::where('status', '1')->get(),
                     'services'          => Service::where('status', '1')->get(),
                     'payers'            => Payer::where('status', '1')->get(),
                     'user'              => $user,
                     'detached_value'    => $detached_value,
-                    'remaining_days'    => ''
+                    'remaining_days'    => '',
+                    'city'              => (!empty($city)) ? $city : '',
+                    'state'             => (!empty($state)) ? $state : '',
+                    'profile_service'   => (!empty($profile_service)) ? json_encode($profile_service) : '',
+                    'gallery_profile'   => (!empty($gallery_profile)) ? json_encode($gallery_profile) : '',
+                    'message'           => (!empty($params['message'])) ? $params['message'] : ''
                 ]);
-            }
-// echo count($user);die;
-// echo '<pre>';print_r($user);die;
-            //$user = ( !empty($user[0]) ? $user[0] : '' );
+
+           
         }else{
             return redirect('login');
         }
@@ -63,7 +110,7 @@ class ProfileController extends Controller
        // print_r($user);die;
 
        //-- Value to be paid if user wants to be detached
-        $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
+        // $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
         
         // return view('layouts.profile', [
         //             'page' => '2',
@@ -73,17 +120,17 @@ class ProfileController extends Controller
         //             'services'  => Service::get()
 
         // ]);
-        return view('layouts.profile', [
-                'page' => '1',
-                'cities'            => City::get(),
-                'states'            => State::get(),
-                'products'          => Product::where('status', '1')->get(),
-                'services'          => Service::where('status', '1')->get(),
-                'payers'            => Payer::where('status', '1')->get(),
-                'user'              => $user,
-                'detached_value'    => $detached_value,
-                'remaining_days'    => ''
-            ]);
+        // return view('layouts.profile', [
+        //         'page' => '1',
+        //         'cities'            => City::get(),
+        //         'states'            => State::get(),
+        //         'products'          => Product::where('status', '1')->get(),
+        //         'services'          => Service::where('status', '1')->get(),
+        //         'payers'            => Payer::where('status', '1')->get(),
+        //         'user'              => $user,
+        //         'detached_value'    => $detached_value,
+        //         'remaining_days'    => ''
+        //     ]);
     }
 
     /**
@@ -104,21 +151,88 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $params = $request->all();
+        
+        //-- Profile are saved only when a valid user is logged in
+        if(Auth::check()){
+            $user = Auth::user();
+            
+            $params             = $request->all();
+            $params['user_id']  = $user->id;
 
-        $user = User::create(array(
-            'name'  => $params['responsible_name'],
-            'email' => $params['responsible_email'],
-        ));
-        $gallery    = json_decode($params['uploads'], true);
+            $state  = json_decode($params['state'], true);
+            $city   = json_decode($params['city'], true);
 
-        $profile = Profile::create($params);
+            //-- Clean up special chars
+            $to_be_removed                   = array(".", ",", "/", "(", ")", "-", " ");
+            $params['document']              = str_replace($to_be_removed, '', $params['document']);
+            $params['responsible_cellphone'] = str_replace($to_be_removed, '', $params['responsible_cellphone']);
+            $params['zip_code']              = str_replace($to_be_removed, '', $params['zip_code']);
+            $params['whatsapp']              = str_replace($to_be_removed, '', $params['whatsapp']);
+            $params['state']                 = $state['code'];
+            $params['city']                  = $city['id'];
 
-        foreach($gallery as $img){
+            if(!empty($user->profiles)){ //-- Update
+                $user->profiles->fill($params)->save();
+            }else{ //-- Create
+                $profile  = Profile::create($params);
+            }
 
-            $img['filename'] = $img['hash'] . '.' . $img['extension'];
-            Gallery::create($img);
+            //-- Attach images
+            $gallery    = json_decode($params['uploads'], true);
+
+            if(count($gallery)){
+                
+                $user->profiles->galleries()->detach();
+
+                foreach($gallery as $img){
+                    $img = json_decode($img);
+                    $img->filename = $img->hash . '.' . $img->extension;
+                    $id_img = Gallery::create((array)$img)->id;
+
+                    $user->profiles->galleries()->attach($id_img);
+                }
+            }
+
+
+            //-- Attach services
+            $services   = json_decode($params['services'], true);
+            if(count($services)){
+                foreach($services as $service){
+                    $service        = json_decode($service);
+                    $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
+                    $service->price = str_replace('.', '' , $service->price);
+                    $service->price = str_replace(',', '.', $service->price);
+
+                    $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
+                }
+                $user->profiles->services()->detach();
+                $user->profiles->services()->attach($profile_service);
+            }
+
+            $msg    = 'Seu cadastro foi criado com sucesso ! ';
+            $type   = 'success';
+
+        }else{
+
+            $msg    = 'Seu cadastro foi não foi criado. Por favor tente novamente. Obrigado ! ';
+            $type   = 'danger';
         }
+
+        $message = ['msg' => $msg, 'type' => $type];
+//print_r($message);
+        return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
+        //return redirect()->back()->with($message);
+
+        // $user = User::create(array(
+        //     'name'  => $params['responsible_name'],
+        //     'email' => $params['responsible_email'],
+        // ));
+        
+// echo '<pre>';print_r($user);die;
+
+        
+
+        
 
 
 //        foreach($gallery as $img){
@@ -127,13 +241,13 @@ class ProfileController extends Controller
 //            Gallery::create($img);
 //        }
 
-        $services   = json_decode($params['services'], true);
-        echo '<pre>';
-        print_r($gallery);
-        print_r($services);
-        //$data = json_decode($params['uploads'], true);
-        print_r($params);die;
-        echo 'www';die;
+        
+        // echo '<pre>';
+        // print_r($gallery);
+        // print_r($services);
+        // //$data = json_decode($params['uploads'], true);
+        // print_r($params);die;
+        // echo 'www';die;
     }
 
     /**
@@ -144,49 +258,71 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
+// echo 'show';die;
+//echo '<pre>';print_r(Auth::check());die;
+        if(Auth::check()){ //-- User is authenticated
+// echo 'if';die;
+            $user_data = Auth::user();
+// echo $user_data->id;
+// echo Auth::user()->value('id');die;
 
-        $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
-                    ->where('users.id', $id)->get();
+// echo '<pre>';print_r(Auth::user());die;
+            $id = $user_data->id;
+// echo $id;die;
+            $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
+                        ->where('users.id', $id)->first();
 
-        if(count($user)){
+            if(count($user)){ //-- If user has a profile, return his purchases
 
-            //-- Check if the user have a valid purchase and how many days left
-            $purchases = Purchase::where('user_id', $id)->orderBy('created_at')->take(1)->get();
+                //-- Check if the user have a valid purchase and how many days left
+                $purchases = Purchase::where('user_id', $id)->orderBy('created_at')->first();
 
-            $city_name = (!empty($user->city)) ? City::find($user->city)->value('city_name') : '';
-            if(count($purchases)){
-//echo '<pre>';
-//print_r($purchases);die;
-                $created            = new Carbon($purchases[0]['transaction_date']);
-                $now                = Carbon::now();
+                // $city = City::find($user->city);
 
-                $product_total_days = Product::find($purchases[0]['product_id'])->days;
-                $remaining_days     = $product_total_days - $created->diff($now)->days;
+// echo '<pre>';print_r($user->city);die;
 
+                $city_name = (!empty($user->city)) ? City::find($user->city)->value('name') : '';
+
+                //$state = State:find($city_name)
+                //$state_name
+                
+                if(count($purchases)){ //-- Calculate remaining days
+    //echo '<pre>';
+    //print_r($purchases);die;
+                    $created            = new Carbon($purchases[0]['transaction_date']);
+                    $now                = Carbon::now();
+
+                    $product_total_days = Product::find($purchases[0]['product_id'])->days;
+                    $remaining_days     = $product_total_days - $created->diff($now)->days;
+
+                }
+
+                //-- Value to be paid if user wants to be detached
+                $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
+
+    //echo $detached_value;die;
+    //echo '<pre>';
+    //print_r($user);die;
+
+                return view('layouts.profile', [
+                    'page' => '1',
+                    'city_name'         => $city_name,
+                    'states'            => State::get(),
+                    'products'          => Product::where('status', '1')->get(),
+                    'services'          => Service::where('status', '1')->get(),
+                    'payers'            => Payer::where('status', '1')->get(),
+                    'user'              => $user,
+                    'detached_value'    => $detached_value,
+                    'purchase'          => ( count($purchases) ? $purchases[0] : ''),
+                    'remaining_days'    => ( !empty($remaining_days) ? $remaining_days : '')
+
+                ]);
+            }else{ //-- User does not have a profile. Redirect to fill the form
+                //return redirect('login');
+                return redirect('profile');
             }
-
-            //-- Value to be paid if user wants to be detached
-            $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
-
-//echo $detached_value;die;
-//echo '<pre>';
-//print_r($user);die;
-
-            return view('layouts.profile', [
-                'page' => '1',
-                'city_name'         => $city_name,
-                'states'            => State::get(),
-                'products'          => Product::where('status', '1')->get(),
-                'services'          => Service::where('status', '1')->get(),
-                'payers'            => Payer::where('status', '1')->get(),
-                'user'              => $user[0],
-                'detached_value'    => $detached_value,
-                'purchase'          => ( count($purchases) ? $purchases[0] : ''),
-                'remaining_days'    => ( !empty($remaining_days) ? $remaining_days : '')
-
-            ]);
         }else{
-            return redirect('login');
+             return redirect('login');
         }
 
     }
@@ -232,8 +368,7 @@ class ProfileController extends Controller
 
         $params =  $request->all();
         $file   = $params['file'];
-//echo '<pre>';
-//print_r($params);die;
+
 
         //Verificando upload pt_br
         if ($request->hasFile('file'))

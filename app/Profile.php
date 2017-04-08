@@ -29,19 +29,22 @@ class Profile extends Model
                                 'twitter',
                                 'instagram',
                                 'google_plus',
+                                'whatsapp',
                                 'logo',
                                 'status');
 
 
     public function galleries()
     {
-        return $this->hasMany('App\Gallery');
+        return $this->belongsToMany('App\Gallery');
+        // return $this->hasMany('App\Gallery');
     }
 
 
     public function services()
     {
-        return $this->hasMany('App\Service');
+        //return $this->hasMany('App\Service');
+        return $this->belongsToMany('App\Service')->withPivot('price');;
     }
 
 

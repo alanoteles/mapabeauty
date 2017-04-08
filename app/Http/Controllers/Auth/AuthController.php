@@ -99,10 +99,8 @@ class AuthController extends Controller
 
         $authUser = $this->findOrCreateUser($user, $provider);
 
-       // echo '<pre>';
-       // print_r($authUser);//die;
         Auth::login($authUser, true);
-        return redirect('profile/' . $authUser->id);
+        return redirect('profile/');
     }
 
     /**
@@ -115,6 +113,8 @@ class AuthController extends Controller
     public function findOrCreateUser($user, $provider)
     {
         $authUser = User::where('provider_id', $user->id)->first();
+//echo '<pre>';print_r($authUser->id);die;
+
         if ($authUser) {
             return $authUser;
         }

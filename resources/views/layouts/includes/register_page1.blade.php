@@ -9,30 +9,35 @@
                 <select class="form-control" name="professional_type" id="professional_type">
                     <option value="">Pessoa Física ou Jurídica ? *</option>
                     <option value="F" 
-                        @if(!empty($user))
-                            {{ ($user->professional_type == 'F' ? 'selected' : '') }}
+                        @if(!empty($user->profiles->professional_type))
+                            {{ ($user->profiles->professional_type == 'F' ? 'selected' : '') }}
                         @endif
 
                     >Pessoa Física</option>
                     <option value="J" 
-                        @if(!empty($user))
-                            {{ ($user->professional_type == 'J' ? 'selected' : '') }}
+                        @if(!empty($user->profiles->professional_type))
+                            {{ ($user->profiles->professional_type == 'J' ? 'selected' : '') }}
                         @endif
                         >Pessoa Jurídica</option>
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="professional_name" id="professional_name" placeholder="Nome da empresa/profissional *" value="{{ !empty($user->professional_name) ? $user->professional_name : '' }}">
+                <input type="text" class="form-control" name="professional_name" id="professional_name" placeholder="Nome da empresa/profissional *" value="{{ !empty($user->profiles->professional_name) ? $user->profiles->professional_name : '' }}">
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control" name="document" id="document" placeholder="CPF/CNPJ da empresa/profissional *" maxlength="14" value="{{ !empty($user->document) ? $user->document : '' }}">
+                <input type="text" class="form-control 
+                    @if(!empty($user->profiles->document)) 
+                        cpf 
+                    @else 
+                        cnpj 
+                    @endif" name="document" id="document" placeholder="CPF/CNPJ da empresa/profissional *" maxlength="14" value="{{ !empty($user->profiles->document) ? $user->profiles->document : '' }}">
             </div>
 
             <div class="form-group">
                 <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável *" 
                     @if(!empty($user->name))
-                        value="{{ !empty($user->name) ? $user->name : $user->responsible_name }}"
+                        value="{{ !empty($user->name) ? $user->name : $user->profiles->responsible_name }}"
                     @endif
                 >
             </div>
@@ -40,13 +45,13 @@
             <div class="form-group">
                 <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *" 
                     @if(!empty($user->email))
-                        value="{{ !empty($user->email) ? $user->email : $user->responsible_email }}"
+                        value="{{ !empty($user->email) ? $user->email : $user->profiles->responsible_email }}"
                     @endif
                 >
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável *" value="{{ !empty($user->responsible_cellphone) ? $user->responsible_cellphone : '' }}">
+                <input type="text" class="form-control telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável *" value="{{ !empty($user->profiles->responsible_cellphone) ? $user->profiles->responsible_cellphone : '' }}">
             </div>
             <div class="form-group text-center">
                 {{-- @if(!empty($remaining_days)) --}}
@@ -70,7 +75,8 @@
                                 <?php if(!empty($purchase->product_id)){ ?>
                                     {{ ($product->id == $purchase->product_id) ? 'selected' : '' }}
                                 <?php } ?>
-                                >{{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}</option>
+                                >{{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}
+                            </option>
                         @endforeach
 
                     </select>
@@ -160,9 +166,9 @@
 
             <div class="form-group">
                 <div class="col-sm-4">
-                    <input type="text" class="form-control cep" name="cep" id="cep" placeholder="C.E.P." 
-                        @if(!empty($user->zip_code)) 
-                            value="{{ $user->zip_code }}"
+                    <input type="text" class="form-control cep" name="zip_code" id="zip_code" placeholder="C.E.P." 
+                        @if(!empty($user->profiles->zip_code)) 
+                            value="{{ $user->profiles->zip_code }}"
                         @endif
                     >
                 </div>
@@ -174,7 +180,11 @@
                         {{--<option value="89">Goiás</option>--}}
                         {{--<option value="69">Distrito Federal</option>--}}
                     {{--</select>--}}
-                    <input type="text" class="form-control" name="state" id="state" placeholder="Estado" value="" readonly>
+                    <input type="text" class="form-control" name="state_name" id="state_name" placeholder="Estado" readonly
+                        @if(!empty($state)) 
+                            value="{{ $state->name }}" 
+                        @endif
+                    >
                 </div>
             </div>
 
@@ -188,16 +198,16 @@
                         {{--<option value="69">Rio de Janeiro</option>--}}
                     {{--</select>--}}
                     <input type="text" class="form-control" name="city_name" id="city_name" placeholder="Cidade" readonly 
-                        @if(!empty($user->city_name)) 
-                            value="{{ $user->city_name }}" 
+                        @if(!empty($city)) 
+                            value="{{ $city->name }}" 
                         @endif
 
                     >
                 </div>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="neighborhood" id="neighborhood" placeholder="Bairro" readonly 
-                        @if(!empty($user->neighborhood)) 
-                            value="{{ $user->neighborhood }}" 
+                        @if(!empty($user->profiles->neighborhood)) 
+                            value="{{ $user->profiles->neighborhood }}" 
                         @endif
                     >
                 </div>
@@ -206,15 +216,15 @@
             <div class="form-group">
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="address" id="address" placeholder="Seu endereço" readonly 
-                        @if(!empty($user->address))
-                            value="{{ $user->address }}" 
+                        @if(!empty($user->profiles->address))
+                            value="{{ $user->profiles->address }}" 
                         @endif
                     >
                 </div>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" name="number" id="number" placeholder="Nr." 
-                        @if(!empty($user->number))
-                            value="{{ $user->number }}"
+                        @if(!empty($user->profiles->number))
+                            value="{{ $user->profiles->number }}"
                         @endif
                     >
                 </div>
@@ -223,8 +233,8 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <input type="text" class="form-control" name="complement" id="complement" placeholder="Complemento" 
-                        @if(!empty($user->complement))
-                            value="{{ $user->complement }}"
+                        @if(!empty($user->profiles->complement))
+                            value="{{ $user->profiles->complement }}"
                         @endif
                     >
                 </div>
@@ -246,7 +256,7 @@
 
             <div class="form-group ">
                 <div class="col-sm-12"  id="map-container" style="margin-left: 15px;">
-                    {{ asset('assets/img/loader.gif') }}
+                    {{-- <img src="{{ asset('assets/img/loader.gif') }}"> --}}
                     <!-- <script src="http://maps.google.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA&sensor=false"></script> -->
                     {{--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>--}}
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA" type="text/javascript"></script>
@@ -257,15 +267,15 @@
             <div class="form-group">
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude" 
-                        @if(!empty($user->latitude))
-                            value="{{ $user->latitude }}"
+                        @if(!empty($user->profiles->latitude))
+                            value="{{ $user->profiles->latitude }}"
                         @endif
                     >
                 </div>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Longitude" 
-                        @if(!empty($user->longitude))
-                            value="{{ $user->longitude }}"
+                        @if(!empty($user->profiles->longitude))
+                            value="{{ $user->profiles->longitude }}"
                         @endif
                     >
                 </div>

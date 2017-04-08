@@ -7,30 +7,18 @@
 			<article>
 				<div class="container clear-fix">
 					<div class="row">
-						<!-- <div class="col-sm-5">
-							<img src="<?php //bloginfo('stylesheet_directory');  ?>/assets/img/logo-badge.png" alt="Bootstrap to Worpress" class="logo">
-						</div> --><!-- col -->
-
+					
 						<div class="col-sm-5 hero-text">
-							<!-- <h1><?php //bloginfo('name'); ?></h1> -->
 							<p class="lead">Conecte-se com seu próximo cliente !</p>
-
-							<!-- <div id="price-timeline">
-								<div class="price active">
-									<h4>Pre-Launch Price <small>Ends soon</small></h4>
-									<span><?php //echo $prelaunch_price ?></span>
-								</div> --><!-- price -->
-								<!-- <div class="price">
-									<h4>Launch Price <small>Coming soon</small></h4>
-									<span><?php //echo $launch_price ?></span>
-								</div> --><!-- price -->
-								<!-- <div class="price">
-									<h4>Final Price <small>Coming soon</small></h4>
-									<span><?php //echo $final_price ?></span>
-								</div> --><!-- price -->
-							<!-- </div> -->
-
-							<p><a class="btn btn-lg btn-success" href="/login" role="button">Seja nosso parceiro !  &raquo;</a></p>
+	
+							<p><a class="btn btn-lg btn-success" 
+									@if(Auth::check())
+										href="/profile" 
+									@else	
+										href="/login" 
+									@endif
+									role="button">Seja nosso parceiro !  &raquo;</a>
+							</p>
 						
 						</div><!-- col -->
 
