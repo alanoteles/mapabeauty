@@ -32,29 +32,30 @@
 		<section id="optin">
 			<div class="container">
 				<form role="form" class="form-inline">
+
 					<div class="row">
 					
 						<div class="form-group col-sm-2">
-							<select class="form-control input-sm" name="" id="">
+							<select class="form-control input-sm" name="select-state" id="select-state">
 								<option value="">Selecione um estado</option>
 								@foreach($states as $state)
-									<option value="{{ $state->id }}">{{ $state->name }}</option>
+									<option value="{{ $state->code }}">{{ $state->name }}</option>
 								@endforeach
 
 							</select>
 						</div>
 						<div class="form-group  col-sm-2">
-							<select class="form-control input-sm" name="" id="">
+							<select class="form-control input-sm" name="select-city" id="select-city" disabled>
 								<option value="">Selecione uma cidade</option>
 							</select>
 						</div>
 						<div class="form-group col-sm-2">
-							<select class="form-control input-sm" name="" id="">
+							<select class="form-control input-sm" name="select-neighborhood" id="select-neighborhood" disabled>
 								<option value="">Selecione um bairro</option>
 							</select>
 						</div>
 						<div class="form-group col-sm-2">
-							<select class="form-control input-sm" name="" id="">
+							<select class="form-control input-sm" name="select-service" id="select-service">
 								<option value="">O que você procura ?</option>
 								@foreach($services as $service)
 								<option value="{{ $service->id }}">{{ $service->description }}</option>
@@ -66,7 +67,8 @@
 								Buscar
 							</a>
 						</div>
-					</div>	
+					</div>
+                    {!! csrf_field() !!}
 				</form>
 				</div>
 			</div>

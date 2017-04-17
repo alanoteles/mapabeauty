@@ -24,12 +24,13 @@ class Controller extends BaseController
 
         if($busca_cep->resultado != 0){
 
-            $state  = State::where('code', $busca_cep->uf)->get();
-            $city   = City::where('name', $busca_cep->cidade)->where('state_id', $state[0]->id)->get();
+            $state  = State::where('code', $busca_cep->uf)->first();
+            //$city   = City::where('name', $busca_cep->cidade)->where('state_id', $state->id)->first();
+            $city   = City::where('name', $busca_cep->cidade)->where('state', $busca_cep->uf)->first();
 
-            $busca_cep->city_id     = $city[0]->id;
-            $busca_cep->state_id    = $state[0]->id;
-            $busca_cep->state_name  = $state[0]->name;
+            $busca_cep->city_id     = $city->id;
+            $busca_cep->state_id    = $state->id;
+            $busca_cep->state_name  = $state->name;
 
             return json_encode($busca_cep);
         }else{

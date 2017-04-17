@@ -38,20 +38,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        echo '<pre>';print_r($request->all());//die;
+        //echo '<pre>';print_r($request->all());die;
         $params = $request->all();
 
         if(empty($params['novo_email']) && empty($params['nova_password']) && empty($params['name'])){ // Loging
 
             $user = User::where('email',$params['email'])->where('password', md5($params['password']))->first();
 
-            print_r($user);
-            echo count($user);
+//            print_r($user);
+//            echo count($user);
 
-            if(count($user)){
+            if(count($user)){ //echo 'if';die;
                 Auth::login($user, true);
                 return redirect('profile'); 
-            }else{
+            }else{ //echo 'else';die;
 
                 $request->session()->put('error', 'Usuário não cadastrado ou senha incorreta.');
                 //$request->session()->put('form', 'login');

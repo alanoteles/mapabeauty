@@ -17,6 +17,7 @@ use Auth;
 //use App\Http\Requests;
 use App\City;
 use App\Product;
+use Psy\Util\Json;
 
 class ProfileController extends Controller
 {
@@ -31,7 +32,7 @@ class ProfileController extends Controller
 
 
         $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
-        
+    //echo 'aa : '. Auth::check();die;
         if(Auth::check()){
             //echo 'sess : '. session('msg');
             if(session()->has('msg')){
@@ -415,5 +416,28 @@ class ProfileController extends Controller
 
         }
 
+    }
+
+
+
+    /**
+     * Return to AJAX cities from selected state.
+     *
+     * @param  string  $code
+     * @return Json
+     */
+    public function returnCities(Request $request)
+    {
+        $params = $request->all();
+
+        $state_id = State::where('code', $params['code'])->first();
+        
+//        echo '<pre>';
+//        print_r($state_id->id);die;
+        $cities = City::where('state_id', $state_id->id)->get();
+
+        return $cities;
+//        print_r($cities);
+//        echo $code;
     }
 }

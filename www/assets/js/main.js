@@ -535,6 +535,41 @@ $(function() {
 
 
 
+
+	$('#select-state').on('change', function () {
+
+		id = $(this).find(":selected").val();
+
+console.log(id);
+
+
+		$.ajax({
+			url: '/profile/cities',
+			type: 'POST',
+			data: {code: id},
+			dataType: 'json',
+			success: function (data) {
+
+				$('#select-city').children().remove();
+
+				if(data != 0){
+
+					$.each(data, function(name, value){
+						$('#select-city').append( '<option value="' + value['id'] + '">' + value['name'] + '</option>');
+
+					});
+				}
+				$('#select-city').attr('disabled', false);
+				//$('#tema').attr('disabled', false);
+
+
+
+			}
+		});
+	});
+
+
+
 	$('.cep').blur(function(){
 		var cep = $(this);
 		num_cep = cep.val();

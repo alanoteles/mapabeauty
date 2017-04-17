@@ -15,10 +15,11 @@
         <div class="row" id="primary">
             <div id="content" class="col-sm-12">
                 <form class="form-horizontal" id="form" action="{{ url('/login') }}" method="post">
-                   
+                    <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
+
                     @include('layouts.includes.register_login')
     
-                {!! csrf_field() !!}
+                {{--{!! csrf_field() !!}--}}
                 </form>
             </div><!-- content -->
         </div><!-- primary -->
