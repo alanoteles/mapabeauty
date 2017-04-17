@@ -1,6 +1,14 @@
 <div class="container">
     <div class="row" id="primary">
         <div id="content" class="col-sm-12">
+            <div class="col-sm-12">
+                @if(session()->has('error'))
+                    <div class="alert alert-danger fade in">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{-- {{ $message['msg'] }} --}}{!! session('error') !!}
+                    </div>
+                @endif  
+            </div>
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
 
@@ -40,7 +48,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-success btn-block" onclick="$('#login-email').show('fast')">
+                            <button class="btn btn-success btn-block" onclick="$('#login-email').show('fast'); return false;">
                                 Cadastrar com E-mail
                             </button>
                         </div>
@@ -52,24 +60,24 @@
                             <div class="col-sm-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Digite seu nome">
                             </div>
-                            <div class="col-sm-6 {{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Digite seu e-mail">
+                            <div class="col-sm-6">
+                                <input id="novo_email" type="email" class="form-control" name="novo_email" placeholder="Digite seu e-mail">
                             </div>
                         </div>
 
                         <div class="form-group">
 
-                            <div class="col-sm-6 {{ $errors->has('email') ? ' has-error' : '' }}">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Digite seu e-mail">
+                            <div class="col-sm-6">
+                                <input id="nova_password" type="password" class="form-control" name="nova_password" value="" placeholder="Digite sua senha">
                             </div>
-                            <div class="col-sm-6 {{ $errors->has('password') ? ' has-error' : '' }}">
-                                <input id="password" type="password" class="form-control" name="password" placeholder="Digite sua senha">
+                            <div class="col-sm-6">
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" placeholder="Confirme sua senha">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button class="btn btn-info btn-block">
+                                <button class="btn btn-info btn-block" id="save-sign-up">
                                     Salvar
                                 </button>
                             </div>
@@ -139,7 +147,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <button class="btn btn-info btn-block">
+                            <button class="btn btn-info btn-block" id="sign-in">
                                 Entrar
                             </button>
                         </div>

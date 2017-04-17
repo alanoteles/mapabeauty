@@ -102,15 +102,17 @@
                             <td class="col-sm-2"></td>
                         </tr>
                         {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
-                        @foreach($user->profiles->services as $service)
-                            <tr>
-                                <td class="col-sm-6">{{ $service->description }}</td>
-                                <td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>
-                                <td class="col-sm-2" style="vertical-align:middle">
-                                    <a href="#" class="btn btn-success pull-right remove-service">Remover</a>
-                                </td>
-                            </tr>
-                        @endforeach
+                        @if(!empty($user->profiles->services))
+                            @foreach($user->profiles->services as $service)
+                                <tr>
+                                    <td class="col-sm-6">{{ $service->description }}</td>
+                                    <td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>
+                                    <td class="col-sm-2" style="vertical-align:middle">
+                                        <a href="#" class="btn btn-success pull-right remove-service">Remover</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </thead>
                     <tbody>
                     </tbody>
@@ -174,24 +176,26 @@
                 <div class="col-sm-12">
                     <table class="table table-striped fotos-cadastro">
                         <tbody>
-                            @foreach($user->profiles->galleries as $gallery)
-                                <tr>
-                                    <td  class="col-sm-2" style="vertical-align:middle">
-                                        <a class="myModal" data-toggle="modal" data-target="#myModal" data-file="{{ $gallery->filename }}">
-                                            <img src="uploads/fotos/{{ $gallery->filename }}" alt="">
-                                        </a>
-                                        @if(!empty($gallery->logo))
-                                            Logo
-                                        @endif
-                                    </td>
-                                    <td class="col-sm-8">
-                                        <span class="small">{{ $gallery->subtitle }}</span>
-                                    </td>
-                                    <td class="col-sm-2" style="vertical-align:middle">
-                                        <a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @if(!empty($user->profiles->galleries))
+                                @foreach($user->profiles->galleries as $gallery)
+                                    <tr>
+                                        <td  class="col-sm-2" style="vertical-align:middle">
+                                            <a class="myModal" data-toggle="modal" data-target="#myModal" data-file="{{ $gallery->filename }}">
+                                                <img src="uploads/fotos/{{ $gallery->filename }}" alt="">
+                                            </a>
+                                            @if(!empty($gallery->logo))
+                                                Logo
+                                            @endif
+                                        </td>
+                                        <td class="col-sm-8">
+                                            <span class="small">{{ $gallery->subtitle }}</span>
+                                        </td>
+                                        <td class="col-sm-2" style="vertical-align:middle">
+                                            <a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

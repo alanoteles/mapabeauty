@@ -52,7 +52,12 @@
 								<li class="active"><a href="/">Início</a></li>
 								<li><a href="/about">Sobre nós</a></li>
 								<li><a href="/contact">Fale conosco</a></li>
-								<li><a href="/profile">Login de parceiros</a></li>
+								@if(Auth::check())
+									<li><a href="/logout">Sair</a></li>
+								@else
+									<li><a href="/login">Login de parceiros</a></li>
+								@endif
+								
 							</ul>
 						</div>
 					</div>

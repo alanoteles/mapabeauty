@@ -119,6 +119,108 @@ $(function() {
 
 
 
+
+	//-- Login com e-mail e senha --//
+	$('#sign-in').on('click',function(e){
+
+		e.preventDefault();
+		
+		mensagem = "";
+
+		if( $("#email").val() == '' ){
+			$("#email").parent().addClass('has-error');
+			mensagem += "<div> - Campo E-MAIL não pode ser vazio </div>";
+		}
+
+		if( $("#password").val() == '' ){
+			$("#password").parent().addClass('has-error');
+			mensagem += "<div> - Campo SENHA não pode ser vazio </div>";
+		}
+
+		if(mensagem){
+			bootbox.alert("<h5>Foram encontrados os seguintes erros no seu login :</h5>"+mensagem, function() {});
+			$(".bootbox .modal-footer .btn-primary").html("Fechar");
+			return false;
+		}else{
+			$('#form').attr('action', 'user');
+			$('#form').submit();	
+		}
+
+	})
+
+
+
+
+	$('#save-sign-up').on('click',function(){
+		//console.log($(this));
+
+		//-- Email validation
+		url = '/user/email-validation/' ;
+		mensagem = "";
+			//console.log(url);
+			$.ajax({
+				url: url,
+				type: 'POST',
+				async: false,
+				data: {'email': $('#novo_email').val()},
+				success: function (data) {
+					 console.log(data);
+
+					
+
+					if( $("#name").val() == '' ){
+						$("#name").parent().addClass('has-error');
+						mensagem += "<div> - Campo NOME não pode ser vazio </div>";
+					}
+
+					if( $("#novo_email").val() == '' ){
+						$("#novo_email").parent().addClass('has-error');
+						mensagem += "<div> - Campo E-MAIL não pode ser vazio </div>";
+					}
+
+					if( $("#nova_password").val().length < 5){
+						$("#nova_password, #password_confirmation").parent().addClass('has-error');
+						mensagem += "<div> - SENHA precisa ter no mínimo 5 caracteres</div>";
+					}
+
+					if( $("#nova_password").val() == '' || $("#password_confirmation").val() == ''){
+						$("#nova_password, #password_confirmation").parent().addClass('has-error');
+						mensagem += "<div> - Campos SENHAS não podem ser vazios</div>";
+					}
+
+					if( $("#nova_password").val().toLowerCase() != $("#password_confirmation").val().toLowerCase() ){
+						$("#nova_password, #password_confirmation").parent().addClass('has-error');
+						mensagem += "<div> - SENHAS não conferem</div>";
+					}
+
+					 if(data == 1){
+					 	$("#novo_email").parent().addClass('has-error');
+					 	mensagem += "<div> - E-MAIL já cadastrado. Por favor informe outro.</div>";
+					 }
+					
+					if(mensagem){
+						bootbox.alert("<h5>Foram encontrados os seguintes erros no seu cadastro :</h5>"+mensagem, function() {});
+						$(".bootbox .modal-footer .btn-primary").html("Fechar");
+						return false;
+					}
+
+					
+					
+				}
+			});
+
+			if(mensagem == ''){
+				$('#form').attr('action', 'user');
+				$('#form').submit();
+			}else{
+				return false;
+			}
+		//-- Password comparison
+// return false;
+		
+	});
+
+
 	$(document).on('click', "a.remove-service", function(e) {
 		e.preventDefault();
 
@@ -184,9 +286,9 @@ $(function() {
 
 	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem
 	$("#form").on('submit',(function(e) {
-//console.log($(this).attr('action'));
-		if($(this).attr('action') != 'profile' && $(this).attr('action') != ''){ //-- O submit foi feito para o envio de imagens
-//console.log('if');
+// console.log($(this).attr('action'));
+		if($(this).attr('action') == '/profile/uploadAnexo'){ // && $(this).attr('action') != ''){ //-- O submit foi feito para o envio de imagens
+// console.log('if');
 			e.preventDefault();
 
 			$.ajax({
@@ -271,7 +373,7 @@ $(function() {
 			});
 			return false;
 
-		}else{ //-- O submit foi feito para postar o form completo
+		}else if($(this).attr('action') == 'profile'){ //-- O submit foi feito para postar o form completo
 
 			//-- Se o produto escolhido foi o mês grátis, seta a cortesia como "1", indicando que foi utilizada. Não faz a compra.
 			product_id = $('#product_id option:selected').val();
@@ -312,6 +414,9 @@ $(function() {
 			}
 			//return false;
 		}
+		// else if($(this).attr('action') == 'user'){ 
+
+		// }
 
 	}));
 

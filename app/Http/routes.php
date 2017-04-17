@@ -19,7 +19,8 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/home', 'HomeController@index');
 
-
+	Route::resource('user', 'UserController'); //Using REST verbs
+	Route::post('user/email-validation' , ['as' => 'email-validation', 'uses' => 'UserController@emailValidation']);
 
 	Route::get('profile-login/', 'ProfileController@index'); //Using REST verbs
 	Route::resource('profile', 'ProfileController'); //Using REST verbs

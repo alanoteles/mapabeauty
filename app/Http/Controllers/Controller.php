@@ -35,7 +35,5 @@ class Controller extends BaseController
         }else{
             return '0' ;
         }
-
-
     }
 }
