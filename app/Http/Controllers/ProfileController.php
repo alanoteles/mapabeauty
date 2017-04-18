@@ -10,6 +10,7 @@ use App\Purchase;
 use App\User;
 use App\Service;
 use App\State;
+use App\Neighborhood;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
@@ -434,10 +435,53 @@ class ProfileController extends Controller
         
 //        echo '<pre>';
 //        print_r($state_id->id);die;
-        $cities = City::where('state_id', $state_id->id)->get();
+        $cities = City::where('state', $state_id->code)->get();
 
         return $cities;
 //        print_r($cities);
 //        echo $code;
+    }
+
+
+    /**
+     * Return to AJAX neighbohoods from selected city.
+     *
+     * @param  string  $city_id
+     * @return Json
+     */
+    public function returnNeighborhood(Request $request)
+    {
+        $params = $request->all();
+
+        $neighborhoods = Neighborhood::where('city_id', $params['id'])->get();
+
+        return $neighborhoods;
+
+    }
+
+
+
+    /**
+     * Return to AJAX neighbohoods from selected city.
+     *
+     * @param  string  $city_id
+     * @return Json
+     */
+    public function search(Request $request, $termo = '', $itens_por_pagina = 5)
+    {
+        $params = $request->all();
+
+        $profiles = Profile::where('state', $params['select-state'])->where('city', $params['select-city']);
+                            //->where('city', $params['select-city'])
+
+        if(!empty($params['select-neighborhood'])){
+            $profiles = $profiles->where('city', $params['select-city']);
+        }
+
+       echo '<pre>';
+       print_r($params);die;
+
+       // return $neighborhoods;
+
     }
 }

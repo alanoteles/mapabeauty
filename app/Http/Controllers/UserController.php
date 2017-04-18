@@ -50,6 +50,9 @@ class UserController extends Controller
 
             if(count($user)){ //echo 'if';die;
                 Auth::login($user, true);
+
+                //echo '<pre>';
+                print_r(Auth::user());die;
                 return redirect('profile'); 
             }else{ //echo 'else';die;
 
