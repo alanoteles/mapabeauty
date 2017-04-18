@@ -31,7 +31,7 @@
 		========================================== -->
 		<section id="optin">
 			<div class="container">
-				<form role="form" class="form-inline" method="post" action="/profile/search">
+				<form role="form" class="form-inline" method="post" action="/search">
 
 					<div class="row">
 					
@@ -82,19 +82,24 @@
 				<div class="col-sm-12">
 					<table class="table table-striped">
 					    <tbody>
-					      <tr class="destaque-tabela">
-					      	<td>
-					      		<img src="assets/img/icon-rocket.png" alt="">
-				      		</td>
-					        
-					        <td>
-								<p class="lead"><strong>Clínica ABC</strong></p>
-					        	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore molestias a, libero harum deserunt minus. Eveniet veritatis, quaerat quod omnis a deleniti eaque ab iste. Odit voluptate, hic. Facilis earum quasi, ut, praesentium, commodi rerum placeat ducimus autem veniam, iusto ipsam? Rerum ipsa commodi sequi dolores quis nobis porro animi?
-				        	</td>
-					      </tr>
+{{--aa{{ print_r($results) }}--}}
+                        @if(!empty($results))
+                            @foreach($results as $key => $result)
+                                <tr class="destaque-tabela">
+                                    <td>
+                                        <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
+                                    </td>
+
+                                    <td>
+                                        <p class="lead"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></p>
+                                        {{ $result['about'] }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
 					      <tr>
 					      	<td>
-					      		<img src="assets/img/icon-rocket.png" alt="">
+					      		<img src="/assets/img/icon-rocket.png" alt="">
 				      		</td>  
 					        <td>
 					        	<p class="lead"><strong>Clínica ABC</strong></p>
@@ -103,7 +108,7 @@
 					      </tr>
 					      <tr>
 					      	<td>
-					      		<img src="assets/img/icon-rocket.png" alt="">
+					      		<img src="/assets/img/icon-rocket.png" alt="">
 					      	</td>  
 					        <td>
 						        <p class="lead"><strong>Clínica ABC</strong></p>
@@ -112,7 +117,7 @@
 					      </tr>
 					      <tr>
 					      	<td>
-					      		<img src="assets/img/icon-rocket.png" alt="">
+					      		<img src="/assets/img/icon-rocket.png" alt="">
 					      	</td>  
 					        <td>
 						        <p class="lead"><strong>Clínica ABC</strong></p>
@@ -121,7 +126,7 @@
 					      </tr>
 					      <tr>
 					      	<td>
-					      		<img src="assets/img/icon-rocket.png" alt="">
+					      		<img src="/assets/img/icon-rocket.png" alt="">
 					      	</td>  
 					        <td>
 						        <p class="lead"><strong>Clínica ABC</strong></p>

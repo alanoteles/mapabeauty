@@ -29,4 +29,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Profile', 'user_id');
     }
+
+    public function purchases()
+    {
+        return $this->hasMany('App\Purchase');
+
+    }
 }

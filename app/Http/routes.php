@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/profile/neighborhoods','ProfileController@returnNeighborhood');
 	Route::post('/profile/search','ProfileController@search');
 
+	Route::post('/search','IndexController@search');
+
 
 	Route::post('purchase/register-paypal', 'PurchaseController@registerPaypal');
 	Route::get('purchase/returned-paypal/{tc}', 'PurchaseController@returnedPaypal');

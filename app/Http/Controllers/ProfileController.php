@@ -14,6 +14,7 @@ use App\Neighborhood;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use DB;
 
 //use App\Http\Requests;
 use App\City;
@@ -461,27 +462,5 @@ class ProfileController extends Controller
 
 
 
-    /**
-     * Return to AJAX neighbohoods from selected city.
-     *
-     * @param  string  $city_id
-     * @return Json
-     */
-    public function search(Request $request, $termo = '', $itens_por_pagina = 5)
-    {
-        $params = $request->all();
 
-        $profiles = Profile::where('state', $params['select-state'])->where('city', $params['select-city']);
-                            //->where('city', $params['select-city'])
-
-        if(!empty($params['select-neighborhood'])){
-            $profiles = $profiles->where('city', $params['select-city']);
-        }
-
-       echo '<pre>';
-       print_r($params);die;
-
-       // return $neighborhoods;
-
-    }
 }

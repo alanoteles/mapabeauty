@@ -584,7 +584,7 @@ $(function() {
 				if(data != 0){
 
 					$.each(data, function(name, value){
-						$('#select-neighborhood').append( '<option value="' + value['id'] + '">' + value['neighborhood'] + '</option>');
+						$('#select-neighborhood').append( '<option value="' + value['neighborhood'] + '">' + value['neighborhood'] + '</option>');
 
 					});
 				}
