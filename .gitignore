@@ -7,3 +7,17 @@ Homestead.json
 .DS_Store
 .idea
 .viminfo
+/.composer
+/www/uploads/fotos
+.gitignore
+.bash_extras
+.bash_history
+.bash_logout
+.bash_profile
+.old_bash_history
+.viminfo.tmp
+composer.phar
+www/datahora.php
+www/phpinfo.php
+www/test.php
+
