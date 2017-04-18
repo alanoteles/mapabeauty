@@ -20,4 +20,4 @@ composer.phar
 www/datahora.php
 www/phpinfo.php
 www/test.php
-
+.gitignore

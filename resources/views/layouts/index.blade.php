@@ -31,7 +31,7 @@
 		========================================== -->
 		<section id="optin">
 			<div class="container">
-				<form role="form" class="form-inline">
+				<form role="form" class="form-inline" method="post" action="/profile/search">
 
 					<div class="row">
 					
@@ -63,9 +63,9 @@
 							</select>
 						</div>
 						<div class="form-group  col-sm-4 pull-right">
-							<a class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">
+							<button type="submit" class="btn btn-success btn-block">
 								Buscar
-							</a>
+							</button>
 						</div>
 					</div>
                     {!! csrf_field() !!}

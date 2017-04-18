@@ -540,9 +540,6 @@ $(function() {
 
 		id = $(this).find(":selected").val();
 
-console.log(id);
-
-
 		$.ajax({
 			url: '/profile/cities',
 			type: 'POST',
@@ -568,6 +565,37 @@ console.log(id);
 		});
 	});
 
+
+
+
+	$('#select-city').on('change', function () {
+
+		id = $(this).find(":selected").val();
+
+		$.ajax({
+			url: '/profile/neighborhoods',
+			type: 'POST',
+			data: {id: id},
+			dataType: 'json',
+			success: function (data) {
+
+				$('#select-neighborhood').children().remove();
+
+				if(data != 0){
+
+					$.each(data, function(name, value){
+						$('#select-neighborhood').append( '<option value="' + value['id'] + '">' + value['neighborhood'] + '</option>');
+
+					});
+				}
+				$('#select-neighborhood').attr('disabled', false);
+				//$('#tema').attr('disabled', false);
+
+
+
+			}
+		});
+	});
 
 
 	$('.cep').blur(function(){

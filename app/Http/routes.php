@@ -27,6 +27,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('profile/busca_cep/{cep}','ProfileController@busca_cep');
 	Route::post('/profile/uploadAnexo','ProfileController@uploadAnexo');
 	Route::post('/profile/cities','ProfileController@returnCities');
+	Route::post('/profile/neighborhoods','ProfileController@returnNeighborhood');
+	Route::post('/profile/search','ProfileController@search');
 
 
 	Route::post('purchase/register-paypal', 'PurchaseController@registerPaypal');
