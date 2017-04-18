@@ -121,59 +121,27 @@ class IndexController extends Controller
     public function search(Request $request, $termo = '', $itens_por_pagina = 5)
     {
         $params = $request->all();
-//        $query = "SELECT A.id, A.professional_name, A.fantasy_name, A.about
+
         $query = "SELECT A.id
                   FROM `profiles` A
                   WHERE 1 = 1";
-        //echo '<pre>';
 
-        //$test = Profile::get();
-        //$test = $test->where('city', (int)$params['select-city']);
-        //print_r($test);
-//        $query = "SELECT A.id, A.professional_name, A.fantasy_name, A.about, B.filename, B.logo";
-//
-//        if(empty($params['select-service'])){
-//            $query .= " FROM `profiles` A
-//                        WHERE 1 = 1 ";
-//        }else{
-//            $query .= " FROM profiles A, profile_service D
-//                        WHERE A.id   = D.profile_id
-//                        AND   D.service_id    = " . $params['select-service'] ;
-//        }
-
-//        if(empty($params['select-service'])){
-//            $query .= " FROM `profiles` A
-//                        LEFT JOIN gallery_profile C ON A.id = C.profile_id
-//                        LEFT JOIN galleries B ON B.id = C.gallery_id
-//                        WHERE 1 = 1 ";
-//        }else{
-//            $query .= " FROM profiles A, profile_service D
-//                        LEFT JOIN gallery_profile C ON A.id = C.profile_id
-//                        LEFT JOIN galleries B ON B.id = C.gallery_id
-//                        WHERE A.id   = D.profile_id
-//                        AND   D.service_id    = " . $params['select-service'] ;
-//        }
 
 
         if(!empty($params['select-state'])){
 
             $query .= " AND A.state   = '" . $params['select-state'] . "'";
-            //$test = $test->where('state', (string)$params['select-state']);
 
             if(!empty($params['select-city'])){
                 $query .= " AND A.city   = " . $params['select-city'];
-                //$test = $test->where('city', (int)$params['select-city']);
 
                 if(!empty($params['select-neighborhood'])){
 
-                    $term = (string)$params['select-neighborhood'];
                     $query .= " AND A.neighborhood   LIKE '%" . $params['select-neighborhood'] . "%'";
-                    //$test = $test->where('neighborhood', 'LIKE', "%" . $term . "%");
                 }
             }
         }
 
-//print_r($test);
         $profiles = DB::select(DB::raw($query));
         $results = array();
 
@@ -226,8 +194,12 @@ class IndexController extends Controller
             }
         }
 //die;
-        echo '<pre>';
-        print_r($results);die;
+        //-- Order array by "detached" field.
+        if(count($results)){
+            usort($results, function ($a, $b) { return strcmp($b["detached"], $a["detached"]); });
+        }
+//        echo '<pre>';
+//        print_r($results);die;
 
 
         return view('layouts.index', [
