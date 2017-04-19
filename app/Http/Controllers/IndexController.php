@@ -27,11 +27,11 @@ class IndexController extends Controller
         if(Auth::check()){
             $id = Auth::user()->value('id');
 // echo $id;die;
-            $profile = Profile::where('user_id', $id)->get();
+            $profile = Profile::where('user_id', $id)->first();
 
 
             if(!empty($user))
-            $user = ( !empty($user[0]) ? $user[0] : '' );
+            $user = ( !empty($user) ? $user : '' );
             // if(count($user) == 0){
 
         }
@@ -40,9 +40,52 @@ class IndexController extends Controller
 //        }
         //curl freegeoip.net/json/82.0.175.11
 
+        $results = '';
+        $profiles            = Profile::where('status', '1')->get();
+        foreach ($profiles as $key => $profile) {
+
+            $results[$key] = array( 'id'                => $profile->id,
+                                    'professional_name' => $profile->professional_name,
+                                    'fantasy_name'      => $profile->fantasy_name,
+                                    'about'             => $profile->about,
+                                    'logo'              => '',
+                                    'detached'          => '');
+
+            //-- Get last purchase
+            $detached = $profile->users->purchases->where('status_id',2)->sortByDesc('transaction_date')->first();//, 'desc')->get();
+
+            if(count($detached)){ //-- Professional has acquired "detach" on the list
+
+                //-- Calculate remaining days
+                $created            = new Carbon($detached['transaction_date']);
+                $now                = Carbon::now();
+
+                $product_total_days = Product::find($detached['product_id'])->days;
+                $remaining_days     = $product_total_days - $created->diff($now)->days;
+
+                if($remaining_days > 0){
+                    $results[$key]['detached'] = '1';
+                }
+
+            }
+
+            //-- Get logo, if exists
+            $logo = $profile->galleries->where('logo', '1')->first();
+
+            if(count($logo)){
+                $results[$key]['logo'] = $logo->filename;
+            }
+        }
+
+        //-- Order array by "detached" field.
+        if(count($results)){
+            usort($results, function ($a, $b) { return strcmp($b["detached"], $a["detached"]); });
+        }
+
         return view('layouts.index', [
             'states'    => State::get(),
-            'services'  => Service::get()
+            'services'  => Service::get(),
+            'results'   => $results
         ]);
     }
 
@@ -124,7 +167,7 @@ class IndexController extends Controller
 
         $query = "SELECT A.id
                   FROM `profiles` A
-                  WHERE 1 = 1";
+                  WHERE status = '1'";
 
 
 
@@ -152,54 +195,67 @@ class IndexController extends Controller
         $id_profiles_ordered = implode(',', $id_profiles);//Necessário para manter ordenação dos IDs
         $profiles            = Profile::whereIn('id', $id_profiles)->get();
 
+//echo '<pre>';
+//print_r($profiles);//die;
 
         foreach ($profiles as $key => $profile) {
 
             if(!empty($params['select-service'])){
 
+                $service = $profile->services->find($params['select-service']);
+
+                if($service){ //-- If professional has the service on his profile...
+                    $results[$key] = array( 'id'                => $profile->id,
+                                            'professional_name' => $profile->professional_name,
+                                            'fantasy_name'      => $profile->fantasy_name,
+                                            'about'             => $profile->about,
+                                            'logo'              => '',
+                                            'detached'          => '');
+                }else{
+                    continue;
+                }
 
             }else{
-                $results[$key] = array( 'id'            => $profile->id,
-                    'professional_name' => $profile->professional_name,
-                    'fantasy_name'      => $profile->fantasy_name,
-                    'about'             => $profile->about,
-                    'logo'              => '',
-                    'detached'          => '');
+                $results[$key] = array( 'id'                => $profile->id,
+                                        'professional_name' => $profile->professional_name,
+                                        'fantasy_name'      => $profile->fantasy_name,
+                                        'about'             => $profile->about,
+                                        'logo'              => '',
+                                        'detached'          => '');
 
+            }
 
-                //-- Get last purchase
-                $detached = $profile->users->purchases->where('status_id',2)->sortByDesc('transaction_date')->first();//, 'desc')->get();
+            //-- Get last purchase
+            $detached = $profile->users->purchases->where('status_id',2)->sortByDesc('transaction_date')->first();//, 'desc')->get();
 
-                if(count($detached)){ //-- Professional has acquired "detach" on the list
+            if(count($detached)){ //-- Professional has acquired "detach" on the list
 
-                    //-- Calculate remaining days
-                    $created            = new Carbon($detached['transaction_date']);
-                    $now                = Carbon::now();
+                //-- Calculate remaining days
+                $created            = new Carbon($detached['transaction_date']);
+                $now                = Carbon::now();
 
-                    $product_total_days = Product::find($detached['product_id'])->days;
-                    $remaining_days     = $product_total_days - $created->diff($now)->days;
+                $product_total_days = Product::find($detached['product_id'])->days;
+                $remaining_days     = $product_total_days - $created->diff($now)->days;
 
-                    if($remaining_days > 0){
-                        $results[$key]['detached'] = '1';
-                    }
-
+                if($remaining_days > 0){
+                    $results[$key]['detached'] = '1';
                 }
 
-                //-- Get logo, if exists
-                $logo = $profile->galleries->where('logo', '1')->first();
+            }
 
-                if(count($logo)){
-                    $results[$key]['logo'] = $logo->filename;
-                }
+            //-- Get logo, if exists
+            $logo = $profile->galleries->where('logo', '1')->first();
+
+            if(count($logo)){
+                $results[$key]['logo'] = $logo->filename;
             }
         }
-//die;
+
         //-- Order array by "detached" field.
         if(count($results)){
             usort($results, function ($a, $b) { return strcmp($b["detached"], $a["detached"]); });
         }
-//        echo '<pre>';
-//        print_r($results);die;
+
 
 
         return view('layouts.index', [

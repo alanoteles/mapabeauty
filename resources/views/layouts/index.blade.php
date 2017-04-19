@@ -87,7 +87,9 @@
                             @foreach($results as $key => $result)
                                 <tr @if($result['detached'] == '1') class="destaque-tabela" @endif>
                                     <td>
-                                        <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
+                                        @if(!empty($result['logo']))
+                                            <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
+                                        @endif
                                     </td>
 
                                     <td>
