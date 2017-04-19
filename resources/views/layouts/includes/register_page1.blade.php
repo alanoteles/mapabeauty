@@ -27,9 +27,9 @@
 
             <div class="form-group">
                 <input type="text" class="form-control 
-                    @if(!empty($user->profiles->document)) 
+                    @if(!empty($user->profiles->document) && count($user->profiles->document) == 11)
                         cpf 
-                    @else 
+                    @elseif(!empty($user->profiles->document) && count($user->profiles->document) == 14)
                         cnpj 
                     @endif" name="document" id="document" placeholder="CPF/CNPJ da empresa/profissional *" maxlength="14" value="{{ !empty($user->profiles->document) ? $user->profiles->document : '' }}">
             </div>
