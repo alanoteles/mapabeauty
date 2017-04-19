@@ -116,9 +116,20 @@ class IndexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = '')
     {
-        //
+        $profile = Profile::find($id);
+
+        if(!empty($profile)){
+//            echo '<pre>';
+//            print_r($profile);die;
+
+            return view('layouts.detail');
+        }
+
+        return redirect('/');
+
+
     }
 
     /**

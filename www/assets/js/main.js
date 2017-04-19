@@ -667,6 +667,13 @@ $(function() {
 	$('.money').mask('000.000.000.000.000,00', {reverse: true});
 	$('.money2').mask("#.##0,00", {reverse: true});
 
+
+	$('.bxslider').bxSlider({
+		mode: 'fade',
+		adaptiveHeight: true,
+		captions: true
+	});
+
 });
 
 

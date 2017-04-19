@@ -13,6 +13,9 @@
 		
 		<!-- Custom CSS -->
 		<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+
+
+        <link href="{{ asset('assets/css/jquery.bxslider.min.css') }}" rel="stylesheet">
 		
 		<!-- Google Fonts -->
 		<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
@@ -79,6 +82,7 @@
 		<script src="{{ asset('assets/js/jquery.mask.min.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
 		<script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
+		<script src="{{ asset('assets/js/jquery.bxslider/jquery.bxslider.min.js') }}"></script>
 
 		<script type="text/javascript">
 			$.ajaxSetup({

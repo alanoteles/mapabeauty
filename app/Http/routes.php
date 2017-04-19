@@ -13,7 +13,11 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-	Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
+	//Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
+
+	Route::resource('/','IndexController');
+	Route::get('/detail/{id?}','IndexController@show');
+	Route::post('/search','IndexController@search');
 
 	Route::auth();
 
@@ -30,7 +34,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/profile/neighborhoods','ProfileController@returnNeighborhood');
 	Route::post('/profile/search','ProfileController@search');
 
-	Route::post('/search','IndexController@search');
+
 
 
 	Route::post('purchase/register-paypal', 'PurchaseController@registerPaypal');

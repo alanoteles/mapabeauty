@@ -36,29 +36,12 @@ class ProfileController extends Controller
         $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
     //echo 'aa : '. Auth::check();die;
         if(Auth::check()){
-            //echo 'sess : '. session('msg');
+
             if(session()->has('msg')){
                 $message = ['msg' => session('msg'), 'type' => session('type')];
                 print_r($message);
             }
-//print_r($params);
-            //$id =  Auth::user()->id;
-  //echo 'aaaa';die;
-            //$user = User::join('profiles', 'profiles.user_id', '=', 'users.id')
-            //        ->where('users.id', $id)->first();
 
-// echo $user;//die;
-            //if(count($user) == 0){ //-- User does not have profile yet
-   // echo '<pre>';//die;
-   // echo count($user);//die
-                //$user = User::find($id);
-// print_r($user);//die
-                //$city       = City::find($user->city);
-                //$city_name  = $city->name;
-
-                //$state      = State::find($city->state_id);
-                //$state_name = $state->name;
-            //}else{
             $user = User::find(Auth::user()->id);
 
             if(!empty($user->profiles)){
@@ -84,10 +67,7 @@ class ProfileController extends Controller
                                                                 'logo'      => $value->logo));    
                     }
                 }
-                //echo '<pre>';print_r($gallery_profile);
-                
             }
-            //}
 
             return view('layouts.profile', [
                     'page' => '1',
@@ -109,31 +89,7 @@ class ProfileController extends Controller
             return redirect('login');
         }
 
-       // echo '<pre>';
-       // print_r($user);die;
 
-       //-- Value to be paid if user wants to be detached
-        // $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
-        
-        // return view('layouts.profile', [
-        //             'page' => '2',
-        //             'cities'    => City::get(),
-        //             'states'    => State::get(),
-        //             'products'  => Product::get(),
-        //             'services'  => Service::get()
-
-        // ]);
-        // return view('layouts.profile', [
-        //         'page' => '1',
-        //         'cities'            => City::get(),
-        //         'states'            => State::get(),
-        //         'products'          => Product::where('status', '1')->get(),
-        //         'services'          => Service::where('status', '1')->get(),
-        //         'payers'            => Payer::where('status', '1')->get(),
-        //         'user'              => $user,
-        //         'detached_value'    => $detached_value,
-        //         'remaining_days'    => ''
-        //     ]);
     }
 
     /**
