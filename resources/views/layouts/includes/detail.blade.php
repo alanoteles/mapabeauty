@@ -45,6 +45,33 @@
                         {{--</div>--}}
                     {{--</div>--}}
                 </div>
+
+                <div class="form-group" id="deseja_topo">
+                    <table class="table table-hover" id="table-services">
+                        <thead>
+                        <tr>
+                            <td class="col-sm-6"><strong>Serviços oferecidos</strong></td>
+                            <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
+                            <td class="col-sm-2"></td>
+                        </tr>
+                        {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
+                        {{--@if(!empty($user->profiles->services))--}}
+                            {{--@foreach($user->profiles->services as $service)--}}
+                                {{--<tr>--}}
+                                    {{--<td class="col-sm-6">{{ $service->description }}</td>--}}
+                                    {{--<td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>--}}
+                                    {{--<td class="col-sm-2" style="vertical-align:middle">--}}
+                                        {{--<a href="#" class="btn btn-success pull-right remove-service">Remover</a>--}}
+                                    {{--</td>--}}
+                                {{--</tr>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        </thead>
+                        <tbody>
+                        </tbody>
+
+                    </table>
+                </div>
             </div>
 
             <div class="col-sm-6 col-direita">
@@ -55,23 +82,27 @@
                         <li><img src="/uploads/fotos/trees.jpg" title="Happy trees" /></li>
                     </ul>
                 </div>
-                <div class="form-group ">
-                    <div class="col-sm-12"  id="map-container" style="margin-left: 15px;">
+                <div class="col-md-12 col-xs-12">
+                    <div class="form-group">
+                        {{--<button class="btn btn-success btn-block">--}}
+                        {{--Enviar--}}
+                        {{--</button>--}}
+                        <input type="hidden" class="btn btn-success btn-block" value="Clique para visualizar no mapa" id="load_map_buttom"
+                               onclick="javascript:showlocation()" />
+                    </div>
+                </div>
+                {{--<div class="form-group ">--}}
+                    <div class="col-sm-8"  id="map-container" style="margin-left: 15px;">
                         {{-- <img src="{{ asset('assets/img/loader.gif') }}"> --}}
                                 <!-- <script src="http://maps.google.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA&sensor=false"></script> -->
                         {{--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>--}}
                         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw0V-30gQX2eKvIEtRm5HjSPff6wXgzcA" type="text/javascript"></script>
 
                     </div>
-                </div>
 
-                <div class="col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <button class="btn btn-success btn-block">
-                            Enviar
-                        </button>
-                    </div>
-                </div>
+                {{--</div>--}}
+
+
             </div>
 
 
