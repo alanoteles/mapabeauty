@@ -82,66 +82,31 @@
 				<div class="col-sm-12">
 					<table class="table table-striped">
 					    <tbody>
-{{--aa{{ print_r($results) }}--}}
-                        @if(!empty($results))
-                            @foreach($results as $key => $result)
-                                <tr @if($result['detached'] == '1') class="destaque-tabela" @endif>
-                                    <td>
-                                        @if(!empty($result['logo']))
-                                            <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
-                                        @endif
-                                    </td>
 
-                                    <td>
-                                        <p class="lead"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></p>
-                                        {{ $result['about'] }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-					      <tr>
-					      	<td>
-					      		<img src="/assets/img/icon-rocket.png" alt="">
-				      		</td>  
-					        <td>
-					        	<p class="lead"><strong>Clínica ABC</strong></p>
-					        	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore facere, magnam inventore enim, ea, neque voluptatum fugiat sed rem nihil, molestias? Accusamus facere, est animi esse blanditiis harum, dolores omnis voluptatibus ipsa repudiandae quidem et. Deserunt aperiam molestiae ad tenetur asperiores fuga hic vero, recusandae minima placeat odio sapiente unde.
-				        	</td>
-					      </tr>
-					      <tr>
-					      	<td>
-					      		<img src="/assets/img/icon-rocket.png" alt="">
-					      	</td>  
-					        <td>
-						        <p class="lead"><strong>Clínica ABC</strong></p>
-						        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, amet. Deserunt voluptates sed id quia quos quas voluptatum rem alias enim fugit quod, adipisci distinctio laborum a voluptate, sint iusto rerum. Animi ea fugit cum, tenetur, similique velit ut voluptas libero maiores quasi nesciunt fuga modi vitae dolorem deleniti iste.
-					        </td>
-					      </tr>
-					      <tr>
-					      	<td>
-					      		<img src="/assets/img/icon-rocket.png" alt="">
-					      	</td>  
-					        <td>
-						        <p class="lead"><strong>Clínica ABC</strong></p>
-						        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, amet. Deserunt voluptates sed id quia quos quas voluptatum rem alias enim fugit quod, adipisci distinctio laborum a voluptate, sint iusto rerum. Animi ea fugit cum, tenetur, similique velit ut voluptas libero maiores quasi nesciunt fuga modi vitae dolorem deleniti iste.
-					        </td>
-					      </tr>
-					      <tr>
-					      	<td>
-					      		<img src="/assets/img/icon-rocket.png" alt="">
-					      	</td>  
-					        <td>
-						        <p class="lead"><strong>Clínica ABC</strong></p>
-						        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, amet. Deserunt voluptates sed id quia quos quas voluptatum rem alias enim fugit quod, adipisci distinctio laborum a voluptate, sint iusto rerum. Animi ea fugit cum, tenetur, similique velit ut voluptas libero maiores quasi nesciunt fuga modi vitae dolorem deleniti iste.
-					        </td>
-					      </tr>
+                            @if(!empty($results))
+                                @foreach($results as $key => $result)
+                                    <tr @if($result['detached'] == '1') class="destaque-tabela" @endif>
+                                        <td>
+                                            @if(!empty($result['logo']))
+                                                <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <p class="lead"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></p>
+                                            {{ $result['about'] }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+
 					    </tbody>
 					</table>
 				</div>
-				<div class="section-header maisresultados">
-					<button class="btn btn-success">Exibir mais resultados</button>
+				{{--<div class="section-header maisresultados">--}}
+					{{--<button class="btn btn-success">Exibir mais resultados</button>--}}
 
-				</div>
+				{{--</div>--}}
 			</div>
 			
 		</section>
