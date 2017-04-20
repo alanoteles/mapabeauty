@@ -68,7 +68,7 @@
                 <label for="periodo_contratacao" class="col-sm-6 form-control-static control-label small text-left">Período de contratação :</label>
                 <div class="col-sm-6">
                     <select class="form-control" name="product_id" id="product_id">
-                        <option value="">Selecione o período desejado</option>
+                        <option value="0">Selecione o período desejado</option>
 
                         @foreach($products as $product)
                             <option value="{{ $product->id }}#{{ $product->value }}"

@@ -378,7 +378,8 @@ $(function() {
 			//-- Se o produto escolhido foi o mês grátis, seta a cortesia como "1", indicando que foi utilizada. Não faz a compra.
 			product_id = $('#product_id option:selected').val();
 
-			if(product_id != '1' && product_id != ''){ //-- Se não for o mês grátis, registra a compra.
+			//if(product_id != '1' && product_id != ''){ //-- Se não for o mês grátis, registra a compra.
+			if(parseInt(product_id) > 1){ //-- Se não for o mês grátis, registra a compra.
 
 				if($('#pagseguro').is(":checked")){
 					url = '/purchase/register-pagseguro';
