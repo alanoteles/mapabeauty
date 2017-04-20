@@ -34,6 +34,32 @@
                                                           ucwords(strtolower($profile->cities->name)) . ' - ' .
                                                           $profile->state }}</p>
                         <p><strong>Telefones :</strong> <span class="telefone">{{ !empty($profile->responsible_cellphone) ? $profile->responsible_cellphone : '' }}</span></p>
+                        <p>
+                            @if(!empty($profile->whatsapp))
+                                <strong>WhatsApp :</strong> <span class="telefone"> {{ $profile->whatsapp }}</span><br>
+                            @endif
+
+                            @if(!empty($profile->facebook))
+                                <strong>Facebook :</strong> {{ $profile->facebook }}<br>
+                            @endif
+
+                            @if(!empty($profile->twitter))
+                                <strong>Twitter :</strong> {{ $profile->twitter }}<br>
+                            @endif
+
+                            @if(!empty($profile->google_plus))
+                                <strong>Google+ :</strong> {{ $profile->google_plus }}<br>
+                            @endif
+
+                            @if(!empty($profile->youtube))
+                                <strong>Youtube :</strong> {{ $profile->youtube }}<br>
+                            @endif
+
+                            @if(!empty($profile->instagram))
+                                <strong>Instagram :</strong> {{ $profile->instagram }}<br>
+                            @endif
+
+                        </p>
                     </div>
                 </div>
 
