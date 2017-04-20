@@ -94,7 +94,7 @@
 
                                         <td>
                                             <p class="lead">
-                                                <a href="/detail/{{ $result['id'] }}"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></a>
+                                                <a href="/detail/{{ $result['id'] }}" style="color: #3E4249;"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></a>
                                             </p>
                                             {{ $result['about'] }}
                                         </td>
