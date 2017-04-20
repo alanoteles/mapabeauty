@@ -121,10 +121,15 @@ class IndexController extends Controller
         $profile = Profile::find($id);
 
         if(!empty($profile)){
+
 //            echo '<pre>';
+//            print_r($profile->services);die;
 //            print_r($profile);die;
 
-            return view('layouts.detail');
+            return view('layouts.detail',
+                [
+                    'profile'   => $profile
+                ]);
         }
 
         return redirect('/');

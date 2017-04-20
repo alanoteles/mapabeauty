@@ -6,7 +6,7 @@
 
             <div class="col-sm-12">
                 <div class="col-md-8 col-xs-8">
-                    <h3>Clínica ABC</h3>
+                    <h3>{{ !empty($profile->fantasy_name) ? $profile->fantasy_name : $profile->professional_name }}</h3>
                 </div>
                 <div class="col-md-4 col-xs-4 pull-right">
                     <h4 class="pull-right">
@@ -22,55 +22,72 @@
 
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar sollicitudin interdum. Quisque tempor posuere odio, nec pulvinar ligula elementum id.
+                        {{ !empty($profile->about) ? $profile->about : '' }}
                     </div>
                 </div>
 
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
-                        <p><strong>Endereço :</strong> Rua das Flores nr. 480 - Centro - Goiânia - GO</p>
-                        <p><strong>Telefones :</strong> (62) 3322-4455 / 9988-7766</p>
+                        <p><strong>Endereço :</strong> {{ $profile->address . ' ' . $profile->number .
+                                                          (!empty($profile->complement) ? ' - ' . $profile->complement : '') .
+                                                          (!empty($profile->neighborhood) ? ' - ' . ucwords(strtolower($profile->neighborhood)) : '') . ' - ' .
+                                                          ucwords(strtolower($profile->cities->name)) . ' - ' .
+                                                          $profile->state }}</p>
+                        <p><strong>Telefones :</strong> <span class="telefone">{{ !empty($profile->responsible_cellphone) ? $profile->responsible_cellphone : '' }}</span></p>
                     </div>
                 </div>
 
-                <div class="col-md-12 col-xs-12">
+                <div class="col-md-12 col-xs-12" style="margin-bottom: 20px;">
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
-                            <span>Avaliação : # # # # #</span>
+                            <span>Avaliação :
+                                <img src="/assets/img/star.png" alt="">
+                                <img src="/assets/img/star.png" alt="">
+                                <img src="/assets/img/star.png" alt="">
+                                <img src="/assets/img/star.png" alt="">
+                                <img src="/assets/img/star.png" alt="">
+                            </span>
                         {{--</div>--}}
                     {{--</div>--}}
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
-                            <a href="" class="btn btn-info pull-right" id="review">Avalie o profissional</a>
+                            {{--<a href="" class="btn btn-info pull-right" id="review">Avalie o profissional</a>--}}
                         {{--</div>--}}
                     {{--</div>--}}
                 </div>
 
-                <div class="form-group" id="deseja_topo">
-                    <table class="table table-hover" id="table-services">
-                        <thead>
-                        <tr>
-                            <td class="col-sm-6"><strong>Serviços oferecidos</strong></td>
-                            <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
-                            <td class="col-sm-2"></td>
-                        </tr>
-                        {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
-                        {{--@if(!empty($user->profiles->services))--}}
-                            {{--@foreach($user->profiles->services as $service)--}}
-                                {{--<tr>--}}
-                                    {{--<td class="col-sm-6">{{ $service->description }}</td>--}}
-                                    {{--<td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>--}}
-                                    {{--<td class="col-sm-2" style="vertical-align:middle">--}}
-                                        {{--<a href="#" class="btn btn-success pull-right remove-service">Remover</a>--}}
-                                    {{--</td>--}}
-                                {{--</tr>--}}
-                            {{--@endforeach--}}
-                        {{--@endif--}}
-                        </thead>
-                        <tbody>
-                        </tbody>
+                <div class="form-group" id="deseja_topo" style="margin-top: 20px;" >
+                    {{--<div class="col-md-12 col-xs-12" style="margin-top: 20px;border-top: 1px solid #ccc">--}}
+                        <table class="table table-hover" id="table-services" style="margin-top: 20px;border-top: 1px solid #ccc">
+                            <thead>
+                                <tr>
+                                    <td class="col-sm-6"><strong>Serviços oferecidos</strong></td>
+                                    <td class="col-sm-4 text-right"><strong>Valor R$</strong></td>
+                                    <td class="col-sm-2"></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
+                                {{--{{ $profiles->services }}--}}
+                                @if(!empty($profile->services))
+                                    @foreach($profile->services as $service)
+                                        <tr>
+                                            <td class="col-sm-8">{{ $service->description }}</td>
+                                            <td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>
+                                            {{--<td class="col-sm-2" style="vertical-align:middle">--}}
+                                                {{--<a href="#" class="btn btn-success pull-right remove-service">Remover</a>--}}
+                                            {{--</td>--}}
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="3" align="center" >Nenhum serviço cadastrado</td>
+                                    </tr>
+                                @endif
+                            </tbody>
 
-                    </table>
+                        </table>
+                    {{--</div>--}}
                 </div>
             </div>
 

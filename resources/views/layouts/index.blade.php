@@ -93,7 +93,9 @@
                                         </td>
 
                                         <td>
-                                            <p class="lead"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></p>
+                                            <p class="lead">
+                                                <a href="/detail/{{ $result['id'] }}"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></a>
+                                            </p>
                                             {{ $result['about'] }}
                                         </td>
                                     </tr>
