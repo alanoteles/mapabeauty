@@ -119,12 +119,15 @@
 
             <div class="col-sm-6 col-direita">
                 <div class="col-md-12 col-xs-12">
-                    <ul class="bxslider">
-                        <li><img src="/uploads/fotos/95820057466d01ed7c652b60c2bb216c.png" title="Funky roots" /></li>
-                        <li><img src="/uploads/fotos/hill_road.jpg" title="The long and winding road" /></li>
-                        <li><img src="/uploads/fotos/trees.jpg" title="Happy trees" /></li>
-                    </ul>
+                    @if(!empty($profile->galleries))
+                        <ul class="bxslider">
+                            @foreach($profile->galleries as $gallery)
+                                <li><img src="/uploads/fotos/{{ $gallery->filename }}" title=" {{ $gallery->subtitle }} " /></li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
+                
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
                         {{--<button class="btn btn-success btn-block">--}}

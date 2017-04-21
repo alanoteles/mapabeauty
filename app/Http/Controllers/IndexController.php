@@ -125,10 +125,12 @@ class IndexController extends Controller
 //            echo '<pre>';
 //            print_r($profile->services);die;
 //            print_r($profile);die;
-
+            //echo $profile->galleries;
+            
+// echo '<pre>';print_r($gallery_profile);//die;
             return view('layouts.detail',
                 [
-                    'profile'   => $profile
+                    'profile'           => $profile
                 ]);
         }
 

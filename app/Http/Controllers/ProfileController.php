@@ -204,7 +204,7 @@ echo '<pre>';print_r($params);//die;
 
         $message = ['msg' => $msg, 'type' => $type];
 //print_r($message);
-        //return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
+        return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
         //return redirect()->back()->with($message);
 
         // $user = User::create(array(

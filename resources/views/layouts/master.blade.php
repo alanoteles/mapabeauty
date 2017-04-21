@@ -56,6 +56,7 @@
 								<li><a href="/about">Sobre nós</a></li>
 								<li><a href="/contact">Fale conosco</a></li>
 								@if(Auth::check())
+									<li><a href="/profile">Acessar seu perfil</a></li>
 									<li><a href="/logout">Sair</a></li>
 								@else
 									<li><a href="/login">Login de parceiros</a></li>
