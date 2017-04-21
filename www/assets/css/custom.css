@@ -508,6 +508,35 @@ img {
  	background: url('../img/tile.jpg') top left repeat;
 }
 
+#reviewModal {
+	z-index: 100000 !important;
+}
+#reviewModal .modal-dialog{
+	width: 20%;
+	height: 150%;
+}
+
+#reviewModal .modal-content{
+	top: 20%;
+}
+
+#reviewModal .modal-header{
+	text-align: center;
+}
+/*.review {
+	width: 190px !important;
+   	height: 300px;
+   position: absolute;
+   margin-left: 150px;
+   margin-top: 150px;
+
+}*/
+/*<div class="modal-content" style="
+    width: 352px;
+    height: 384px;
+    margin-top: 150px;
+    margin-left: 120px;
+	">*/
 .badge.social {
 	background: #ccc;
 	font-size: 24px;

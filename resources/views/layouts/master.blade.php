@@ -101,7 +101,45 @@
 		<div class="modal fade" id="myModal">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<img id="modal_image" src="" alt="">
+					<img id="modal_image" src="" alt="" style="display: none;">
+
+					<div class="review" style="display: block;">
+						<p align="center" >Gostou do atendimento ? <br>Dê sua nota !</p>
+						<span>
+                            <img src="/assets/img/star.png" alt="">
+                            <img src="/assets/img/star.png" alt="">
+                            <img src="/assets/img/star.png" alt="">
+                            <img src="/assets/img/star.png" alt="">
+                            <img src="/assets/img/star.png" alt="">
+                        </span>
+                        <a href="" class="btn btn-info" id="review_facebook">Facebook</a>
+                        <a href="" class="btn btn-info" id="review_twitter">Twitter</a>
+                        <a href="" class="btn btn-info" id="review_google">Google+</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="reviewModal">
+			<div class="modal-dialog .modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+                		Gostou do atendimento ?
+            		</div>
+					<p align="center" >Dê sua nota !<br><br>
+						<span>
+	                        <img src="/assets/img/star.png" alt="">
+	                        <img src="/assets/img/star.png" alt="">
+	                        <img src="/assets/img/star.png" alt="">
+	                        <img src="/assets/img/star.png" alt="">
+	                        <img src="/assets/img/star.png" alt="">
+	                    </span>
+	                    <br><br>
+	                
+	                	<a href="" class="btn btn-info" id="review_facebook">Enviar</a>
+                	</p>
+                    	
+					
 				</div>
 			</div>
 		</div>

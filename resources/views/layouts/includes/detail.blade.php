@@ -77,7 +77,10 @@
                     {{--</div>--}}
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
-                            {{--<a href="" class="btn btn-info pull-right" id="review">Avalie o profissional</a>--}}
+                            {{-- <a href="" class="btn btn-info pull-right" id="review"></a> --}}
+                            <a class="btn btn-info pull-right" id="review" data-toggle="modal" data-target="#reviewModal"  alt="">Avalie o profissional</a>
+                            {{-- <a class="btn" onclick = "$('#myModal').modal('show');$('#myModal').css('width', '250px').css('margin-left','auto').css('margin-right','auto');" ref="#myModal" >Launch Modal</a> --}}
+
                         {{--</div>--}}
                     {{--</div>--}}
                 </div>
@@ -93,16 +96,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- {{ $user->profiles->services[0]->pivot->price }} --}}
-                                {{--{{ $profiles->services }}--}}
+                               
                                 @if(!empty($profile->services))
                                     @foreach($profile->services as $service)
                                         <tr>
                                             <td class="col-sm-8">{{ $service->description }}</td>
                                             <td class="col-sm-4 text-right">{{ $service->pivot->price != '0' ? number_format($service->pivot->price,2,',','.') : 'Sob consulta' }}</td>
-                                            {{--<td class="col-sm-2" style="vertical-align:middle">--}}
-                                                {{--<a href="#" class="btn btn-success pull-right remove-service">Remover</a>--}}
-                                            {{--</td>--}}
                                         </tr>
                                     @endforeach
                                 @else
@@ -127,7 +126,7 @@
                         </ul>
                     @endif
                 </div>
-                
+
                 <div class="col-md-12 col-xs-12">
                     <div class="form-group">
                         {{--<button class="btn btn-success btn-block">--}}
