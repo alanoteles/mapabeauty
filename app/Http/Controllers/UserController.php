@@ -44,8 +44,8 @@ class UserController extends Controller
         if(empty($params['novo_email']) && empty($params['nova_password']) && empty($params['name'])){ // Loging
 
             $user = User::where('email',$params['email'])->where('password', md5($params['password']))->first();
-//echo '<pre>';
-//print_r($user);
+echo '<pre>';
+print_r($user);
 //echo count($user);die;
 
             if(count($user)){ //echo 'if';die;

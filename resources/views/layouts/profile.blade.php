@@ -25,6 +25,7 @@
                     <input type="hidden" name="city" id="city" value="{{ !empty($city) ? $city : '' }}">
                     <input type="hidden" name="state" id="state" value="{{ !empty($state) ? $state : '' }}">
                     <input type="hidden" name="detached_selected" id="detached_selected" value="">
+                    <input type="hidden" name="transactionCode" id="transactionCode" value="">
 
                     @include('layouts.includes.register_page1')
                     @include('layouts.includes.register_page2')

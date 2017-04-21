@@ -117,9 +117,9 @@ class ProfileController extends Controller
             
             $params             = $request->all();
             $params['user_id']  = $user->id;
-
-            $state  = json_decode($params['state'], true);
-            $city   = json_decode($params['city'], true);
+echo '<pre>';print_r($params);//die;
+            // $state  = json_decode($params['state'], true);
+            // $city   = json_decode($params['city'], true);
 
             //-- Clean up special chars
             $to_be_removed                   = array(".", ",", "/", "(", ")", "-", " ");
@@ -127,8 +127,8 @@ class ProfileController extends Controller
             $params['responsible_cellphone'] = str_replace($to_be_removed, '', $params['responsible_cellphone']);
             $params['zip_code']              = str_replace($to_be_removed, '', $params['zip_code']);
             $params['whatsapp']              = str_replace($to_be_removed, '', $params['whatsapp']);
-            $params['state']                 = $state['code'];
-            $params['city']                  = $city['id'];
+            //$params['state']                 = $state['code'];
+            //$params['city']                  = $city['id'];
 
             if(!empty($user->profiles)){ //-- Update
                 $user->profiles->fill($params)->save();
@@ -146,18 +146,23 @@ class ProfileController extends Controller
                 foreach($gallery as $img){
                     $img = json_decode($img);
                     $img->filename = $img->hash . '.' . $img->extension;
+
+    echo '<pre>';print_r($img);//die;
                     $id_img = Gallery::create((array)$img)->id;
 
                     $user->profiles->galleries()->attach($id_img);
                 }
             }
 
-
+// echo '<pre>';print_r($params);//die;
             //-- Attach services
             $services   = json_decode($params['services'], true);
+// print_r($services);
+// print_r(json_decode($service));
             if(count($services)){
                 foreach($services as $service){
                     $service        = json_decode($service);
+// print_r($service);
                     $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                     $service->price = str_replace('.', '' , $service->price);
                     $service->price = str_replace(',', '.', $service->price);
@@ -168,18 +173,38 @@ class ProfileController extends Controller
                 $user->profiles->services()->attach($profile_service);
             }
 
+
+
+            //-- Save purchase just if it is courtesy
+            // if(!empty($params['product_id'])){
+            $product = explode('#', $params['product_id']);
+            if($product[0] = '1'){
+                $purchase = array(  'product_id'         => '1',
+                                    'transaction_id'    => 'free',
+                                    'transaction_date'  => date('Y-m-d H:m:s'),
+                                    'payer_id'          => '',
+                                    'status_id'         => 2,
+                                    'detached'          => '0',
+                                    'courtesy'          => '1');
+
+                $user->purchases()->create($purchase);
+            }
+
+            //}
+            
+
             $msg    = 'Seu cadastro foi criado com sucesso ! ';
             $type   = 'success';
 
         }else{
 
-            $msg    = 'Seu cadastro foi não foi criado. Por favor tente novamente. Obrigado ! ';
+            $msg    = 'Seu cadastro não foi criado. Por favor tente novamente. Obrigado ! ';
             $type   = 'danger';
         }
 
         $message = ['msg' => $msg, 'type' => $type];
 //print_r($message);
-        return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
+        //return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
         //return redirect()->back()->with($message);
 
         // $user = User::create(array(

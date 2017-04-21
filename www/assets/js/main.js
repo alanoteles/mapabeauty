@@ -74,26 +74,31 @@ $(function() {
 
 			if ($('#services').val() != '') {
 				//data.rows 					= jQuery.parseJSON(($('#services').val()))
-				temp = jQuery.parseJSON(($('#services').val()));
+				temp = $('#services').val();
+// console.log(temp);
+// console.log(jQuery.type(temp));
+				temp = [jQuery.parseJSON(temp)]; //Clear special chars and convert to array/object
+// console.log(temp);
+// console.log(jQuery.type(temp));
 				temp.push(record);
 
-				data = {
-					rows: [
-						temp
-					]
-				};
+				// data = {
+				// 	rows: [
+				// 		temp
+				// 	]
+				// };
 				//data.rows[data.rows.length] = record;
 
-				$('#services').val(JSON.stringify(data.rows));
+				$('#services').val(JSON.stringify(temp));
 
 			} else {
-				data = {
-					rows: [
-						record
-					]
-				};
-
-				$('#services').val(JSON.stringify(data.rows));
+				// data = {
+				// 	rows: [
+				// 		record
+				// 	]
+				// };
+				
+				$('#services').val(JSON.stringify(record));
 			}
 
 			$('#table-services > tbody').append(
@@ -299,37 +304,23 @@ $(function() {
 				cache: false,
 				processData: false,
 				success: function (data) {
-					// retorno = data.file_info_uploaded;
-
-
 					record = JSON.stringify(data.file_info_uploaded);
 
 					if ($('#uploads').val() != '') {
-						temp = jQuery.parseJSON(($('#uploads').val()));
+						// x = [];
+						temp = $('#uploads').val();
+
+						if(jQuery.type(jQuery.parseJSON(temp)) == 'string'){
+							temp = [jQuery.parseJSON(temp)];
+						}else{
+							temp = jQuery.parseJSON(temp);
+						}
 						temp.push(record);
-
-						//data.rows = jQuery.parseJSON(($('#uploads').val()));
-						// data = {
-						// 	rows: [
-						// 		temp
-						// 	]
-						// };
-
-//console.log(retorno);
-						//data.rows[data.rows.length] = retorno;
-//console.log(data.rows);
-						//console.log(data.rows);
 						$('#uploads').val(JSON.stringify(temp));
 
 					} else {
-						//console.log(retorno);
-						// data = {
-						// 		rows: [
-						// 			record
-						// 		]
-						// };
-						//data.rows[0] = retorno;
 						$('#uploads').val(JSON.stringify(record));
+						temp = [record];
 					}
 
 					//-- Mount table with images
@@ -381,36 +372,43 @@ $(function() {
 			//if(product_id != '1' && product_id != ''){ //-- Se não for o mês grátis, registra a compra.
 			if(parseInt(product_id) > 1){ //-- Se não for o mês grátis, registra a compra.
 
-				if($('#pagseguro').is(":checked")){
-					url = '/purchase/register-pagseguro';
-				}else{
-					url = '/purchase/register-paypal';
-				}
+				if($('#transactionCode').val() == ''){
 
-				$(this).text('Carregando...');
-				$.ajax({
-					url: url,
-					type: 'POST',
-					data: {'product_id': product_id},
-					success: function (response) {
+					e.preventDefault();
 
-						codigo = response;
-
-						isOpenLightbox = PagSeguroLightbox({
-							code: codigo
-						}, {
-							success : function(transactionCode) {
-								alert("success - " + transactionCode);
-								window.location.href = window.location.protocol + "//" + window.location.hostname + '/purchase/returned/' + transactionCode
-							},
-							abort : function() {
-								alert("abort");
-							}
-						});
+					if($('#pagseguro').is(":checked")){
+						url = '/purchase/register-pagseguro';
+					}else{
+						url = '/purchase/register-paypal';
 					}
-				});
-				e.preventDefault();
-				return false;
+
+					$(this).text('Carregando...');
+					$.ajax({
+						url: url,
+						type: 'POST',
+						data: {'product_id': product_id},
+						success: function (response) {
+
+							codigo = response;
+
+							isOpenLightbox = PagSeguroLightbox({
+								code: codigo
+							}, {
+								success : function(transactionCode) {
+									$('#transactionCode').val(transactionCode);
+									alert("success - " + transactionCode);
+									return true;
+									//window.location.href = window.location.protocol + "//" + window.location.hostname + '/purchase/returned/' + transactionCode
+								},
+								abort : function() {
+									alert("abort");
+								}
+							});
+						}
+					});
+					// e.preventDefault();
+					//return false;
+				}
 
 			}
 			//return false;
