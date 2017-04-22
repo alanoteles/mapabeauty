@@ -33,6 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/profile/cities','ProfileController@returnCities');
 	Route::post('/profile/neighborhoods','ProfileController@returnNeighborhood');
 	Route::post('/profile/search','ProfileController@search');
+	Route::post('/profile/reviews','ProfileController@saveReview');
 
 
 

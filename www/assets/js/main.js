@@ -287,7 +287,70 @@ $(function() {
 	});
 
 
+	$('.ratings_stars').hover(
+            // Handles the mouseover
+            function() {
+            	if($('#stars').val()  == ''){
+                	$(this).prevAll().andSelf().addClass('ratings_over');
+                	$(this).nextAll().removeClass('ratings_empty'); 
+                }
+            },
+            // Handles the mouseout
+            function() {
+            	if($('#stars').val()  == ''){
+                	$(this).prevAll().andSelf().removeClass('ratings_over');
+            	}
 
+                //set_votes($(this).parent());
+            }
+    );
+
+	$('.ratings_stars').on('click', function(e){
+
+		stars = $(this).data('value');
+		$('#stars').val(stars);
+	
+	})
+	
+
+	$('#send-review').on('click', function(e){
+		e.preventDefault();
+
+		$(this).text('Gravando...');
+		if(Cookies.get('voted') == undefined){ //-- User never voted on anybody
+			$.ajax({
+				url: '/profile/reviews',
+				type: 'POST',
+				data: {'stars': stars, 'profile_id': $('#profile_id').val()},
+				dataType: 'json',
+				success: function (data) {
+					if(data == '1'){
+						Cookies.set('voted', [{profile_id: $('#profile_id').val(), stars: stars}]);
+						$("#reviewModal").modal('hide');
+						
+						bootbox.alert('Obrigado pelo seu voto !', function () {});
+						return false;	
+					}
+				}
+			});
+		}else{
+			voted = Cookies.getJSON('voted'); //-- Get cookie votes
+
+			$.each(voted, function(key, value) { //-- Check if user has already voted on professional once.
+
+				if(value['profile_id'] == $('#profile_id').val()){
+					$("#reviewModal").modal('hide');
+					bootbox.alert('Você já votou nesse profissional. Obrigado por participar !', function () {});
+					return false;
+				}
+			})
+
+			Cookies.remove('voted');
+			voted.push({profile_id: $('#profile_id').val(), stars: stars})
+			Cookies.set('voted', voted);
+			
+		}
+	})
 
 	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem
 	$("#form").on('submit',(function(e) {

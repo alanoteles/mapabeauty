@@ -443,5 +443,27 @@ echo '<pre>';print_r($params);//die;
 
 
 
+    /**
+     * Save user review
+     *
+     * @param  string  $stars
+     * @return Json
+     */
+    public function saveReview(Request $request)
+    {
+        $params = $request->all();
+
+        $profile = Profile::find($params['profile_id']);
+
+        if(!empty($profile)){
+            $profile->stars = $profile->stars + $params['stars'];
+            $profile->reviews = $profile->reviews + 1;
+            $profile->save();
+            return '1';
+        }else{
+            return '0';
+        }
+    }
+
 
 }

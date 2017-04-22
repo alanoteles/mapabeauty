@@ -1,5 +1,6 @@
 <article>
-
+    <input type="hidden" id="stars" value="">
+    <input type="hidden" id="profile_id" value="{{ $profile->id }}">
     {{--<section>--}}
         {{--<form action="faleconosco-envia" method="post" id="form">--}}
             {{--{!! csrf_field() !!}--}}
@@ -67,11 +68,11 @@
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
                             <span>Avaliação :
-                                <img src="/assets/img/star.png" alt="">
-                                <img src="/assets/img/star.png" alt="">
-                                <img src="/assets/img/star.png" alt="">
-                                <img src="/assets/img/star.png" alt="">
-                                <img src="/assets/img/star.png" alt="">
+                                <img src="/assets/img/star_empty.png" alt="">
+                                <img src="/assets/img/star_empty.png" alt="">
+                                <img src="/assets/img/star_empty.png" alt="">
+                                <img src="/assets/img/star_empty.png" alt="">
+                                <img src="/assets/img/star_empty.png" alt="">
                             </span>
                         {{--</div>--}}
                     {{--</div>--}}

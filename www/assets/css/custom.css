@@ -77,6 +77,8 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.io/normalize.css/
 	/*color: #2AD4BA;*/
 }
 
+
+
 /*.table-striped > tbody > tr:first-child {*/
 tr.destaque-tabela {
 	background: #99EBDF !important;
@@ -522,6 +524,35 @@ img {
 
 #reviewModal .modal-header{
 	text-align: center;
+}
+
+.ratings_stars {
+    background: url('../img/star_empty.png') no-repeat;
+    float:      left;
+    height:     28px;
+    padding:    2px;
+    width:      32px;
+}
+
+.ratings_vote {
+    background: url('../img/star_full.png') no-repeat;
+}
+.ratings_over {
+    background: url('../img/star_full.png') no-repeat;
+}
+
+
+.rate_widget {
+	position: absolute;
+  	left: 20%;
+
+	/*position:relative;
+	border:     1px solid #CCC;
+	width: 100%;
+	height:     32px;
+    margin:0 auto;
+    display: table;*/
+   
 }
 /*.review {
 	width: 190px !important;

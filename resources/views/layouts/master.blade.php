@@ -81,9 +81,11 @@
 		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 		<script src="{{ asset('assets/js/bootbox.min.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery.mask.min.js') }}"></script>
+		<script src="{{ asset('assets/js/js.cookie.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
 		<script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery.bxslider/jquery.bxslider.min.js') }}"></script>
+		{{-- <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script> --}}
 
 		<script type="text/javascript">
 			$.ajaxSetup({
@@ -126,17 +128,25 @@
 					<div class="modal-header">
                 		Gostou do atendimento ?
             		</div>
-					<p align="center" >Dê sua nota !<br><br>
-						<span>
+					<p align="center" >Dê sua nota !<br>
+						{{-- <span>
 	                        <img src="/assets/img/star.png" alt="">
 	                        <img src="/assets/img/star.png" alt="">
 	                        <img src="/assets/img/star.png" alt="">
 	                        <img src="/assets/img/star.png" alt="">
 	                        <img src="/assets/img/star.png" alt="">
-	                    </span>
-	                    <br><br>
-	                
-	                	<a href="" class="btn btn-info" id="review_facebook">Enviar</a>
+	                    </span> --}}
+	                    <div id="r1" class="rate_widget" align="center">
+					        <div class="star_1 ratings_stars" data-value="1"></div>
+					        <div class="star_2 ratings_stars" data-value="2"></div>
+					        <div class="star_3 ratings_stars" data-value="3"></div>
+					        <div class="star_4 ratings_stars" data-value="4"></div>
+					        <div class="star_5 ratings_stars" data-value="5"></div>
+					    </div>
+                	</p>
+                	<br><br>
+                	<p align="center">
+                		<a href="" class="btn btn-sm btn-info" id="send-review">Enviar</a>
                 	</p>
                     	
 					
