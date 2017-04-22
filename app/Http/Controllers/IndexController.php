@@ -122,6 +122,7 @@ class IndexController extends Controller
 
         if(!empty($profile)){
 
+            $reviews = round($profile->stars / $profile->reviews);
 //            echo '<pre>';
 //            print_r($profile->services);die;
 //            print_r($profile);die;
@@ -130,7 +131,8 @@ class IndexController extends Controller
 // echo '<pre>';print_r($gallery_profile);//die;
             return view('layouts.detail',
                 [
-                    'profile'           => $profile
+                    'profile'           => $profile,
+                    'reviews'           => $reviews
                 ]);
         }
 

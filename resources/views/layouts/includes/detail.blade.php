@@ -11,9 +11,9 @@
                 </div>
                 <div class="col-md-4 col-xs-4 pull-right">
                     <h4 class="pull-right">
-                        <img src="/assets/img/facebook.png" alt="">
+                        {{-- <img src="/assets/img/facebook.png" alt="">
                         <img src="/assets/img/twitter.png" alt="">
-                        <img src="/assets/img/googleplus.png" alt="">
+                        <img src="/assets/img/googleplus.png" alt=""> --}}
                     </h4>
 
                 </div>
@@ -68,12 +68,24 @@
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
                             <span>Avaliação :
-                                <img src="/assets/img/star_empty.png" alt="">
-                                <img src="/assets/img/star_empty.png" alt="">
-                                <img src="/assets/img/star_empty.png" alt="">
-                                <img src="/assets/img/star_empty.png" alt="">
-                                <img src="/assets/img/star_empty.png" alt="">
+                                @if(empty($reviews))
+                                    <img src="/assets/img/star_empty.png" alt="">
+                                    <img src="/assets/img/star_empty.png" alt="">
+                                    <img src="/assets/img/star_empty.png" alt="">
+                                    <img src="/assets/img/star_empty.png" alt="">
+                                    <img src="/assets/img/star_empty.png" alt="">
+                                @else
+                                    @for($x = 1; $x <= 5; $x++)
+                                    {{-- {{ $x}} - {{ $reviews }} --}}
+                                        @if($x <= $reviews)
+                                            <img src="/assets/img/star_full.png" alt="">
+                                        @else
+                                            <img src="/assets/img/star_empty.png" alt="">
+                                        @endif
+                                    @endfor
+                                @endif
                             </span>
+
                         {{--</div>--}}
                     {{--</div>--}}
                     {{--<div class="col-md-6 col-xs-6">--}}
