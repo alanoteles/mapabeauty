@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
+     * \App\Http\Middleware\VerifyCsrfToken::class, Foi removido mas deve ser colocado posteriormente.
      * @var array
      */
     protected $middlewareGroups = [
@@ -28,7 +29,7 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
+
         ],
 
         'api' => [
