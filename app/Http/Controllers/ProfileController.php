@@ -12,9 +12,11 @@ use App\Service;
 use App\State;
 use App\Neighborhood;
 use Illuminate\Http\Request;
+use App\Http\Requests;
 use Carbon\Carbon;
 use Auth;
 use DB;
+use Session;
 
 //use App\Http\Requests;
 use App\City;
@@ -39,7 +41,7 @@ class ProfileController extends Controller
 
             if(session()->has('msg')){
                 $message = ['msg' => session('msg'), 'type' => session('type')];
-                print_r($message);
+                //print_r($message);
             }
 
             $user = User::find(Auth::user()->id);
@@ -117,6 +119,7 @@ class ProfileController extends Controller
             
             $params             = $request->all();
             $params['user_id']  = $user->id;
+
 echo '<pre>';print_r($params);//die;
             // $state  = json_decode($params['state'], true);
             // $city   = json_decode($params['city'], true);
@@ -132,8 +135,10 @@ echo '<pre>';print_r($params);//die;
 
             if(!empty($user->profiles)){ //-- Update
                 $user->profiles->fill($params)->save();
+                $operation = 'update';
             }else{ //-- Create
                 $profile  = Profile::create($params);
+                $operation = 'create';
             }
 
             //-- Attach images
@@ -192,8 +197,12 @@ echo '<pre>';print_r($params);//die;
 
             //}
             
-
-            $msg    = 'Seu cadastro foi criado com sucesso ! ';
+            if($operation == 'create'){
+                $msg    = 'Seu cadastro foi criado com sucesso ! ';
+            }else{  
+                $msg    = 'Seu cadastro foi atualizado com sucesso ! ';
+            }
+            
             $type   = 'success';
 
         }else{
@@ -202,9 +211,16 @@ echo '<pre>';print_r($params);//die;
             $type   = 'danger';
         }
 
-        $message = ['msg' => $msg, 'type' => $type];
-//print_r($message);
-        return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
+//         $message = ['msg' => $msg, 'type' => $type];
+// //print_r($message);
+//         if($operation == 'create'){
+//             Session::flash('msg', 'Seu cadastro foi criado com sucesso ! ');  
+//         }else{
+//             Session::flash('msg', 'Seu cadastro foi atualizado com sucesso ! ');
+//         }
+//         Session::flash('type', 'success');
+        //return redirect('profile')->with('msg', ['Seu cadastro foi criado com sucesso ! '])->with('type', ['success']);
+        return redirect('profile')->with('msg', $msg)->with('type', 'success');
         //return redirect()->back()->with($message);
 
         // $user = User::create(array(

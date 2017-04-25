@@ -1,7 +1,7 @@
 <article>
 
     {{--<section>--}}
-        <form action="faleconosco-envia" method="post" id="form">
+        <form action="contact-send" method="post" id="form">
             {!! csrf_field() !!}
 
             <div class="col-sm-12">

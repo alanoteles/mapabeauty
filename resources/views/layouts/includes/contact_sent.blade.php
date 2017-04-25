@@ -1,5 +1,5 @@
 <article class="beh-post ">
-    <h1 class="title-page">{{ucfirst(trans('interface.fale_conosco'))}}</h1>
+    <h1 class="title-page">Fale Conosco</h1>
     {!! $enviado  !!}
 
 </article>

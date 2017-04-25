@@ -131,9 +131,9 @@
                         <div class="radio-inline">
                             <label>
                                 <input type="radio" name="payer" id="{{ strtolower($payer->name) }}" value="{{ $payer->id }}"
-                                    <?php if(!empty($purchase)){ ?>
+                                    @if(!empty($purchase))
                                         {{ ($payer->id == $purchase->payer_id) ? 'checked' : '' }}
-                                    <?php } ?>
+                                    @endif
                                 >
                                 {{ $payer->name }}
                             </label>

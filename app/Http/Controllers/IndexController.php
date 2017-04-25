@@ -123,22 +123,17 @@ class IndexController extends Controller
         if(!empty($profile)){
 
             $reviews = round($profile->stars / $profile->reviews);
-//            echo '<pre>';
-//            print_r($profile->services);die;
-//            print_r($profile);die;
-            //echo $profile->galleries;
-            
-// echo '<pre>';print_r($gallery_profile);//die;
+
+            $profile->views = $profile->views + 1;
+            $profile->save();
+         
             return view('layouts.detail',
                 [
                     'profile'           => $profile,
                     'reviews'           => $reviews
                 ]);
         }
-
         return redirect('/');
-
-
     }
 
     /**
@@ -188,7 +183,6 @@ class IndexController extends Controller
         $query = "SELECT A.id
                   FROM `profiles` A
                   WHERE status = '1'";
-
 
 
         if(!empty($params['select-state'])){

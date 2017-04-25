@@ -19,33 +19,31 @@ class ContactController extends Controller
 
         $params = $request->all();
 
-        if($params['assunto'] == 'duvida'){
-            $params['assunto'] = 'Dúvida';
+        if($params['subject'] == 'D'){
+            $params['subject'] = 'Dúvida';
 
-        }elseif($params['assunto'] == 'reclamacao'){
-            $params['assunto'] = 'Reclamação';
+        }elseif($params['subject'] == 'R'){
+            $params['subject'] = 'Reclamação';
 
-        }elseif($params['assunto'] == 'elogio'){
-            $params['assunto'] = 'Elogio';
+        }elseif($params['subject'] == 'E'){
+            $params['subject'] = 'Elogio';
         }
 
 
-        Mail::send('faleconosco_mensagem',  ['params' => $params], function ($m) use ($params) {
-            $m->from('locness.dev@gmail.com', 'Portal IBA');
-            $m->to('nataliabrag@gmail.com', 'Fale Conosco')->subject('Fale Conosco IBA');
-            $m->bcc('fabricio.romao@gmail.com', 'Fabrício Romão')->subject('Fale Conosco IBA');
+        Mail::send('layouts.contact_message',  ['params' => $params], function ($m) use ($params) {
+            $m->from('faleconosco@mapabeauty.com.br', 'Mapa Beauty');
+            $m->to('faleconosco@mapabeauty.com.br', 'Fale Conosco')->subject('Fale Conosco Mapa Beauty');
+            $m->bcc('alanoteles@gmail.com', 'Alano Teles')->subject('Fale Conosco Mapa Beauty');
         });
 
         if (Mail::failures()) {
-            return view('faleconosco',[
-                'pagina'                => 'faleconosco',
-                'associadas'            => $this->associadas(),
+            return view('layouts.contact',[
+                'pagina'                => 'contact',
                 'enviado'               => '<p>Ocorreu um problema no envio de sua mensagem</p><p>Por favor, tente novamente mais tarde. Obrigado !</p>'
             ]);
         }else{
-            return view('faleconosco',[
-                'pagina'                => 'faleconosco',
-                'associadas'            => $this->associadas(),
+            return view('layouts.contact',[
+                'pagina'                => 'contact',
                 'enviado'               => '<p>Sua mensagem foi enviada com sucesso.</p><p>Agradecemos pelo contato  !</p>'
             ]);
         }

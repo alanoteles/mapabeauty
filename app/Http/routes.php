@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
+// Route::group(['middleware' => ['web']], function () {
 
 	//Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
 
@@ -41,7 +41,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('purchase/register-paypal', 'PurchaseController@registerPaypal');
 	Route::get('purchase/returned-paypal/{tc}', 'PurchaseController@returnedPaypal');
 	Route::post('purchase/register-pagseguro', 'PurchaseController@registerPagseguro');
-	Route::get('purchase/returned-pagseguro/{tc}', 'PurchaseController@returnedPagSeguro');
+	Route::any('purchase/returned-pagseguro/{tc?}', 'PurchaseController@returnedPagSeguro');
+	Route::any('/notifications', 'PurchaseController@notificationsPagseguro');
+	Route::any('/notification-pagseguro', 'PurchaseController@notificationsPagseguro');
 
 	Route::resource('purchase', 'PurchaseController'); //Using REST verbs
 
@@ -51,7 +53,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
 
     Route::get('/contact',                  ['as' => 'contact',                'uses' => 'ContactController@index']);
-    Route::post('/contact-send',            ['as' => 'contact-send',           'uses' => 'ContactcoController@send']);
+    Route::post('/contact-send',            ['as' => 'contact-send',           'uses' => 'ContactController@send']);
 
     Route::get('/about', 'AboutUsController@index');
-});
+// });

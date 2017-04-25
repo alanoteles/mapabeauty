@@ -11,12 +11,19 @@
         <div class="row" id="primary">
             <div id="content" class="col-sm-12">
 
-                @if(!empty($message))
+                {{-- @if(!empty($message))
                     <div class="alert alert-{{ $message['type'] }} fade in">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
                         {{ $message['msg'] }}
                     </div>
-                @endif
+                @endif --}}
+                {{-- {{ session()->all() }} --}}
+                @if(Session::has('msg'))
+                    <div class="col-sm-12 alert alert-{!! Session::get('type') !!} fade in">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        {{ Session::get('msg') }}
+                    </div>
+                @endif  
 
                 <form class="form-horizontal" id="form" action="profile" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -26,7 +33,7 @@
                     <input type="hidden" name="state" id="state" value="{{ !empty($state) ? $state : '' }}">
                     <input type="hidden" name="detached_selected" id="detached_selected" value="">
                     <input type="hidden" name="transactionCode" id="transactionCode" value="">
-                    
+
                     @include('layouts.includes.register_page1')
                     @include('layouts.includes.register_page2')
                   

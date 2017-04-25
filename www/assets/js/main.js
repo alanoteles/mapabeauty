@@ -34,9 +34,18 @@ $(function() {
 			mensagem += "<div> - Nome de fantasia;</div>";
 		}
 
+		
 		if( $("#services").val() == "" ){
 			$("#services-select").parent().addClass('has-error');
 			mensagem += "<div> - Serviços oferecidos;</div>";
+		}
+
+		if( $("#product_id").val() != '0' && $("#product_id").val() != '1#0'){ //-- Paid product selected
+			product_selected = $("#product_id").val().substring(0,$("#product_id").val().indexOf('#'));
+			if(product_selected > 1 && $('input[name=payer]:checked').val() == undefined ){
+				$("#product_id").parent().addClass('has-error');
+				mensagem += "<div> - Selecione uma forma de pagamento;</div>";
+			}
 		}
 
 		if(mensagem){
@@ -327,7 +336,7 @@ $(function() {
 					if(data == '1'){
 						Cookies.set('voted', [{profile_id: $('#profile_id').val(), stars: stars}]);
 						$("#reviewModal").modal('hide');
-						
+
 						bootbox.alert('Obrigado pelo seu voto !', function () {});
 						return false;	
 					}
@@ -430,7 +439,8 @@ $(function() {
 		}else if($(this).attr('action') == 'profile'){ //-- O submit foi feito para postar o form completo
 
 			//-- Se o produto escolhido foi o mês grátis, seta a cortesia como "1", indicando que foi utilizada. Não faz a compra.
-			product_id = $('#product_id option:selected').val();
+			product_id 	= $('#product_id option:selected').val();
+			detach 		= $('#detach option:selected').val();
 
 			//if(product_id != '1' && product_id != ''){ //-- Se não for o mês grátis, registra a compra.
 			if(parseInt(product_id) > 1){ //-- Se não for o mês grátis, registra a compra.
@@ -449,7 +459,7 @@ $(function() {
 					$.ajax({
 						url: url,
 						type: 'POST',
-						data: {'product_id': product_id},
+						data: {'product_id': product_id, 'detach': detach},
 						success: function (response) {
 
 							codigo = response;
@@ -460,8 +470,8 @@ $(function() {
 								success : function(transactionCode) {
 									$('#transactionCode').val(transactionCode);
 									alert("success - " + transactionCode);
-									return true;
-									//window.location.href = window.location.protocol + "//" + window.location.hostname + '/purchase/returned/' + transactionCode
+									//return true;
+									window.location.href = window.location.protocol + "//" + window.location.hostname + '/purchase/returned-pagseguro/' + transactionCode
 								},
 								abort : function() {
 									alert("abort");

@@ -506,6 +506,10 @@ img {
 	max-width: 100%;
 }
 
+#map-container {
+	background: transparent url(../img/loader.gif) no-repeat center center;
+}
+
 .modal-content {
  	background: url('../img/tile.jpg') top left repeat;
 }
