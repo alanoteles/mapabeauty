@@ -1,0 +1,233 @@
+.imageBox{
+  position: relative;
+  width: 400px;
+  height: 400px;
+  background: #fff;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+.imageBox .thumbBox{
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 368px;
+  height: 368px;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+}
+
+.imageBox .spinner{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  line-height: 400px;
+  background: rgba(0,0,0,0.7);
+}
+
+/* ========================================================= */
+
+.container-crop-parceiros{
+  height: 150px;
+  width: 250px;  
+}
+
+.container-crop-parceiros .imageBox{
+  background: url("../../assets/images/fundo-crop-parceiros.png") top center no-repeat;
+  height: 150px;
+  width: 250px;  
+}
+
+.container-crop-parceiros .imageBox .thumbBox{
+  border:1px solid #D4D4D4;
+  top: 0px;
+  left: 0px;
+  width: 250px;
+  height: 150px;
+}
+
+.container-crop-parceiros .action{
+  width: 50px;
+  height: 20px;  
+  margin: -23px 0 0 197px;
+  text-align: right;
+  position: absolute;
+  z-index: 2;
+  display: none;
+}
+
+.container-crop-parceiros .action input{
+  width: 20px;
+  height: 20px;
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-left: 0px;
+  cursor: pointer;
+  line-height: 15px;
+  opacity: 0.5;
+  transition : opacity 350ms ease-out; 
+  -webkit-transition : opacity 350ms ease-out; 
+  -moz-transition : opacity 350ms ease-out;
+  -o-transition : opacity 350ms ease-out;
+  outline: none; 
+}
+
+.container-crop-parceiros .action input:hover{
+  opacity: 0.8;
+}
+
+.container-crop-parceiros .active, .btn-crop-active{
+  display: block !important;
+}
+
+.parceiros-galeria{
+  height: 150px;
+  width: 250px;    
+  border:1px solid #D4D4D4;
+  overflow: hidden;
+}
+
+/* ========================================================= */
+
+.container-crop-objetos{
+  height: 85px;
+  width: 80px;
+}
+
+.container-crop-objetos .imageBox{
+  background: url("../../assets/images/fundo-crop-objetos.png") center no-repeat;
+  height: 85px;
+  width: 80px;
+}
+
+.container-crop-objetos .imageBox .thumbBox{
+  border:1px solid #D4D4D4;
+  top: 0px;
+  left: 0px;
+  width: 80px;
+  height: 85px;
+}
+
+.container-crop-objetos .action{
+  width: 50px;
+  height: 20px;
+  margin: -23px 0 0 0;
+  text-align: right;
+  position: absolute;
+  z-index: 2;
+  display: none;
+}
+
+.container-crop-objetos .action input{
+  width: 20px;
+  height: 20px;
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-left: 0px;
+  cursor: pointer;
+  line-height: 15px;
+  opacity: 0.5;
+  transition : opacity 350ms ease-out;
+  -webkit-transition : opacity 350ms ease-out;
+  -moz-transition : opacity 350ms ease-out;
+  -o-transition : opacity 350ms ease-out;
+  outline: none;
+}
+
+.container-crop-objetos .action input:hover{
+  opacity: 0.8;
+}
+
+.container-crop-objetos .active, .btn-crop-active{
+  display: block !important;
+}
+
+.objetos-galeria{
+  height: 85px;
+  width: 80px;
+  border:1px solid #D4D4D4;
+  overflow: hidden;
+}
+
+/* ========================================================= */
+
+.container-crop-usuarios{
+  height: 100px;
+  width: 120px;  
+}
+
+.container-crop-usuarios .imageBox{
+  background: url("../../assets/images/fundo-crop-usuarios.png") top center no-repeat;
+  width: 100px;  
+  height: 120px;
+}
+
+.container-crop-usuarios .imageBox .thumbBox{
+  border:1px solid #D4D4D4;
+  top: 0px;
+  left: 0px;
+  width: 100px;
+  height: 120px;
+}
+
+.container-crop-usuarios .action{
+  width: 50px;
+  height: 20px;  
+  margin: -23px 0 0 47px;
+  text-align: right;
+  position: absolute;
+  z-index: 2;
+  display: none;
+}
+
+.container-crop-usuarios .action input{
+  width: 20px;
+  height: 20px;
+  background: #000;
+  color: #fff;
+  border: none;
+  margin-left: 0px;
+  cursor: pointer;
+  line-height: 15px;
+  opacity: 0.5;
+  transition : opacity 350ms ease-out; 
+  -webkit-transition : opacity 350ms ease-out; 
+  -moz-transition : opacity 350ms ease-out;
+  -o-transition : opacity 350ms ease-out;
+  outline: none; 
+}
+
+.container-crop-usuarios .action input:hover{
+  opacity: 0.8;
+}
+
+.container-crop-usuarios .active, .btn-crop-active{
+  display: block !important;
+}
+
+.usuarios-galeria{
+  width: 100px;    
+  height: 120px;
+  border:1px solid #D4D4D4;
+  overflow: hidden;
+}
+
+
+/* ========================================================= */
+
+#btnCrop{
+  display: none;
+}
+
+#btnCropCancelar{
+  display: none;
+}
+
+.cursor-move{
+  cursor:move;  
+}
