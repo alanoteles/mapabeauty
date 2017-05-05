@@ -365,7 +365,8 @@ echo '<pre>';print_r($params);//die;
     public function uploadAnexo(Request $request)
     {
         $permitidos = array("jpg","jpeg","gif","png", "bmp");
-
+echo 'wwww';//die;
+return response()->json('Ocorreu um erro.1', 400);
         $params =  $request->all();
         $file   = $params['file'];
 
@@ -413,6 +414,8 @@ echo '<pre>';print_r($params);//die;
                 return response()->json('Tipo de arquivo não permitido.', 400);
             }
 
+        }else{
+            return response()->json('Ocorreu um erro.', 200);
         }
 
     }

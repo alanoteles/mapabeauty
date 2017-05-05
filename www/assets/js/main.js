@@ -84,9 +84,15 @@ $(function() {
 			if ($('#services').val() != '') {
 				//data.rows 					= jQuery.parseJSON(($('#services').val()))
 				temp = $('#services').val();
-// console.log(temp);
+
+                if(jQuery.type(jQuery.parseJSON(temp)) == 'string'){
+                    temp = [jQuery.parseJSON(temp)];
+                }else{
+                    temp = jQuery.parseJSON(temp);
+                }
+ console.log(temp);
 // console.log(jQuery.type(temp));
-				temp = [jQuery.parseJSON(temp)]; //Clear special chars and convert to array/object
+//				temp = [jQuery.parseJSON(temp)]; //Clear special chars and convert to array/object
 // console.log(temp);
 // console.log(jQuery.type(temp));
 				temp.push(record);
@@ -114,12 +120,19 @@ $(function() {
 				'<tr data-id="' + service_id + '">' +
 					'<td>' + $('#services-select option:selected').text() + '</td>' +
 					'<td class="text-right">' + service_price + '</td>' +
-					'<td class="col-sm-2" style="vertical-align:middle">' +
+					'<td class="col-sm-2" style="text-align:center">' +
 						'<a href="#" class="btn btn-success pull-right remove-service">Remover</a>' +
 					'</td>' +
 				'</tr>');
 
-			$('#price').val('');	
+			$('#price').val('');
+
+            if(window.location.pathname.indexOf('admin')){ //-- Se for Admin, muda classe do botão Remover
+                $('.remove-service').removeClass('btn-success').addClass('btn-danger btn-xs');
+                $('.remove-service').parent().css('text-align', 'center');
+                $('.remove-service').parent().css('vertical-align', '');
+
+            }
 		}
 		
 		return false;
@@ -292,7 +305,7 @@ $(function() {
 
 	//-- Abre modal exibindo a foto do cadastro
 	$('#myModal').on('show.bs.modal', function(event) {
-		$('#modal_image').attr('src','uploads/fotos/' + $(event.relatedTarget).data('file'));
+		$('#modal_image').attr('src','/uploads/fotos/' + $(event.relatedTarget).data('file'));
 	});
 
 
@@ -376,49 +389,52 @@ $(function() {
 				cache: false,
 				processData: false,
 				success: function (data) {
-					record = JSON.stringify(data.file_info_uploaded);
+					if(data != '') {
+                        record = JSON.stringify(data.file_info_uploaded);
+console.log(data);
+console.log(record);
+                        if ($('#uploads').val() != '') {
+                            // x = [];
+                            temp = $('#uploads').val();
 
-					if ($('#uploads').val() != '') {
-						// x = [];
-						temp = $('#uploads').val();
+                            if (jQuery.type(jQuery.parseJSON(temp)) == 'string') {
+                                temp = [jQuery.parseJSON(temp)];
+                            } else {
+                                temp = jQuery.parseJSON(temp);
+                            }
+                            temp.push(record);
+                            $('#uploads').val(JSON.stringify(temp));
 
-						if(jQuery.type(jQuery.parseJSON(temp)) == 'string'){
-							temp = [jQuery.parseJSON(temp)];
-						}else{
-							temp = jQuery.parseJSON(temp);
-						}
-						temp.push(record);
-						$('#uploads').val(JSON.stringify(temp));
+                        } else {
+                            $('#uploads').val(JSON.stringify(record));
+                            temp = [record];
+                        }
 
-					} else {
-						$('#uploads').val(JSON.stringify(record));
-						temp = [record];
-					}
+                        //-- Mount table with images
+                        $('.fotos-cadastro').find('tr').remove();
 
-					//-- Mount table with images
-					$('.fotos-cadastro').find('tr').remove();
+                        $.each(temp, function (name, value) {
 
-					$.each(temp, function(name, value) {
+                            value = jQuery.parseJSON(value);
+                            logo = (value['logo'] == '1') ? 'Logo' : '';
+                            $('.fotos-cadastro > tbody').append(
+                                '<tr>' +
+                                '<td  class="col-sm-2" style="vertical-align:middle">' +
+                                '<a class="myModal" data-toggle="modal" data-target="#myModal" data-file="' + value['hash'] + '.' + value['extension'] + '">' +
+                                '<img src="/uploads/fotos/' + value['hash'] + '.' + value['extension'] + '" alt="">' +
+                                '</a>' + logo +
+                                '</td>' +
+                                '<td class="col-sm-8">' +
+                                '<span class="small">' + value['subtitle'] + '</span>' +
+                                '</td>' +
+                                '<td class="col-sm-2" style="vertical-align:middle">' +
+                                '<a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>' +
+                                '</td>' +
+                                '</tr>');
 
-						value = jQuery.parseJSON(value);
-						logo = (value['logo'] == '1') ? 'Logo' : '';
-						$('.fotos-cadastro > tbody').append(
-							'<tr>' +
-								'<td  class="col-sm-2" style="vertical-align:middle">' +
-									'<a class="myModal" data-toggle="modal" data-target="#myModal" data-file="' + value['hash'] + '.'+ value['extension'] +'">' +
-									'<img src="uploads/fotos/'  + value['hash'] + '.'+ value['extension'] + '" alt="">' +
-									'</a>'+ logo +
-								'</td>' +
-								'<td class="col-sm-8">' +
-									'<span class="small">' + value['subtitle'] + '</span>' +
-								'</td>' +
-								'<td class="col-sm-2" style="vertical-align:middle">' +
-									'<a href="#" class="btn btn-danger btn-sm  pull-right remove-item">Remover</a>' +
-								'</td>' +
-							'</tr>');
-
-						$('#file_subtitle').val('');
-					});
+                            $('#file_subtitle').val('');
+                        });
+                    }
 					//console.log(retorno.filename);
 					$('#form').attr('action', 'profile');
 					//console.log($('#uploads').val());
@@ -688,7 +704,7 @@ $(function() {
 				dataType: 'json',
 				success: function (data) {
 
-					 //console.log(data);
+					 console.log(data);
 					// console.log(data != '0');
 					if(data != '0') {
 						//console.log('if');
@@ -733,7 +749,7 @@ $(function() {
 
 	// Máscaras
 	$('.cep').mask('00.000-000');
-	$('.telefone').mask('(00) 0000-00009');
+	$('.telefone').mask('(00) 00000-0009');
 	$('.cpf').mask('000.000.000-00', {reverse: true});
 	$('.cnpj').mask('00.000.000/0000-00', {reverse: true});
 	$('.money').mask('000.000.000.000.000,00', {reverse: true});
