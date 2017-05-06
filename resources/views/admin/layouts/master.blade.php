@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{asset('admin/assets/css/font-awesome.min.css')}}"/>
 
     <!-- Custom CSS -->
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+{{--    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">--}}
 
     <!--[if IE 7]>
     <link rel="stylesheet" href="{{asset('admin/assets/css/font-awesome-ie7.min.css')}}"/>
