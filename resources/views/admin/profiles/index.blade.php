@@ -8,7 +8,7 @@
 
     <div class="row">
         <div class="col-xs-12 align-right margin-top-10">
-            <a href="/admin/usuarios/create" class="btn btn-sm btn-success">Novo profissional</a>
+            <a href="/admin/profiles/create" class="btn btn-sm btn-success">Novo profissional</a>
         </div>
     </div>
 
@@ -88,6 +88,6 @@
     @include('admin.includes.paginacao')
 
     <!-- scripts exclusivos desta area -->
-    <script src="{{asset('admin/js/usuarios.js')}}"></script>
+    <script src="{{asset('admin/js/profiles.js')}}"></script>
 
 @endsection('content')

@@ -992,3 +992,21 @@ select.form-control {
 div#cke_1_contents.cke_contents.cke_reset{
   height:400px !important;
 }
+
+.fotos-cadastro a {
+  /*vertical-align: middle;*/
+  /*text-align:middle !important;*/
+  vertical-align:middle !important;
+}
+
+.fotos-cadastro a:hover {
+  background-color: #2AD4BA !important;
+}
+
+.fotos-cadastro span {
+  vertical-align: middle;
+}
+
+.fotos-cadastro img {
+  max-width: 60%;
+}

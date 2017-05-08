@@ -149,7 +149,7 @@ $(function() {
 
 	//-- Login com e-mail e senha --//
 	$('#sign-in').on('click',function(e){
-
+//console.log('ddd');
 		e.preventDefault();
 		
 		mensagem = "";
@@ -170,7 +170,7 @@ $(function() {
 			return false;
 		}else{
 			$('#form').attr('action', 'user');
-			$('#form').submit();	
+			$('#form').submit();
 		}
 
 	})
@@ -436,7 +436,12 @@ console.log(record);
                         });
                     }
 					//console.log(retorno.filename);
-					$('#form').attr('action', 'profile');
+                    if(window.location.pathname.indexOf('admin')) { //-- Se for Admin, muda a action
+                        $('#form').attr('action', '/admin/profiles' + ($('#user_id').val() != '' ? $('#user_id').val() : ''));
+                    }else{
+                        $('#form').attr('action', 'profile');
+                    }
+
 					//console.log($('#uploads').val());
 					//return false;
 				},

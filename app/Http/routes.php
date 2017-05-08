@@ -27,9 +27,12 @@
 	Route::post('user/email-validation' , ['as' => 'email-validation', 'uses' => 'UserController@emailValidation']);
 
 	Route::get('profile-login/', 'ProfileController@index'); //Using REST verbs
-	Route::resource('profile', 'ProfileController'); //Using REST verbs
+
 	Route::get('profile/busca_cep/{cep}','ProfileController@busca_cep');
-	Route::post('/profile/uploadAnexo','ProfileController@uploadAnexo');
+	Route::any('/profile/uploadAnexo','ProfileController@uploadAnexo');
+	Route::resource('profile', 'ProfileController'); //Using REST verbs
+//	Route::any('/profile/teste','ProfileController@teste');
+
 	Route::post('/profile/cities','ProfileController@returnCities');
 	Route::post('/profile/neighborhoods','ProfileController@returnNeighborhood');
 	Route::post('/profile/search','ProfileController@search');
@@ -70,8 +73,10 @@
 	Route::get('admin/logout', 'Admin\UsuariosController@doLogout');
 	//Route::get('/admin/logout', 'Auth\AuthController@logout');
 
-	Route::resource('admin/profiles', 'Admin\ProfileController');
 
+//	Route::any('admin/profiles/uploadAnexo','Admin\ProfileController@uploadAnexo');
+//	Route::any('admin/profiles/teste','Admin\ProfileController@teste');
+	Route::resource('admin/profiles', 'Admin\ProfileController');
 	//Upload CKEditor
 //	Route::post('/ckeditor-upload','Controller@ckeditor_upload');
 //

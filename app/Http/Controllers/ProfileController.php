@@ -36,7 +36,7 @@ class ProfileController extends Controller
 
 
         $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
-    //echo 'aa : '. Auth::check();die;
+//    echo 'aa : '. Auth::check();die;
         if(Auth::check()){
 
             if(session()->has('msg')){
@@ -120,7 +120,7 @@ class ProfileController extends Controller
             $params             = $request->all();
             $params['user_id']  = $user->id;
 
-echo '<pre>';print_r($params);//die;
+//echo '<pre>';print_r($params);//die;
             // $state  = json_decode($params['state'], true);
             // $city   = json_decode($params['city'], true);
 
@@ -362,11 +362,15 @@ echo '<pre>';print_r($params);//die;
     }
 
 
+    public function teste(Request $request)
+    {
+        echo 'ssss';
+    }
     public function uploadAnexo(Request $request)
     {
         $permitidos = array("jpg","jpeg","gif","png", "bmp");
-echo 'wwww';//die;
-return response()->json('Ocorreu um erro.1', 400);
+//echo 'sssaaa';die;
+//return response()->json('Ocorreu um erro.1', 400);
         $params =  $request->all();
         $file   = $params['file'];
 
@@ -415,7 +419,7 @@ return response()->json('Ocorreu um erro.1', 400);
             }
 
         }else{
-            return response()->json('Ocorreu um erro.', 200);
+            return response()->json('Ocorreu um erro.', 400);
         }
 
     }

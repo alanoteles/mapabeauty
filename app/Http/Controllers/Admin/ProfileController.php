@@ -28,7 +28,7 @@ use App\Http\Controllers\Controller as ControllerFront;
 class ProfileController extends Controller
 {
 
-    protected $itens_por_pagina = 10;
+    protected $itens_por_pagina = 50;
 
     /**
      * Display a listing of the resource.
@@ -59,18 +59,42 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //return view('admin.noticias.edit',[ 'editorias'         => NewsEditorial::get()]);
+        $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
 
-        return view('admin.usuarios.edit',[
-            'grupos'            => UserGroup::get(),
-            'idiomas'           => Language::get(),
-            'escolaridade'      => Schooling::get(),
-            'city'              => 'Brasília',
-            'state'             => 'DF',
+//        foreach ($user->profiles->services as $key => $value) {
+//            // echo $value->pivot->service_id
+//            // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+//            $profile_service[] = json_encode(array('id' => $value->pivot->service_id, 'price' => $value->pivot->price));
+//        }
+//
+//        foreach ($user->profiles->galleries as $key => $value) {
+//            // echo $value->pivot->service_id
+//            // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+//            if($value->status == '1'){
+//                $file_data = explode('.', $value->filename);
+//
+//                $gallery_profile[] = json_encode(array( 'hash'      => $file_data[0],
+//                    'extension' => $file_data[1],
+//                    'subtitle'  => $value->subtitle,
+//                    'size'      => $value->size,
+//                    'logo'      => $value->logo));
+//            }
+//        }
 
-            'model'             => 'User'
+//        echo '<pre>';
+//        print_r($user);die;
+
+        return view('admin.profiles.edit',[
+            'products'          => Product::where('status', '1')->get(),
+            'services'          => Service::where('status', '1')->get(),
+            'payers'            => Payer::where('status', '1')->get(),
+            'detached_value'    => $detached_value,
+            'remaining_days'    => '',
+            'model'             => 'Profile'
 
         ]);
+
+
     }
 
 
@@ -84,46 +108,132 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
 
-        $params = $request->all();
-        $params['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$params['birthday'])));
+//                echo '<pre>';
+//        print_r($request->all());die;
 
-        $params['document'] = str_replace('.','', $params['document']);
-        $params['document'] = str_replace('-','', $params['document']);
+        //-- Se na tela de listagem o usuário clicou para mudar o status do registro, o update é chamado via AJAX.
+        //-- Caso contrário, o form está sendo atualizado pelo botão SALVAR
+//        if($request->ajax()){
+//            parent::update($request, $id);
+//        }else{
 
-        $params['zip']      = str_replace('.','', $params['zip']);
-        $params['zip']      = str_replace('-','', $params['zip']);
+            $params = $request->all();
+//echo '<pre>';
+//print_r($params);die;
+            $senha                  = str_random(6);
+            $params['provider']     = 'local';
+            $params['password']     = md5($senha);
+            $params['provider_id']  = mt_rand();
+            $params['email']        = $params['responsible_email'];
+            $params['name']         = $params['responsible_name'];
 
-        $params['mobile_phone']      = $params['ddd'] . str_replace('-','', $params['mobile_phone']);
+            $user  = User::create($params);
 
-        $params['username'] = $params['email'];
-        $params['password'] = md5($params['password']);
+            //$params             = $request->all();
+            $params['user_id']  = $user->id;
 
-        $params['user_id'] = User::create($params)->id;
+//            echo '<pre>';print_r($params);die;
+            $state  = json_decode($params['state'], true);
+            $city   = json_decode($params['city'], true);
+
+            //-- Clean up special chars
+            $to_be_removed                   = array(".", ",", "/", "(", ")", "-", " ");
+            $params['document']              = str_replace($to_be_removed, '', $params['document']);
+            $params['responsible_cellphone'] = str_replace($to_be_removed, '', $params['responsible_cellphone']);
+            $params['zip_code']              = str_replace($to_be_removed, '', $params['zip_code']);
+            $params['whatsapp']              = str_replace($to_be_removed, '', $params['whatsapp']);
+            $params['state']                 = $params['state'];
+            $params['city']                  = $params['city'];
+
+            if(!empty($user->profiles)){ //-- Update
+                $user->profiles->fill($params)->save();
+                $operation = 'update';
+            }else{ //-- Create
+                $profile  = Profile::create($params);
+                $operation = 'create';
+            }
+
+            //-- Attach images
+            $gallery    = json_decode($params['uploads'], true);
+            //$gallery    = json_decode($gallery, true);
+
+        $user = User::find($user->id);
+//echo '<pre>';
+////        echo $gallery->hash;
+//print_r($gallery);//die;
+//print_r($user);
+//print_r($profile);
+//print_r($user2->profiles);die;
+            if(count($gallery) > 1){
+                foreach($gallery as $img){
+                    $img = json_decode($img);
+                    $img->filename = $img->hash . '.' . $img->extension;
+
+//                    echo '<pre>';print_r($img);//die;
+                    $id_img = Gallery::create((array)$img)->id;
+
+                    $user->profiles->galleries()->attach($id_img);
+                }
+            }elseif(count($gallery) == 1){ //-- TODO : Terminar essas implementação !!!!
+                $gallery    = json_decode($gallery, true);
+            }
+
+// echo '<pre>';print_r($params);//die;
+            //-- Attach services
+            $services   = json_decode($params['services'], true);
+
+            if(count($services) > 1){
+                foreach($services as $service){
+                    $service        = json_decode($service);
+// print_r($service);
+                    $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
+                    $service->price = str_replace('.', '' , $service->price);
+                    $service->price = str_replace(',', '.', $service->price);
+
+                    $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
+                }
+//                $user->profiles->services()->detach();
+                $user->profiles->services()->attach($profile_service);
+            }elseif(count($services) == 1){
+                $service        = json_decode($services);
+// print_r($service);
+                $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
+                $service->price = str_replace('.', '' , $service->price);
+                $service->price = str_replace(',', '.', $service->price);
+
+                $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
+
+                $user->profiles->services()->attach($profile_service);
+            }
 
 
 
-        //Salvando imagem 'cropada'
-        if ($params['base64_image']!=null){
+            //-- Save purchase just if it is courtesy
+            // if(!empty($params['product_id'])){
+            $product = explode('#', $params['product_id']);
+            if($product[0] = '1'){
+                $purchase = array(  'product_id'         => '1',
+                    'transaction_id'    => 'free',
+                    'transaction_date'  => date('Y-m-d H:m:s'),
+                    'payer_id'          => '',
+                    'status_id'         => 2,
+                    'detached'          => '0',
+                    'courtesy'          => '1');
 
-            //Removendo os dados da string base64 referente ao tipo de dado
-            //data:image/jpeg;base64,...
-            list($type,$data)   = explode(';',$params['base64_image']);
-            list(,$data)        = explode(',', $data);
-            //Decodificando para binário
-            $image  = base64_decode($data);
-            $fp     = fopen('uploads/usuarios/' . $params['user_id'] . '_m.jpg','wb+');
-            fwrite($fp,$image);
-            fclose($fp);
+                $user->purchases()->create($purchase);
+            }
 
-            $params['avatar'] = $params['user_id'] .'_m.jpg';
+            //}
 
-        }
+            if($operation == 'create'){
+                $msg    = 'Seu cadastro foi criado com sucesso ! ';
+            }else{
+                $msg    = 'Seu cadastro foi atualizado com sucesso ! ';
+            }
 
+            $type   = 'success';
 
-        UserDetail::create($params);
-
-
-        return redirect( app()->getLocale() . '/admin/usuarios')->with('success','Dados salvos com sucesso !');
+die;
 
     }
 
@@ -199,6 +309,10 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+//        echo '<pre>';
+//        print_r($request->all());die;
+
         //-- Se na tela de listagem o usuário clicou para mudar o status do registro, o update é chamado via AJAX.
         //-- Caso contrário, o form está sendo atualizado pelo botão SALVAR
         if($request->ajax()){
@@ -206,75 +320,97 @@ class ProfileController extends Controller
         }else{
 
             $params = $request->all();
-            $params['birthday'] = date("Y-m-d",strtotime(str_replace('/', '-',$params['birthday'])));
-
-            $params['document'] = str_replace('.','', $params['document']);
-            $params['document'] = str_replace('-','', $params['document']);
-
-            $params['zip']      = str_replace('.','', $params['zip']);
-            $params['zip']      = str_replace('-','', $params['zip']);
-
-            $params['mobile_phone']      = $params['ddd'] . str_replace('-','', $params['mobile_phone']);
-
-
-
-
 //echo '<pre>';
 //print_r($params);die;
-            $usuario = User::find($id);
+            $user = User::find($params['user_id']);
 
-            //Salvando imagem 'cropada'
-            if ($params['base64_image']!=null){
+            //$params             = $request->all();
+//            $params['user_id']  = $user->id;
 
-                //Removendo os dados da string base64 referente ao tipo de dado
-                //data:image/jpeg;base64,...
-                list($type,$data) = explode(';',$params['base64_image']);
-                list(,$data) = explode(',', $data);
-                //Decodificando para binário
-                $image = base64_decode($data);
-                $fp = fopen('uploads/usuarios/'.$id.'_m.jpg','wb+');
-                fwrite($fp,$image);
-                fclose($fp);
+            echo '<pre>';print_r($params);//die;
+             $state  = json_decode($params['state'], true);
+             $city   = json_decode($params['city'], true);
 
-                $usuario->user_detail->avatar = $id.'_m.jpg';
+            //-- Clean up special chars
+            $to_be_removed                   = array(".", ",", "/", "(", ")", "-", " ");
+            $params['document']              = str_replace($to_be_removed, '', $params['document']);
+            $params['responsible_cellphone'] = str_replace($to_be_removed, '', $params['responsible_cellphone']);
+            $params['zip_code']              = str_replace($to_be_removed, '', $params['zip_code']);
+            $params['whatsapp']              = str_replace($to_be_removed, '', $params['whatsapp']);
+            $params['state']                 = $state['code'];
+            $params['city']                  = $city['id'];
 
+            if(!empty($user->profiles)){ //-- Update
+                $user->profiles->fill($params)->save();
+                $operation = 'update';
+            }else{ //-- Create
+                $profile  = Profile::create($params);
+                $operation = 'create';
             }
 
-            if(!empty($params['password'])){
-                $usuario->password = md5($params['password']);
+            //-- Attach images
+            $gallery    = json_decode($params['uploads'], true);
+
+            if(count($gallery)){
+
+                $user->profiles->galleries()->detach();
+
+                foreach($gallery as $img){
+                    $img = json_decode($img);
+                    $img->filename = $img->hash . '.' . $img->extension;
+
+                    echo '<pre>';print_r($img);//die;
+                    $id_img = Gallery::create((array)$img)->id;
+
+                    $user->profiles->galleries()->attach($id_img);
+                }
             }
 
-            $usuario->status                                    = $params['status'];
-            $usuario->name                                      = $params['name'];
-            $usuario->email                                     = $params['email'];
-            $usuario->user_group_id                             = $params['user_group_id'];
-            //$usuario->password                                  = $params['password'];
-            $usuario->user_detail->document                     = $params['document'];
-            $usuario->user_detail->birthday                     = $params['birthday'];
-            $usuario->user_detail->locale                       = $params['locale'];
-            $usuario->user_detail->about                        = $params['about'];
-            $usuario->user_detail->mobile_phone                 = $params['mobile_phone'];
-            $usuario->user_detail->zip                          = $params['zip'];
-            $usuario->user_detail->neighborhood                 = $params['neighborhood'];
-            $usuario->user_detail->address                      = $params['address'];
-            $usuario->user_detail->complement                   = $params['complement'];
-            $usuario->user_detail->number                       = $params['number'];
-            $usuario->user_detail->facebook                     = $params['facebook'];
-            $usuario->user_detail->twitter                      = $params['twitter'];
-            $usuario->user_detail->youtube                      = $params['youtube'];
-            $usuario->user_detail->blog                         = $params['blog'];
-            $usuario->user_detail->schooling_id                 = $params['schooling_id'];
-            $usuario->user_detail->occupation                   = $params['occupation'];
-            $usuario->user_detail->lattes                       = $params['lattes'];
-            $usuario->user_detail->employer                     = $params['employer'];
-            $usuario->user_detail->privacy                      = $params['privacy'];
-            $usuario->user_detail->notifications_my_objects     = $params['notifications_my_objects'];
-            $usuario->user_detail->notifications_other_objects  = $params['notifications_other_objects'];
+// echo '<pre>';print_r($params);//die;
+            //-- Attach services
+            $services   = json_decode($params['services'], true);
+// print_r($services);
+// print_r(json_decode($service));
+            if(count($services)){
+                foreach($services as $service){
+                    $service        = json_decode($service);
+// print_r($service);
+                    $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
+                    $service->price = str_replace('.', '' , $service->price);
+                    $service->price = str_replace(',', '.', $service->price);
 
-            $usuario->push();
+                    $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
+                }
+                $user->profiles->services()->detach();
+                $user->profiles->services()->attach($profile_service);
+            }
 
 
-            return \Redirect::to(app()->getLocale() . '/admin/usuarios')->with('success','Dados salvos com sucesso !');
+
+            //-- Save purchase just if it is courtesy
+            // if(!empty($params['product_id'])){
+            $product = explode('#', $params['product_id']);
+            if($product[0] = '1'){
+                $purchase = array(  'product_id'         => '1',
+                    'transaction_id'    => 'free',
+                    'transaction_date'  => date('Y-m-d H:m:s'),
+                    'payer_id'          => '',
+                    'status_id'         => 2,
+                    'detached'          => '0',
+                    'courtesy'          => '1');
+
+                $user->purchases()->create($purchase);
+            }
+
+            //}
+
+            if($operation == 'create'){
+                $msg    = 'Seu cadastro foi criado com sucesso ! ';
+            }else{
+                $msg    = 'Seu cadastro foi atualizado com sucesso ! ';
+            }
+
+            $type   = 'success';
 
         }
     }
@@ -361,4 +497,6 @@ class ProfileController extends Controller
         }
 
     }
+    
+    
 }

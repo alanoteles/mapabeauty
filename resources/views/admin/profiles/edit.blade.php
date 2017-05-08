@@ -43,6 +43,7 @@
             <input type="hidden" name="state" id="state" value="{{ !empty($state) ? $state : '' }}">
             <input type="hidden" name="detached_selected" id="detached_selected" value="">
             <input type="hidden" name="transactionCode" id="transactionCode" value="">
+            <input type="hidden" name="user_id" id="user_id" value="{{ !empty($user) ? $user->id : '' }}">
 
             <div class="col-xs-12 botoes-pj-pf">
                 <button type="button" class="btn gerar-nova-senha">Gerar nova senha</button>
@@ -158,58 +159,23 @@
                         </div>
 
 
-                    {{--</div>--}}
-                    {{--<!-- / dados gerais -->--}}
 
 
-                    {{--<!-- Dados pessoa física -->--}}
-                    {{--<div id="dadospj" class="tab-pane">--}}
+                        <div class="form-group fotm-tab">
+                            <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nome do responsável *</label>
+                            <div class="col-sm-3">
 
-                        {{--<h3 class="header smaller lighter blue font-size-18 margin-bottom-25 margin-top-20" style="font-weight: 400;">--}}
-                            {{--Dados pessoais--}}
-                        {{--</h3>--}}
+                                <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável" value="{{ !empty($user->profiles->responsible_name) ? $user->profiles->responsible_name : '' }}">
 
+                            </div>
+                        </div>
 
-                        {{--<div class="form-group fotm-tab margin-top-40">--}}
-                            {{--<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Arquivo de imagem</label>--}}
-                            {{--<div class="col-sm-9">--}}
-
-                                {{--<div>--}}
-                                    {{--<button type="button" class="btn btn-sm abrir-boxfile" style="padding-top: 2px; padding-bottom: 2px; font-size: 12px; outline: none !important;">Selecionar arquivo</button>--}}
-                                    {{--<input type="file" id="file" style="width:0px;height:0;">--}}
-                                {{--</div>--}}
-
-                                {{--<p class="dados-arquivo margin-top-20">Arquivo selecionado: <span style="font-weight: 700;color: #000;">nenhum arquivo selecionado</span></p>--}}
-
-                                {{--<!-- crop -->--}}
-                                {{--<div class="col-sm-6 no-padding-left">--}}
-                                    {{--<div class="container-crop-usuarios">--}}
-                                        {{--<div class="imageBox" style='background-image: url("/uploads/usuarios/{{ isset($user) ? $user->user_detail->avatar : '' }}")'>--}}
-                                            {{--<div class="thumbBox"></div>--}}
-                                            {{--<div class="spinner" style="display: none">Loading...</div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="action">--}}
-                                            {{--<input type="button" id="btnZoomOut" value="-">--}}
-                                            {{--<input type="button" id="btnZoomIn" value="+">--}}
-                                        {{--</div>--}}
-                                        {{--<!-- <div class="cropped"></div> -->--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-
-                                {{--<div class="col-sm-6 align-right">--}}
-                                    {{--<input type="button" id="btnCrop" value="Incluir" class="btn btn-sm btn-success salvar pull-right" style="padding: 1px 10px; margin-top: -35px;">--}}
-                                    {{--<input type="button" id="btnCropCancelar" value="Cancelar" class="btn btn-sm salvar pull-right" style="padding: 1px 10px; margin: -35px 75px 0 0px;">--}}
-                                {{--</div>--}}
-                                {{--<!-- / crop -->--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-
-                        <div class="form-group fotm-tab margin-top-35">
+                        <div class="form-group fotm-tab">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Celular do responsável *</label>
                             <div class="col-sm-3">
 
 {{--                                {{ Form::text('name', (isset($user->name) ? $user->name : ''), array('class' => 'col-sm-12', 'id' => 'name')) }}--}}
-                                <input type="text" class="form-control col-sm-8 telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável *" value="{{ !empty($user->profiles->responsible_cellphone) ? $user->profiles->responsible_cellphone : '' }}">
+                                <input type="text" class="form-control col-sm-8 telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável" value="{{ !empty($user->profiles->responsible_cellphone) ? $user->profiles->responsible_cellphone : '' }}">
 
                             </div>
                         </div>
