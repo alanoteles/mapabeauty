@@ -5,7 +5,7 @@ $(document).ready(function(){
   $(".gerar-nova-senha").click(function(){
 
 
-    url = '/pt_br/admin/usuarios/nova_senha';
+    url = '/admin/usuarios/nova_senha';
     id  = $('#user_id').val();
 
     $.ajax({
@@ -21,7 +21,7 @@ $(document).ready(function(){
       }
     });
 
-    bootbox.alert('Uma nova senha foi gerada e enviada para o email "' + $('#email').val() + '" do usuário "' + $('#name').val() + '".', function() {});
+    bootbox.alert('Uma nova senha foi gerada e enviada para o email "' + $('#responsible_email').val() + '" do usuário "' + $('#responsible_name').val() + '".', function() {});
 
     return false;
   });  

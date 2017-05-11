@@ -28,6 +28,7 @@ class Profile extends Model
                                 'facebook',
                                 'twitter',
                                 'instagram',
+                                'youtube',
                                 'google_plus',
                                 'whatsapp',
                                 'logo',

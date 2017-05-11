@@ -73,6 +73,7 @@
 	Route::get('admin/logout', 'Admin\UsuariosController@doLogout');
 	//Route::get('/admin/logout', 'Auth\AuthController@logout');
 
+	Route::get('admin/usuarios/nova_senha','Admin\UsuariosController@nova_senha');
 
 //	Route::any('admin/profiles/uploadAnexo','Admin\ProfileController@uploadAnexo');
 //	Route::any('admin/profiles/teste','Admin\ProfileController@teste');

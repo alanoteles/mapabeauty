@@ -51,7 +51,7 @@
                     <a class="btn btn-sm font-size-14 margin-right-20 margin-left-2 remover-item" style="padding: 3px 10px 4px 10px;">Excluir usuário</a>
                 @endif
 
-                <a href="" data-route="/admin/usuarios"  class="btn cancelar btn-sm font-size-14 margin-right-2" style="padding: 3px 10px 4px 10px;">Cancelar</a>
+                <a href="/admin/profiles"  class="btn cancelar btn-sm font-size-14 margin-right-2" style="padding: 3px 10px 4px 10px;">Cancelar</a>
                 <button type="submit" class="btn btn-success salvar no-margin">Salvar</button>
             </div>
 
@@ -185,7 +185,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Sobre</label>
                             <div class="col-sm-9">
 
-                                <textarea name="about" id="about" class="form-control descricao-grupo" placeholder="" requery="true">{{ (isset($user->user_detail->about) ? $user->user_detail->about : '') }}</textarea>
+                                <textarea name="about" id="about" class="form-control descricao-grupo" placeholder="">{{ (isset($user->profiles->about) ? $user->profiles->about : '') }}</textarea>
 
                             </div>
                         </div>
