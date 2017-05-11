@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title','Editoria da Notícia')
+@section('title','Serviços')
 
 @section('content')
 
@@ -9,9 +9,9 @@
     <!-- WRAP DOS DADOS -->
     <div class="row">
         <div class="col-xs-12 align-right margin-top-10">
-            <a href="" data-route="/admin/tabelas-de-apoio/editoria-da-noticia/create">
+            <a href="/admin/tabelas-de-apoio/services/create">
                 <button class="btn btn-sm btn-success">
-                    Nova editoria
+                    Novo serviço
                 </button>
             </a>
         </div>
@@ -46,7 +46,7 @@
                             </ul>
                         </div>
                     </th>
-                    <th style="width: 70%;">Editoria</th>
+                    <th style="width: 70%;">Serviço</th>
                     <th class="hidden-480">Exibir</th>
                     <th class="center">Ações</th>
                 </tr>
@@ -66,19 +66,19 @@
                     <?php $res = $resultado->toArray(); ?>
 
                     <td class="nome-grupo" style="width: 70%;">
-                        <a href="" data-route="/admin/tabelas-de-apoio/editoria-da-noticia/{{$resultado->news_editorial_id}}/edit">
-                            {{ $res['name'] }}
+                        <a href="/admin/tabelas-de-apoio/services/{{$resultado->id}}/edit">
+                            {{ $res['description'] }}
                         </a>
                     </td>
                     <td class="hidden-480 situacao situacao-clientes">
-                        <select class="form-control transparent status" name="status" data-id="{{$resultado->news_editorial_id}}">
+                        <select class="form-control transparent status" name="status" data-id="{{$resultado->id}}">
                             <option value="1" {{ ($resultado->status == '1') ? 'selected=selected' : ''  }}>Sim</option>
                             <option value="0" {{ ($resultado->status == '0') ? 'selected=selected' : ''  }}>Não</option>
                         </select>
                     </td>
                     <td class="acoes center">
                         <div class="btn-group">
-                            <a href="#" class="btn btn-xs btn-grey remover-item-lista excluir" data-id="{{$resultado->news_editorial_id}}">
+                            <a href="#" class="btn btn-xs btn-grey remover-item-lista excluir" data-id="{{$resultado->id}}">
                                 <i class="icon-trash bigger-120"></i>
                             </a>
                         </div>

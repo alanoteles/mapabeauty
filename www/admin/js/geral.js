@@ -143,8 +143,8 @@ jQuery(document).ready(function(){
             url = window.location.pathname.replace('/pesquisa', '') ;
         }else if(window.location.pathname.indexOf('edit') > 0) {
 
-            if(window.location.pathname.indexOf('editoria-da-noticia') > 0){ //-- Como o critério de busca é 'edit', a url ficava errada. Por isso o hard-coded.
-                url = '/pt_br/admin/tabelas-de-apoio/editoria-da-noticia';
+            if(window.location.pathname.indexOf('servicos') > 0){ //-- Como o critério de busca é 'edit', a url ficava errada. Por isso o hard-coded.
+                url = '/pt_br/admin/tabelas-de-apoio/servicos';
             }else {
                 url = window.location.pathname.substring(0, window.location.pathname.indexOf('/edit'));
             }

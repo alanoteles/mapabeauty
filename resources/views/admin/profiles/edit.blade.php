@@ -44,6 +44,7 @@
             <input type="hidden" name="detached_selected" id="detached_selected" value="">
             <input type="hidden" name="transactionCode" id="transactionCode" value="">
             <input type="hidden" name="user_id" id="user_id" value="{{ !empty($user) ? $user->id : '' }}">
+            <input type="hidden" name="model" id="model" value="{{ !empty($model) ? $model : '' }}">
 
             <div class="col-xs-12 botoes-pj-pf">
                 <button type="button" class="btn gerar-nova-senha">Gerar nova senha</button>

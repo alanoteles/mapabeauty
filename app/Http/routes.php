@@ -78,6 +78,10 @@
 //	Route::any('admin/profiles/uploadAnexo','Admin\ProfileController@uploadAnexo');
 //	Route::any('admin/profiles/teste','Admin\ProfileController@teste');
 	Route::resource('admin/profiles', 'Admin\ProfileController');
+
+	//Serviços
+	Route::get('admin/tabelas-de-apoio/services/pesquisa','Admin\ApoioServicesController@pesquisa');
+	Route::resource('admin/tabelas-de-apoio/services', 'Admin\ApoioServicesController'); //Usando os verbos REST
 	//Upload CKEditor
 //	Route::post('/ckeditor-upload','Controller@ckeditor_upload');
 //
@@ -124,7 +128,7 @@
 //
 //	//--Tabelas de Apoio--//
 //	//Index
-//	Route::get('/tabelas-de-apoio','TabelasDeApoioController@index');
+	Route::get('admin/tabelas-de-apoio','Admin\TabelasDeApoioController@index');
 //
 //	//Idioma
 //	Route::get('/tabelas-de-apoio/idioma/pesquisa','ApoioIdiomaController@pesquisa');
@@ -151,14 +155,12 @@
 //	Route::get('/tabelas-de-apoio/situacao-do-projeto/pesquisa','ApoioSituacaoDoProjetoController@pesquisa');
 //	Route::resource('/tabelas-de-apoio/situacao-do-projeto', 'ApoioSituacaoDoProjetoController'); //Usando os verbos REST
 //
-//	//Editoria da Notícia
-//	Route::get('/tabelas-de-apoio/editoria-da-noticia/retorna-traducao','ApoioEditoriaDaNoticiaController@retorna_traducao');
-//	Route::get('/tabelas-de-apoio/editoria-da-noticia/pesquisa','ApoioEditoriaDaNoticiaController@pesquisa');
-//	Route::resource('/tabelas-de-apoio/editoria-da-noticia', 'ApoioEditoriaDaNoticiaController'); //Usando os verbos REST
+
+
 //
 //	//Editoria da Notícia
-////    Route::get('/tabelas-de-apoio/editoria-da-noticia/pesquisa','ApoioEditoriaDaNoticiaController@pesquisa');
-////    Route::resource('/tabelas-de-apoio/editoria-da-noticia', 'ApoioEditoriaDaNoticiaController'); //Usando os verbos REST
+////    Route::get('/tabelas-de-apoio/servicos/pesquisa','ApoioEditoriaDaNoticiaController@pesquisa');
+////    Route::resource('/tabelas-de-apoio/servicos', 'ApoioEditoriaDaNoticiaController'); //Usando os verbos REST
 //
 //	//Grupo de Parceiros
 //	Route::get('/tabelas-de-apoio/grupo-de-parceiros/retorna-traducao','ApoioGrupoDeParceirosController@retorna_traducao');

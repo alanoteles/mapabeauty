@@ -24,8 +24,8 @@ $(document).ready(function(){
     bootbox.alert('Uma nova senha foi gerada e enviada para o email "' + $('#responsible_email').val() + '" do usuário "' + $('#responsible_name').val() + '".', function() {});
 
     return false;
-  });  
-  
+  });
+
 
 
 
