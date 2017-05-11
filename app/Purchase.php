@@ -16,7 +16,7 @@ class Purchase extends Model
 
     public function products()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Product', 'product_id');
     }
 
     public function status()

@@ -90,7 +90,7 @@ $(function() {
                 }else{
                     temp = jQuery.parseJSON(temp);
                 }
- console.log(temp);
+ //console.log(temp);
 // console.log(jQuery.type(temp));
 //				temp = [jQuery.parseJSON(temp)]; //Clear special chars and convert to array/object
 // console.log(temp);
@@ -248,6 +248,7 @@ $(function() {
 	});
 
 
+    //-- Remove service ---
 	$(document).on('click', "a.remove-service", function(e) {
 		e.preventDefault();
 
@@ -278,6 +279,7 @@ $(function() {
 
 
 
+    //-- Remove uploaded image -----
 	$(document).on('click', "a.remove-item", function(e) {
 		e.preventDefault();
 
@@ -309,6 +311,8 @@ $(function() {
 	});
 
 
+
+    //-- Hover of ratings --
 	$('.ratings_stars').hover(
             // Handles the mouseover
             function() {
@@ -327,6 +331,8 @@ $(function() {
             }
     );
 
+
+    //--- Rated stars ---
 	$('.ratings_stars').on('click', function(e){
 
 		stars = $(this).data('value');
@@ -335,6 +341,7 @@ $(function() {
 	})
 	
 
+    //--- Saving rating ---
 	$('#send-review').on('click', function(e){
 		e.preventDefault();
 
@@ -391,8 +398,8 @@ $(function() {
 				success: function (data) {
 					if(data != '') {
                         record = JSON.stringify(data.file_info_uploaded);
-console.log(data);
-console.log(record);
+//console.log(data);
+//console.log(record);
                         if ($('#uploads').val() != '') {
                             // x = [];
                             temp = $('#uploads').val();
@@ -437,7 +444,7 @@ console.log(record);
                     }
 					//console.log(retorno.filename);
                     if(window.location.pathname.indexOf('admin')) { //-- Se for Admin, muda a action
-                        $('#form').attr('action', '/admin/profiles' + ($('#user_id').val() != '' ? $('#user_id').val() : ''));
+                        $('#form').attr('action', '/admin/profiles' + ($('#user_id').val() != '' ? '/' + $('#user_id').val() : ''));
                     }else{
                         $('#form').attr('action', 'profile');
                     }
@@ -588,8 +595,8 @@ console.log(record);
 
 	//-- Verifica se o CPF ou CNPJ digitado é válido
 	$('#document').on('blur', function(){
-
-		if ( valida_cpf_cnpj( this.value ) ) {
+console.log(this.value.length);
+		if ( valida_cpf_cnpj( this.value )) {
 			return false;
 		} else {
 			bootbox.alert('CPF ou CNPJ inválido.');
@@ -615,11 +622,16 @@ console.log(record);
 			$('#document').attr('placeholder', 'CPF do profissional')
 			$('#document').attr('maxlength', '14')
 
-		}else{
+		}else if(this.value == 'J'){
 			$('#document').addClass('cnpj');
 			$('#document').attr('placeholder', 'CNPJ da empresa')
 			$('#document').attr('maxlength', '18')
-		}
+		}else{
+            $('#document').removeClass('cnpj');
+            $('#document').removeClass('cpf');
+            $('#document').attr('placeholder', 'CPF/CNPJ da empresa/profissional *')
+            $('#document').attr('maxlength', '18')
+        }
 
 		return false;
 
@@ -719,8 +731,20 @@ console.log(record);
 						$('#city_name').val(data.cidade);
 						$('#state').val(data.uf);
 						$('#state_name').val(data.state_name);
-						$('#neighborhood').val(data.bairro);
-						$('#address').val(data.tipo_logradouro + ' ' + data.logradouro);
+
+                        if(data.bairro != ''){
+                            $('#neighborhood').val(data.bairro);
+                        }else{
+                            $('#neighborhood').attr('readonly', false);
+                        }
+
+                        if(data.logradouro != ''){
+                            $('#address').val(data.tipo_logradouro + ' ' + data.logradouro);
+                        }else{
+                            $('#address').attr('readonly', false);
+                        }
+
+
 					}else{
 						bootbox.alert("<p>CEP inválido</p>", function() {});
 					}

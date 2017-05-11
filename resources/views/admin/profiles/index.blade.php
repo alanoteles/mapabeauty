@@ -40,7 +40,7 @@
                     </th>
                     <th>Nome</th>
                     <th>E-mail</th>
-                    <th class="hidden-480">Grupo</th>
+                    {{--<th class="hidden-480">Grupo</th>--}}
                     <th class="hidden-480">Exibir</th>
                     <th class="center">Ações</th>
                 </tr>
@@ -48,7 +48,7 @@
 
                 <tbody>
                 <!-- line -->
-                @foreach($users as $key => $user)
+                @foreach($resultados as $key => $resultado)
                     <tr>
                         <td class="sel">
                             <label>
@@ -56,20 +56,28 @@
                                 <span class="lbl"></span>
                             </label>
                         </td>
-                        <td style="width: 30%;"><a href="/admin/profiles/{{ $user->id }}/edit">{{ $user->name }}</a></td>
-                        <td style="width: 30%;" >{{ $user->email }}</td>
-                        <td class="hidden-480 situacao situacao-clientes">-</td>
+                        <td style="width: 30%;">
+                            <a href="/admin/profiles/{{ $resultado->id }}/edit">
+                                @if(!empty($resultado->profiles))
+                                    {{ $resultado->profiles->professional_name }}
+                                @else
+                                    {{ $resultado->name }}
+                                @endif
+                            </a>
+                        </td>
+                        <td style="width: 30%;" >{{ $resultado->email }}</td>
+                        {{--<td class="hidden-480 situacao situacao-clientes">-</td>--}}
                         <td class="hidden-480 situacao situacao-clientes">
 
-                            <select class="form-control transparent status" name="status" style="height: 22px;"  data-id="{{ (isset($user->id) ? $user->id : $user->id) }}">
-                                <option value="1" {{ ($user->status == '1') ? 'selected=selected' : ''  }}>Sim</option>
-                                <option value="0" {{ ($user->status == '0') ? 'selected=selected' : ''  }}>Não</option>
+                            <select class="form-control transparent status" name="status" style="height: 22px;"  data-id="{{ (isset($resultado->id) ? $resultado->id : $resultado->id) }}">
+                                <option value="1" {{ ($resultado->status == '1') ? 'selected=selected' : ''  }}>Sim</option>
+                                <option value="0" {{ ($resultado->status == '0') ? 'selected=selected' : ''  }}>Não</option>
                             </select>
                         </td>
                         <td class="acoes center">
                             <div class="btn-group">
                                 
-                                <a href="" class="btn btn-xs btn-grey remover-item-lista excluir"  data-id="{{  $user->id  }}">
+                                <a href="" class="btn btn-xs btn-grey remover-item-lista excluir"  data-id="{{  $resultado->id  }}">
                                     <i class="icon-trash bigger-120"></i>
                                 </a>
                             </div>

@@ -28,7 +28,7 @@ use App\Http\Controllers\Controller as ControllerFront;
 class ProfileController extends Controller
 {
 
-    protected $itens_por_pagina = 50;
+    protected $itens_por_pagina = 10;
 
     /**
      * Display a listing of the resource.
@@ -38,12 +38,12 @@ class ProfileController extends Controller
     public function index()
     {
 
-        $users = User::paginate($this->itens_por_pagina);
+        $resultados = User::paginate($this->itens_por_pagina);
 
         $view = 'admin.profiles.index';
 
         return view($view, [
-            'users'             => $users,
+            'resultados'        => $resultados,
             'action'            => \Request::path() . '/pesquisa',
             'model'             => 'User',
             'table'             => 'users',
@@ -85,7 +85,7 @@ class ProfileController extends Controller
 //        print_r($user);die;
 
         return view('admin.profiles.edit',[
-            'products'          => Product::where('status', '1')->get(),
+            'products'          => Product::where('status', '1')->where('value', '0.00')->get(),
             'services'          => Service::where('status', '1')->get(),
             'payers'            => Payer::where('status', '1')->get(),
             'detached_value'    => $detached_value,
@@ -108,8 +108,8 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
 
-//                echo '<pre>';
-//        print_r($request->all());die;
+//echo '<pre>';
+//print_r($request->all());die;
 
         //-- Se na tela de listagem o usuário clicou para mudar o status do registro, o update é chamado via AJAX.
         //-- Caso contrário, o form está sendo atualizado pelo botão SALVAR
@@ -157,13 +157,8 @@ class ProfileController extends Controller
             $gallery    = json_decode($params['uploads'], true);
             //$gallery    = json_decode($gallery, true);
 
-        $user = User::find($user->id);
-//echo '<pre>';
-////        echo $gallery->hash;
-//print_r($gallery);//die;
-//print_r($user);
-//print_r($profile);
-//print_r($user2->profiles);die;
+            $user = User::find($user->id);
+
             if(count($gallery) > 1){
                 foreach($gallery as $img){
                     $img = json_decode($img);
@@ -174,29 +169,34 @@ class ProfileController extends Controller
 
                     $user->profiles->galleries()->attach($id_img);
                 }
-            }elseif(count($gallery) == 1){ //-- TODO : Terminar essas implementação !!!!
+            }elseif(count($gallery) == 1){
                 $gallery    = json_decode($gallery, true);
+
+                $gallery['filename'] = $gallery['hash'] . '.' . $gallery['extension'];
+                $id_img = Gallery::create($gallery)->id;
+
+                $user->profiles->galleries()->attach($id_img);
             }
 
-// echo '<pre>';print_r($params);//die;
+
             //-- Attach services
             $services   = json_decode($params['services'], true);
 
             if(count($services) > 1){
                 foreach($services as $service){
                     $service        = json_decode($service);
-// print_r($service);
+
                     $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                     $service->price = str_replace('.', '' , $service->price);
                     $service->price = str_replace(',', '.', $service->price);
 
                     $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
                 }
-//                $user->profiles->services()->detach();
+
                 $user->profiles->services()->attach($profile_service);
             }elseif(count($services) == 1){
                 $service        = json_decode($services);
-// print_r($service);
+
                 $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                 $service->price = str_replace('.', '' , $service->price);
                 $service->price = str_replace(',', '.', $service->price);
@@ -209,21 +209,19 @@ class ProfileController extends Controller
 
 
             //-- Save purchase just if it is courtesy
-            // if(!empty($params['product_id'])){
-            $product = explode('#', $params['product_id']);
-            if($product[0] = '1'){
-                $purchase = array(  'product_id'         => '1',
-                    'transaction_id'    => 'free',
-                    'transaction_date'  => date('Y-m-d H:m:s'),
-                    'payer_id'          => '',
-                    'status_id'         => 2,
-                    'detached'          => '0',
-                    'courtesy'          => '1');
+            if($params['product_id'] != '0'){
+                $purchase = array(  'product_id'         => $params['product_id'],
+                                    'transaction_id'    => 'free',
+                                    'transaction_date'  => date('Y-m-d H:m:s'),
+                                    'payer_id'          => '',
+                                    'status_id'         => 2,
+                                    'detached'          => ($params['detach'] == 'N') ? '0' : '1',
+                                    'courtesy'          => '1');
 
                 $user->purchases()->create($purchase);
             }
 
-            //}
+
 
             if($operation == 'create'){
                 $msg    = 'Seu cadastro foi criado com sucesso ! ';
@@ -233,7 +231,9 @@ class ProfileController extends Controller
 
             $type   = 'success';
 
-die;
+            return redirect('/admin/profiles')->with('msg', $msg)->with('type', $type);
+
+
 
     }
 
@@ -257,42 +257,68 @@ die;
     public function edit($id)
     {
         $user           = User::find($id);
-        $city           = City::find($user->profiles->city);
-        $state          = State::where('code', $user->profiles->state)->first();
+        $city           = (!empty($user->profiles)) ? City::find($user->profiles->city) : '';
+        $state          = (!empty($user->profiles)) ? State::where('code', $user->profiles->state)->first() : '';
         $detached_value = number_format(Product::where('status', 'D')->value('value'),2,',','.');
 
-        foreach ($user->profiles->services as $key => $value) {
-            // echo $value->pivot->service_id
-            // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
-            $profile_service[] = json_encode(array('id' => $value->pivot->service_id, 'price' => $value->pivot->price));
+        //TODO - Adicionar campo Data de início. Esse valor vai para o campo "transaction_date".
+        // Por enquanto vai fazer o cálculo baseado na data da última compra.
+        $purchases = Purchase::where('user_id', $id)->orderBy('created_at', 'desc')->first();
+//echo '<pre>';
+//print_r($purchases);
+//echo $purchases->products;
+//die;
+        $remaining_days = '';
+        if(count($purchases)){ //-- Calculate remaining days
+
+            $created            = new Carbon($purchases['transaction_date']);
+            $now                = Carbon::now();
+//echo $created;
+//echo '<br>' . $now;
+
+            $remaining_days     = $purchases->products->days - $created->diff($now)->days;
+//echo '<pre>';
+//////print_r($product_total_days);
+//print_r($remaining_days);
+//            die;
         }
 
-        foreach ($user->profiles->galleries as $key => $value) {
-            // echo $value->pivot->service_id
-            // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
-            if($value->status == '1'){
-                $file_data = explode('.', $value->filename);
+        if(!empty($user->profiles)) {
+            foreach ($user->profiles->services as $key => $value) {
+                // echo $value->pivot->service_id
+                // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+                $profile_service[] = json_encode(array('id' => $value->pivot->service_id, 'price' => $value->pivot->price));
+            }
 
-                $gallery_profile[] = json_encode(array( 'hash'      => $file_data[0],
-                    'extension' => $file_data[1],
-                    'subtitle'  => $value->subtitle,
-                    'size'      => $value->size,
-                    'logo'      => $value->logo));
+            foreach ($user->profiles->galleries as $key => $value) {
+                // echo $value->pivot->service_id
+                // $profile_service[] = json_encode(array("id" => $value->pivot->service_id, "price" => $value->pivot->price));
+                if ($value->status == '1') {
+                    $file_data = explode('.', $value->filename);
+
+                    $gallery_profile[] = json_encode(array('hash' => $file_data[0],
+                        'extension' => $file_data[1],
+                        'subtitle' => $value->subtitle,
+                        'size' => $value->size,
+                        'logo' => $value->logo));
+                }
             }
         }
         
 //        echo '<pre>';
-//        print_r($user);die;
+//        print_r($city);die;
 
         return view('admin.profiles.edit',[
             'user'              => $user,
-            'products'          => Product::where('status', '1')->get(),
+            'products'          => Product::where('status', '1')->where('value', '0.00')->get(),
             'services'          => Service::where('status', '1')->get(),
             'payers'            => Payer::where('status', '1')->get(),
-            'city'              => $city,
-            'state'             => $state,
+            'city'              => (!empty($city)) ? $city->id : '',
+            'state'             => (!empty($state)) ? $state->code : '',
+            'city_name'         => (!empty($city)) ? $city->name : '',
+            'state_name'        => (!empty($state)) ? $state->name : '',
             'detached_value'    => $detached_value,
-            'remaining_days'    => '',
+            'remaining_days'    => ($remaining_days >= 0) ? $remaining_days : '',
             'profile_service'   => (!empty($profile_service)) ? json_encode($profile_service) : '',
             'gallery_profile'   => (!empty($gallery_profile)) ? json_encode($gallery_profile) : '',
             'model'             => 'User'
@@ -310,9 +336,6 @@ die;
     public function update(Request $request, $id)
     {
 
-//        echo '<pre>';
-//        print_r($request->all());die;
-
         //-- Se na tela de listagem o usuário clicou para mudar o status do registro, o update é chamado via AJAX.
         //-- Caso contrário, o form está sendo atualizado pelo botão SALVAR
         if($request->ajax()){
@@ -320,16 +343,10 @@ die;
         }else{
 
             $params = $request->all();
-//echo '<pre>';
-//print_r($params);die;
-            $user = User::find($params['user_id']);
+            $user   = User::find($params['user_id']);
 
-            //$params             = $request->all();
-//            $params['user_id']  = $user->id;
 
             echo '<pre>';print_r($params);//die;
-             $state  = json_decode($params['state'], true);
-             $city   = json_decode($params['city'], true);
 
             //-- Clean up special chars
             $to_be_removed                   = array(".", ",", "/", "(", ")", "-", " ");
@@ -337,8 +354,6 @@ die;
             $params['responsible_cellphone'] = str_replace($to_be_removed, '', $params['responsible_cellphone']);
             $params['zip_code']              = str_replace($to_be_removed, '', $params['zip_code']);
             $params['whatsapp']              = str_replace($to_be_removed, '', $params['whatsapp']);
-            $params['state']                 = $state['code'];
-            $params['city']                  = $city['id'];
 
             if(!empty($user->profiles)){ //-- Update
                 $user->profiles->fill($params)->save();
@@ -350,59 +365,89 @@ die;
 
             //-- Attach images
             $gallery    = json_decode($params['uploads'], true);
-
+//echo '<pre>';
+//print_r(count($user->profiles->galleries));die;
             if(count($gallery)){
 
-                $user->profiles->galleries()->detach();
+                //-- Only detach if profile already has associated images
+                if(count($user->profiles->galleries) != 0){
+                    $user->profiles->galleries()->detach();
+                }
 
-                foreach($gallery as $img){
-                    $img = json_decode($img);
-                    $img->filename = $img->hash . '.' . $img->extension;
 
-                    echo '<pre>';print_r($img);//die;
-                    $id_img = Gallery::create((array)$img)->id;
+                if(count($gallery) > 1){
+                    foreach($gallery as $img){
+                        $img = json_decode($img);
+                        $img->filename = $img->hash . '.' . $img->extension;
+
+                        $id_img = Gallery::create((array)$img)->id;
+
+                        $user->profiles->galleries()->attach($id_img);
+                    }
+                }elseif(count($gallery) == 1){
+                    $gallery    = json_decode(json_encode($gallery), true);
+                    $gallery    = json_decode($gallery[0], true);
+
+                    $gallery['filename'] = $gallery['hash'] . '.' . $gallery['extension'];
+                    $id_img = Gallery::create($gallery)->id;
 
                     $user->profiles->galleries()->attach($id_img);
                 }
+
             }
 
-// echo '<pre>';print_r($params);//die;
             //-- Attach services
             $services   = json_decode($params['services'], true);
-// print_r($services);
-// print_r(json_decode($service));
-            if(count($services)){
+
+
+            if(count($services) > 1){
                 foreach($services as $service){
                     $service        = json_decode($service);
-// print_r($service);
                     $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                     $service->price = str_replace('.', '' , $service->price);
                     $service->price = str_replace(',', '.', $service->price);
 
                     $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
                 }
-                $user->profiles->services()->detach();
+
+                if(count($user->profiles->services) != 0){
+                    $user->profiles->services()->detach();
+                }
+                $user->profiles->services()->attach($profile_service);
+            }elseif(count($services) == 1){
+                $service       = json_decode(json_encode($services));
+
+                if(is_array($service)){
+                    $service       = json_decode($service[0]);
+                }else{
+                    $service       = json_decode($service);
+                }
+
+                $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
+                $service->price = str_replace('.', '' , $service->price);
+                $service->price = str_replace(',', '.', $service->price);
+
+                $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
+
+                if(count($user->profiles->services) != 0){
+                    $user->profiles->services()->detach();
+                }
                 $user->profiles->services()->attach($profile_service);
             }
 
 
-
             //-- Save purchase just if it is courtesy
-            // if(!empty($params['product_id'])){
-            $product = explode('#', $params['product_id']);
-            if($product[0] = '1'){
-                $purchase = array(  'product_id'         => '1',
+            if($params['product_id'] != '0'){
+                $purchase = array(  'product_id'         => $params['product_id'],
                     'transaction_id'    => 'free',
                     'transaction_date'  => date('Y-m-d H:m:s'),
                     'payer_id'          => '',
                     'status_id'         => 2,
-                    'detached'          => '0',
+                    'detached'          => ($params['detach'] == 'N') ? '0' : '1',
                     'courtesy'          => '1');
 
                 $user->purchases()->create($purchase);
             }
-
-            //}
 
             if($operation == 'create'){
                 $msg    = 'Seu cadastro foi criado com sucesso ! ';
@@ -411,6 +456,8 @@ die;
             }
 
             $type   = 'success';
+
+            return redirect('/admin/profiles')->with('msg', $msg)->with('type', $type);
 
         }
     }

@@ -8,19 +8,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Attachment;
-use App\Models\Filetype;
-use App\Models\Language;
-use App\Models\ProjectActivity;
-use App\Models\ProjectSituation;
-use App\Models\ProjectType;
-use App\Models\Thread;
-use App\Models\Topic;
-use App\Models\Subtopic;
-use App\Models\UserGroup;
-use App\Models\NewsEditorial;
-use App\Models\Page;
-use App\Helpers\Helper;
+use App\Helper;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -217,7 +206,7 @@ class Controller extends \Illuminate\Routing\Controller
 
 
 
-        $model = 'App\Models\\' . $params['model'];
+        $model = 'App\\' . $params['model'];
 
         if(!empty($params['orderBy'])){
 
@@ -287,7 +276,7 @@ class Controller extends \Illuminate\Routing\Controller
     public function update(Request $request, $id)
     {
         $params = $request->all();
-        $model = 'App\Models\\' . $params['model'];
+        $model = 'App\\' . $params['model'];
 
         $resultado = $model::find($id);
 
@@ -306,7 +295,7 @@ class Controller extends \Illuminate\Routing\Controller
     public function destroy(Request $request, $id)
     {
         $params = $request->all();
-        $model = 'App\Models\\' . $params['model'];
+        $model = 'App\\' . $params['model'];
 
         $resultado = $model::destroy($id);
 
@@ -321,7 +310,7 @@ class Controller extends \Illuminate\Routing\Controller
     public function retorna_traducao(Request $request)
     {
         $params = $request->all();
-        $model = 'App\Models\\' . $params['model'];
+        $model = 'App\\' . $params['model'];
 
         $resultado = $model::find($params['id']);
 

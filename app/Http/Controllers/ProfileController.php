@@ -152,7 +152,7 @@ class ProfileController extends Controller
                     $img = json_decode($img);
                     $img->filename = $img->hash . '.' . $img->extension;
 
-    echo '<pre>';print_r($img);//die;
+//    echo '<pre>';print_r($img);//die;
                     $id_img = Gallery::create((array)$img)->id;
 
                     $user->profiles->galleries()->attach($id_img);

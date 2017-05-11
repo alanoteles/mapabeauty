@@ -123,7 +123,7 @@
                             <div class="col-sm-6">
 
                                 {{--{{ Form::text('email', (isset($user->email) ? $user->email : ''), array('class' => 'col-sm-12', 'id' => 'email')) }}--}}
-                                <input type="text" class="form-control" name="professional_name" id="professional_name" placeholder="Nome da empresa/profissional *" value="{{ !empty($user->profiles->professional_name) ? $user->profiles->professional_name : '' }}">
+                                <input type="text" class="form-control" name="professional_name" id="professional_name"  value="{{ !empty($user->profiles->professional_name) ? $user->profiles->professional_name : '' }}">
 
                             </div>
                         </div>
@@ -134,12 +134,13 @@
 
                                 {{--{{ Form::text('email_confirm', '', array('class' => 'col-sm-12', 'id' => 'email_confirm')) }}--}}
 
-                                <input type="text" class="form-control
-                                @if(!empty($user->profiles->document) && strlen($user->profiles->document) == 11)
-                                        cpf
-                                @elseif(!empty($user->profiles->document) && strlen($user->profiles->document) == 14)
-                                        cnpj
-                                @endif" name="document" id="document" placeholder="CPF/CNPJ da empresa/profissional *" maxlength="14" value="{{ !empty($user->profiles->document) ? $user->profiles->document : '' }}">
+                                <input type="text"
+                                {{--@if(!empty($user->profiles->document) && strlen($user->profiles->document) == 11)--}}
+                                @if(!empty($user->profiles->professional_type) && $user->profiles->professional_type == 'F')
+                                    class="form-control cpf"
+                                @elseif(!empty($user->profiles->document) && $user->profiles->professional_type == 'J')
+                                    class="form-control cnpj"
+                                @endif name="document" id="document" placeholder="" maxlength="14" value="{{ !empty($user->profiles->document) ? $user->profiles->document : '' }}">
 
                             </div>
                         </div>
@@ -150,7 +151,7 @@
                             <div class="col-sm-6">
 
                                 {{--{{ Form::password('password', '', array('class' => 'col-sm-12', 'id' => 'password')) }}--}}
-                                <input type="text" class="form-control" name="responsible_email" id="responsible_email" placeholder="E-mail do responsável *"
+                                <input type="text" class="form-control" name="responsible_email" id="responsible_email"
                                        @if(!empty($user->email))
                                        value="{{ !empty($user->email) ? $user->email : $user->profiles->responsible_email }}"
                                         @endif
@@ -165,7 +166,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Nome do responsável *</label>
                             <div class="col-sm-3">
 
-                                <input type="text" class="form-control" name="responsible_name" id="responsible_name" placeholder="Nome do responsável" value="{{ !empty($user->profiles->responsible_name) ? $user->profiles->responsible_name : '' }}">
+                                <input type="text" class="form-control" name="responsible_name" id="responsible_name"  value="{{ !empty($user->profiles->responsible_name) ? $user->profiles->responsible_name : '' }}">
 
                             </div>
                         </div>
@@ -175,7 +176,7 @@
                             <div class="col-sm-3">
 
 {{--                                {{ Form::text('name', (isset($user->name) ? $user->name : ''), array('class' => 'col-sm-12', 'id' => 'name')) }}--}}
-                                <input type="text" class="form-control col-sm-8 telefone" name="responsible_cellphone" id="responsible_cellphone" placeholder="Celular do responsável" value="{{ !empty($user->profiles->responsible_cellphone) ? $user->profiles->responsible_cellphone : '' }}">
+                                <input type="text" class="form-control col-sm-8 telefone" name="responsible_cellphone" id="responsible_cellphone"  value="{{ !empty($user->profiles->responsible_cellphone) ? $user->profiles->responsible_cellphone : '' }}">
 
                             </div>
                         </div>
@@ -249,7 +250,7 @@
                         <!---------------------------------------------------- Contratações ------------------------------------------------>
 
                         <h3 class="header smaller lighter blue font-size-18 margin-bottom-25 margin-top-50" style="font-weight: 400;">
-                            Dados da contratação
+                            Dados da cortesia
                         </h3>
 
                         <div class="form-group fotm-tab">
@@ -268,17 +269,14 @@
                         </div>
 
                         <div class="form-group fotm-tab" id="periodo">
-                            <label for="periodo_contratacao" class="col-sm-3 form-control-static control-label small text-left">Período de contratação :</label>
+                            <label for="periodo_contratacao" class="col-sm-3 form-control-static control-label small text-left">Período da cortesia :</label>
                             <div class="col-sm-3">
                                 <select class="form-control" name="product_id" id="product_id">
-                                    <option value="0">Selecione o período desejado</option>
+                                    <option value="0">Selecione a cortesia desejada</option>
 
                                     @foreach($products as $product)
-                                        <option value="{{ $product->id }}#{{ $product->value }}"
-                                        <?php if(!empty($purchase->product_id)){ ?>
-                                                {{ ($product->id == $purchase->product_id) ? 'selected' : '' }}
-                                        <?php } ?>
-                                        >{{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}
+                                        <option value="{{ $product->id }}">
+                                            {{ $product->description }} - R$ {{ number_format($product->value,2,',','.')  }}
                                         </option>
                                     @endforeach
 
@@ -287,38 +285,31 @@
                         </div>
 
                         <div class="form-group" id="deseja_topo">
-                            <label for="periodo_contratacao" class="col-sm-3 control-label small text-left">Deseja adquirir destaque ?</label>
+                            <label for="destaque_contratacao" class="col-sm-3 control-label small text-left">Deseja adicionar destaque ?</label>
                             <div class="col-sm-3">
                                 <select class="form-control" name="detach" id="detach">
-                                    <option value="">Selecione uma opção</option>
-
-                                    @if(!empty($purchase->detach))
-                                        <option value="S#{{ $detached_value }}" {{ $purchase->detach == '1' ? 'selected' : '' }}>Sim - R$ {{ $detached_value }}</option>
-                                        <option value="N#0" {{ $purchase->detach != '1' ? 'selected' : '' }}>Não</option>
-                                    @else
-                                        <option value="S#{{ $detached_value }}">Sim - R$ {{ $detached_value }}</option>
-                                        <option value="N#0">Não</option>
-                                    @endif
+                                    <option value="S">Sim</option>
+                                    <option value="N" selected>Não</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group" id="deseja_topo">
-                            <!-- <div class="col-sm-6"> -->
-                            <label for="valor" class="col-sm-3 control-label small">
+                        {{--<div class="form-group" id="deseja_topo">--}}
+                            {{--<!-- <div class="col-sm-6"> -->--}}
+                            {{--<label for="valor" class="col-sm-3 control-label small">--}}
                                 {{-- @if(!empty($remaining_days))  --}}
-                                @if($remaining_days < 0 || $remaining_days == '')
-                                    Valor da compra :
-                                @else
-                                    Valor pago :
-                                @endif
+                                {{--@if($remaining_days < 0 || $remaining_days == '')--}}
+                                    {{--Valor da compra :--}}
+                                {{--@else--}}
+                                    {{--Valor pago :--}}
+                                {{--@endif--}}
                                 {{-- @endif --}}
-                            </label>
-                            <!-- </div> -->
-                            <div class="col-sm-6">
-                                <strong>R$ <span id="total">{{ !empty($purchase) ? number_format($purchase->value,2,',','.')  : '0,00' }}</span></strong>
-                            </div>
-                        </div>
+                            {{--</label>--}}
+                            {{--<!-- </div> -->--}}
+                            {{--<div class="col-sm-6">--}}
+                                {{--<strong>R$ <span id="total">{{ !empty($purchase) ? number_format($purchase->value,2,',','.')  : '0,00' }}</span></strong>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
 
@@ -332,7 +323,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> CEP * </label>
                             <div class="col-sm-3">
 
-                                {{ Form::text('zip_code', (isset($user->profiles->zip_code) ? $user->profiles->zip_code : ''), array('class' => 'col-sm-12 cep', 'id' => 'zip_code')) }}
+                                {{ Form::text('zip_code', (isset($user->profiles->zip_code) ? $user->profiles->zip_code : ''), array('class' => 'form-control cep', 'id' => 'zip_code')) }}
 
                             </div>
                         </div>
@@ -344,8 +335,8 @@
 
                                 {{--<input type="text" id="state" name="state" placeholder="" class="col-sm-12" value="{{ $state->name }}" disabled>--}}
                                 <input type="text" class="form-control" name="state_name" id="state_name" placeholder="Estado" readonly
-                                       @if(!empty($state))
-                                       value="{{ $state->name }}"
+                                       @if(!empty($state_name))
+                                       value="{{ $state_name }}"
                                         @endif
                                 >
                             </div>
@@ -358,8 +349,8 @@
 
                                 {{--<input type="text" id="city" name="city" placeholder="" class="col-sm-12" disabled value="{{ $city->name }}">--}}
                                 <input type="text" class="form-control" name="city_name" id="city_name" placeholder="Cidade" readonly
-                                       @if(!empty($city))
-                                       value="{{ $city->name }}"
+                                       @if(!empty($city_name))
+                                       value="{{ $city_name }}"
                                         @endif
 
                                 >
@@ -372,16 +363,17 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Bairro * </label>
                             <div class="col-sm-6">
 
-                                {{ Form::text('neighborhood', (isset($user->profiles->neighborhood) ? $user->profiles->neighborhood : ''), array('class' => 'col-sm-12', 'id' => 'neighborhood')) }}
-
+                                <input type="text" class="form-control col-sm-12" name="neighborhood" id="neighborhood" value="{{ !empty($user->profiles->neighborhood) ? $user->profiles->neighborhood : '' }}" readonly>
                             </div>
                         </div>
+
+
 
                         <div class="form-group fotm-tab">
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Endereço *  </label>
                             <div class="col-sm-6">
 
-                                {{ Form::text('address', (isset($user->profiles->address) ? $user->profiles->address : ''), array('class' => 'col-sm-12', 'id' => 'address')) }}
+                                <input type="text" class="form-control col-sm-12" name="address" id="address" value="{{ !empty($user->profiles->address) ? $user->profiles->address : '' }}" readonly>
 
                             </div>
                         </div>
@@ -399,7 +391,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="form-field-1" requery="true"> Número * </label>
                             <div class="col-sm-2">
 
-                                {{ Form::text('number', (isset($user->profiles->number) ? $user->profiles->number : ''), array('class' => 'col-sm-12', 'id' => 'number')) }}
+                                {{ Form::text('number', (isset($user->profiles->number) ? $user->profiles->number : ''), array('class' => 'form-control', 'id' => 'number')) }}
 
                             </div>
                         </div>
@@ -575,16 +567,14 @@
     </div>
     <!-- / WRAP DOS DADOS -->
 
-
-
     <!-- #dialog-message -->
     <div id="dialog-message" class="hide"></div>
     <!-- / #dialog-message -->
 
 
     <!-- scripts exclusivos desta area -->
-    {{--<script src="{{asset('admin/js/usuarios.js')}}"></script>--}}
-    <script src="{{ asset('admin/js/cropbox.js') }}"></script>
+    <script src="{{ asset('admin/js/profiles.js') }}"></script>
+    {{--<script src="{{ asset('admin/js/cropbox.js') }}"></script>--}}
     {{--<script src="{{ asset('admin/js/objetos-crop.js') }}"></script>--}}
 
 

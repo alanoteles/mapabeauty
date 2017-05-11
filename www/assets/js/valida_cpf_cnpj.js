@@ -178,7 +178,9 @@ function valida_cnpj ( valor ) {
  @return bool true para válido, false para inválido
  */
 function valida_cpf_cnpj ( valor ) {
-
+    if(valor.length == 0){
+        return true;
+    }
     // Verifica se é CPF ou CNPJ
     var valida = verifica_cpf_cnpj( valor );
 

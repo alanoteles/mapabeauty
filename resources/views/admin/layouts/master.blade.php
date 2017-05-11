@@ -113,6 +113,12 @@
 
                 <!-- WRAP DOS DADOS -->
                 <div class="wrap-content">
+                    @if(Session::has('msg'))
+                        <div class="col-sm-12 alert alert-{!! Session::get('type') !!} fade in">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            {{ Session::get('msg') }}
+                        </div>
+                    @endif
 
                     <!-- *** CONTEÚDO *** -->
                     @yield('content')
@@ -172,6 +178,7 @@
     <script src="{{asset('admin/assets/js/jquery.mask.min.js')}}"></script>
     <script src="{{ asset('assets/js/jquery.bxslider/jquery.bxslider.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('admin/js/geral.js') }}"></script>
     <script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
 
     <!-- ace scripts -->
