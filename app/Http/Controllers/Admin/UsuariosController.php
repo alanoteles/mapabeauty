@@ -263,10 +263,13 @@ class UsuariosController extends Controller
         $nova_pass = str_random(6);
 
         $params['nova_senha'] = $nova_pass;
+        $params['user_email'] = $user->email;
+        $params['user_name']  = $user->name;
+        
 
         Mail::send('novasenha_mensagem',  ['params' => $params], function ($m) use ($params) {
             $m->from('faleconosco@mapabeauty.com.br', 'Mapa Beauty');
-            $m->to($user->email, $user->name)->subject('Fale Conosco Mapa Beauty');
+            $m->to($params['user_email'], $params['user_name'])->subject('Fale Conosco Mapa Beauty');
             $m->bcc('alanoteles@gmail.com', 'Alano Teles')->subject('Fale Conosco Mapa Beauty');
         });
 

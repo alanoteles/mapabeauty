@@ -264,10 +264,10 @@ class ProfileController extends Controller
         //TODO - Adicionar campo Data de início. Esse valor vai para o campo "transaction_date".
         // Por enquanto vai fazer o cálculo baseado na data da última compra.
         $purchases = Purchase::where('user_id', $id)->orderBy('created_at', 'desc')->first();
-//echo '<pre>';
-//print_r($purchases);
-//echo $purchases->products;
-//die;
+// echo '<pre>';
+// print_r($purchases);
+// echo $purchases->products;
+// die;
         $remaining_days = '';
         if(count($purchases)){ //-- Calculate remaining days
 
@@ -277,9 +277,12 @@ class ProfileController extends Controller
 //echo '<br>' . $now;
 
             $remaining_days     = $purchases->products->days - $created->diff($now)->days;
-//echo '<pre>';
-//////print_r($product_total_days);
-//print_r($remaining_days);
+// echo '<pre>';
+// echo 'hoje : ' . $now;
+// echo '<br>create : ' . $created;
+// echo '<br>purchase days' . $purchases->products->days; 
+// ////print_r($product_total_days);
+// print_r($remaining_days);
 //            die;
         }
 
