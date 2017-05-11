@@ -266,7 +266,7 @@ class UsuariosController extends Controller
 
         Mail::send('novasenha_mensagem',  ['params' => $params], function ($m) use ($params) {
             $m->from('faleconosco@mapabeauty.com.br', 'Mapa Beauty');
-            $m->to('faleconosco@mapabeauty.com.br', 'Fale Conosco')->subject('Fale Conosco Mapa Beauty');
+            $m->to($user->email, $user->name)->subject('Fale Conosco Mapa Beauty');
             $m->bcc('alanoteles@gmail.com', 'Alano Teles')->subject('Fale Conosco Mapa Beauty');
         });
 
