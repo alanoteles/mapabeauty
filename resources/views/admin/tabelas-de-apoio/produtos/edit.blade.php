@@ -70,7 +70,7 @@
                     <div class="form-group fotm-tab">
                         <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Valor </label>
                         <div class="col-sm-3">
-                            {{ Form::text('value', !empty($resultado->value) ? number_format($resultado->value, 2, ',', '.') : '', array('class' => 'col-sm-12 valor', 'id' => 'value')) }}
+                            {{ Form::text('value', !empty($resultado->value) ? number_format($resultado->value, 2, ',', '.') : '', array('class' => 'col-sm-12 money2', 'id' => 'value')) }}
                         </div>
                     </div>
 
