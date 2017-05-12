@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper;
 use App\User;
 use App\Service;
+use App\Product;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
