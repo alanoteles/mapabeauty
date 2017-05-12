@@ -6,16 +6,16 @@
 		<link rel="profile" href="http://gmpg.org/xfn/11">
 
 		<!-- Bootstrap core CSS -->
-		<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ secure_asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 		
 		<!-- Font Awesome Icons -->
-		<link href="{{ asset('assets/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+		<link href="{{ secure_asset('assets/css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 		
 		<!-- Custom CSS -->
-		<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+		<link href="{{ secure_asset('assets/css/custom.css') }}" rel="stylesheet">
 
 
-        <link href="{{ asset('assets/css/jquery.bxslider.min.css') }}" rel="stylesheet">
+        <link href="{{ secure_asset('assets/css/jquery.bxslider.min.css') }}" rel="stylesheet">
 		
 		<!-- Google Fonts -->
 		<link href='https://fonts.googleapis.com/css?family=Raleway:400,700' rel='stylesheet' type='text/css'>
@@ -48,7 +48,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/"><img src="{{ asset('assets/img/logo3.png') }}" alt="Mapa Beauty"></a>
+							<a class="navbar-brand" href="/"><img src="{{ secure_asset('assets/img/logo3.png') }}" alt="Mapa Beauty"></a>
 						</div>
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav navbar-right">
@@ -78,13 +78,13 @@
 		<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>	 -->
 		{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>--}}
 		<script src="assets/js/jquery-2.2.4.min.js"></script>
-		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-		<script src="{{ asset('assets/js/bootbox.min.js') }}"></script>
-		<script src="{{ asset('assets/js/jquery.mask.min.js') }}"></script>
-		<script src="{{ asset('assets/js/js.cookie.js') }}"></script>
-		<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
-		<script src="{{ asset('assets/js/valida_cpf_cnpj.js') }}"></script>
-		<script src="{{ asset('assets/js/jquery.bxslider/jquery.bxslider.min.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/bootstrap.min.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/bootbox.min.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/jquery.mask.min.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/js.cookie.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/jquery.form.min.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/valida_cpf_cnpj.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/jquery.bxslider/jquery.bxslider.min.js') }}"></script>
 		{{-- <script src="{{ asset('assets/js/jquery.cookie.js') }}"></script> --}}
 
 		<script type="text/javascript">
@@ -95,7 +95,7 @@
 			});
 		</script>
 
-		<script src="{{ asset('assets/js/main.js') }}"></script>
+		<script src="{{ secure_asset('assets/js/main.js') }}"></script>
 		{{--<script src="https://use.typekit.net/gcy4xta.js"></script>--}}
 		{{--<script>try{Typekit.load({ async: true });}catch(e){}</script>--}}
 
