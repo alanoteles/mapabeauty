@@ -84,8 +84,14 @@
 					    <tbody>
 
                             @if(!empty($results))
+								<?php $conta = 0; ?>
                                 @foreach($results as $key => $result)
-                                    <tr @if($result['detached'] == '1') class="destaque-tabela" @endif>
+                                    <?php if($result['detached'] == '1' && $conta < 3){ $conta++ ?>
+                                        <tr class="destaque-tabela">
+                                    <?php }else{ ?>
+                                        <tr>
+                                    <?php } ?>
+
                                         <td>
                                             @if(!empty($result['logo']))
                                                 <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">

@@ -81,8 +81,12 @@ Nicolas Gallagher and Jonathan Neal http://necolas.github.io/normalize.css/
 
 /*.table-striped > tbody > tr:first-child {*/
 tr.destaque-tabela {
-	background: #99EBDF !important;
-	background-color: #99EBDF !important;
+	/*background: #99EBDF !important;*/
+	/*background-color: #99EBDF !important;*/
+	background: #c7f9f2 !important;
+	background-color: #c7f9f2 !important;
+
+
 }
 
 .table-striped > tbody > tr:nth-child(odd) {
