@@ -3,13 +3,13 @@
 @section('content')
     <!-- HERO 
 		========================================== -->
-		<section id="hero" data-type="background" data-speed="5">
+		<section id="hero" data-type="background" data-speed="5" style="background: url('uploads/topos/{{ $banner->filename  }}') 50% 0 no-repeat fixed;">
 			<article>
 				<div class="container clear-fix">
 					<div class="row">
 					
 						<div class="col-sm-5 hero-text">
-							<p class="lead">Conecte-se com seu próximo cliente !</p>
+							<p class="lead">{{ !empty($banner) ? $banner['message'] : '' }}</p>
 	
 							<p><a class="btn btn-lg btn-success" 
 									@if(Auth::check())
@@ -17,7 +17,7 @@
 									@else	
 										href="/login" 
 									@endif
-									role="button">Seja nosso parceiro !  &raquo;</a>
+									role="button">{{ !empty($banner) ? $banner['button_label'] : '' }}</a>
 							</p>
 						
 						</div><!-- col -->

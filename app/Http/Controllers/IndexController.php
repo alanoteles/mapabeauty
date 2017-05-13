@@ -8,6 +8,7 @@ use App\State;
 use App\Service;
 use App\Profile;
 use App\Product;
+use App\Banner;
 use Carbon\Carbon;
 use Auth;
 use DB;
@@ -82,10 +83,13 @@ class IndexController extends Controller
             usort($results, function ($a, $b) { return strcmp($b["detached"], $a["detached"]); });
         }
 
+        $banner = Banner::where('status', '1')->first();
+
         return view('layouts.index', [
             'states'    => State::get(),
             'services'  => Service::get(),
-            'results'   => $results
+            'results'   => $results,
+            'banner'    => (!empty($banner) ? $banner : '')
         ]);
     }
 

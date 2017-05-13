@@ -87,6 +87,10 @@
 	Route::get('admin/tabelas-de-apoio/products/pesquisa','Admin\ApoioProductsController@pesquisa');
 	Route::resource('admin/tabelas-de-apoio/products', 'Admin\ApoioProductsController'); //Usando os verbos REST
 
+	//Banners
+	Route::get('admin/banners/pesquisa','Admin\BannersController@pesquisa');
+	Route::resource('admin/banners', 'Admin\BannersController'); //Usando os verbos REST
+
 	//Upload CKEditor
 //	Route::post('/ckeditor-upload','Controller@ckeditor_upload');
 //
