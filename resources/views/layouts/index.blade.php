@@ -106,6 +106,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td align="center">Não foram encontrados resultados.</td>
+                                </tr>
+
                             @endif
 
 					    </tbody>

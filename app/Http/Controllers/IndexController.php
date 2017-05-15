@@ -276,14 +276,15 @@ class IndexController extends Controller
 
 
 
+        $banner = Banner::where('status', '1')->first();
+
         return view('layouts.index', [
             'states'    => State::get(),
             'services'  => Service::get(),
-            'results'   => $results
+            'results'   => $results,
+            'banner'    => (!empty($banner) ? $banner : '')
         ]);
-
-
-
+        
 
 //        echo $query;
 //       print_r($params);//die;
