@@ -126,7 +126,7 @@ class IndexController extends Controller
 // echo '<pre>';print_r($profile);//die;
         if(!empty($profile)){
 
-            if($profile->stars != 0 && $profile->reviews ){
+            if($profile->stars != 0 && $profile->reviews != 0 ){
                 $reviews = round($profile->stars / $profile->reviews);
             }else{
                 $reviews = 0;
@@ -280,7 +280,6 @@ class IndexController extends Controller
         }
 
 
-
         $banner = Banner::where('status', '1')->first();
 
         return view('layouts.index', [
@@ -289,7 +288,7 @@ class IndexController extends Controller
             'results'   => $results,
             'banner'    => (!empty($banner) ? $banner : '')
         ]);
-        
+
 
 //        echo $query;
 //       print_r($params);//die;
