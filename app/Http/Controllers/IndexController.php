@@ -123,10 +123,15 @@ class IndexController extends Controller
     public function show($id = '')
     {
         $profile = Profile::find($id);
-
+// echo '<pre>';print_r($profile);//die;
         if(!empty($profile)){
 
-            $reviews = round($profile->stars / $profile->reviews);
+            if($profile->stars != 0 && $profile->reviews ){
+                $reviews = round($profile->stars / $profile->reviews);
+            }else{
+                $reviews = 0;
+            }
+
 
             $profile->views = $profile->views + 1;
             $profile->save();
