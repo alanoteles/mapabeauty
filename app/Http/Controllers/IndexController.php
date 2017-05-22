@@ -76,6 +76,10 @@ class IndexController extends Controller
             if(count($logo)){
                 $results[$key]['logo'] = $logo->filename;
             }
+
+            if(!empty($profile->galleries)){
+                $results[$key]['gallery'] = $profile->galleries;
+            }
         }
 
         //-- Order array by "detached" field.
@@ -86,7 +90,9 @@ class IndexController extends Controller
         $banner = Banner::where('status', '1')->first();
 
         if($type != null){
+
             return $results;
+
         }else{
             return view('layouts.index', [
                 'states'    => State::get(),
@@ -125,10 +131,10 @@ class IndexController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id = '')
+    public function show($id = '', $type = null)
     {
         $profile = Profile::find($id);
-// echo '<pre>';print_r($profile);//die;
+
         if(!empty($profile)){
 
             if($profile->stars != 0 && $profile->reviews != 0 ){
@@ -141,11 +147,6 @@ class IndexController extends Controller
             $profile->views = $profile->views + 1;
             $profile->save();
 
-            return view('layouts.detail',
-                [
-                    'profile'           => $profile,
-                    'reviews'           => $reviews
-                ]);
         }
         return redirect('/');
     }
