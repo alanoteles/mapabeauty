@@ -22,7 +22,7 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type = null)
     {
 
         if(Auth::check()){
@@ -85,12 +85,17 @@ class IndexController extends Controller
 
         $banner = Banner::where('status', '1')->first();
 
-        return view('layouts.index', [
-            'states'    => State::get(),
-            'services'  => Service::get(),
-            'results'   => $results,
-            'banner'    => (!empty($banner) ? $banner : '')
-        ]);
+        if($type != null){
+            return $results;
+        }else{
+            return view('layouts.index', [
+                'states'    => State::get(),
+                'services'  => Service::get(),
+                'results'   => $results,
+                'banner'    => (!empty($banner) ? $banner : '')
+            ]);
+        }
+
     }
 
     /**
@@ -135,7 +140,7 @@ class IndexController extends Controller
 
             $profile->views = $profile->views + 1;
             $profile->save();
-         
+
             return view('layouts.detail',
                 [
                     'profile'           => $profile,

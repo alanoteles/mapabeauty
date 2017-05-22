@@ -16,6 +16,7 @@
 	//Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
 
 	Route::resource('/','IndexController');
+	Route::get('/index/{type?}', 'IndexController@index');
 	Route::get('/detail/{id?}','IndexController@show');
 	Route::post('/search','IndexController@search');
 
