@@ -345,8 +345,30 @@ $(function() {
 	$('#send-review').on('click', function(e){
 		e.preventDefault();
 
-		$(this).text('Gravando...');
-		if(Cookies.get('voted') == undefined){ //-- User never voted on anybody
+		voted = '';
+		ja_votou = '';
+		if(Cookies.get('voted') != undefined){ //-- User has already voted on anybody
+			
+			voted = Cookies.getJSON('voted'); //-- Get cookie votes
+
+			$.each(voted, function(key, value) { //-- Check if user has already voted on professional once.
+
+				if(value['profile_id'] == $('#profile_id').val()){
+					$("#reviewModal").modal('hide');
+					ja_votou = 1;
+					
+					bootbox.alert('Você já votou nesse profissional. Obrigado por participar !', function () {
+						
+					});
+					return false;
+					
+				}
+			})
+			
+		}
+// console.log(voted);return false;
+		if(!ja_votou){
+			$(this).text('Gravando...');
 			$.ajax({
 				url: '/profile/reviews',
 				type: 'POST',
@@ -354,31 +376,24 @@ $(function() {
 				dataType: 'json',
 				success: function (data) {
 					if(data == '1'){
-						Cookies.set('voted', [{profile_id: $('#profile_id').val(), stars: stars}]);
+						if(voted == ''){
+							voted = [{profile_id: $('#profile_id').val(), stars: stars}];
+						}else{
+							voted.push({profile_id: $('#profile_id').val(), stars: stars})
+						}
+						Cookies.set('voted', voted);
 						$("#reviewModal").modal('hide');
 
-						bootbox.alert('Obrigado pelo seu voto !', function () {});
+						bootbox.alert('Obrigado pelo seu voto !', function () {
+							location.reload();
+						});
+
 						return false;	
 					}
 				}
-			});
-		}else{
-			voted = Cookies.getJSON('voted'); //-- Get cookie votes
-
-			$.each(voted, function(key, value) { //-- Check if user has already voted on professional once.
-
-				if(value['profile_id'] == $('#profile_id').val()){
-					$("#reviewModal").modal('hide');
-					bootbox.alert('Você já votou nesse profissional. Obrigado por participar !', function () {});
-					return false;
-				}
-			})
-
-			Cookies.remove('voted');
-			voted.push({profile_id: $('#profile_id').val(), stars: stars})
-			Cookies.set('voted', voted);
-			
+			});	
 		}
+		
 	})
 
 	//-- Faz upload da foto via AJAX e atualiza a variável "uploads" com os dados retornados da imagem

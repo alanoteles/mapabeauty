@@ -94,7 +94,9 @@
 
                                         <td>
                                             @if(!empty($result['logo']))
+                                                <a href="/detail/{{ $result['id'] }}">
                                                 <img style="max-width: 80px;height: 80px" src="uploads/fotos/{{ $result['logo'] }}" alt="">
+                                                </a>
                                             @endif
                                         </td>
 
@@ -102,7 +104,12 @@
                                             <p class="lead">
                                                 <a href="/detail/{{ $result['id'] }}" style="color: #3E4249;"><strong>{{ !empty($result['fantasy_name']) ? $result['fantasy_name'] : $result['professional_name'] }}</strong></a>
                                             </p>
-                                            {{ $result['about'] }}
+                                            {{-- {{ strlen($result['about']) }} --}}
+                                            <p class="about">
+                                            	<a href="/detail/{{ $result['id'] }}" style="color: #3E4249;">
+                                            		{{  trim($result['about']) }}
+                                            	</a>
+                                            </p>
                                         </td>
                                     </tr>
                                 @endforeach

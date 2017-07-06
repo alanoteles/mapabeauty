@@ -19,20 +19,26 @@ class ApoioServicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type = null)
     {
         $resultados = Service::paginate($this->itens_por_pagina);
 
         $view = 'admin.tabelas-de-apoio.servicos.index';
 
-        return view($view, [
-            'resultados'        => $resultados,
-            'action'            => \Request::path() . '/pesquisa',
-            'model'             => 'Service',
-            'table'             => 'services',
-            'exibir'            => 'S',
-            'view'              => $view
-        ]);
+        if($type != null){
+
+            return Service::orderBy('description', 'ASC')->get();
+
+        }else {
+            return view($view, [
+                'resultados'        => $resultados,
+                'action'            => \Request::path() . '/pesquisa',
+                'model'             => 'Service',
+                'table'             => 'services',
+                'exibir'            => 'S',
+                'view'              => $view
+            ]);
+        }
 
     }
 

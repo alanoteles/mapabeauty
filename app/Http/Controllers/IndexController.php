@@ -49,6 +49,8 @@ class IndexController extends Controller
                                     'professional_name' => $profile->professional_name,
                                     'fantasy_name'      => $profile->fantasy_name,
                                     'about'             => $profile->about,
+                                    'latitude'          => $profile->latitude,
+                                    'longitude'         => $profile->longitude,
                                     'logo'              => '',
                                     'detached'          => '');
 
@@ -79,6 +81,10 @@ class IndexController extends Controller
 
             if(!empty($profile->galleries)){
                 $results[$key]['gallery'] = $profile->galleries;
+            }
+
+            if(!empty($profile->services)){
+                $results[$key]['services'] = $profile->services;
             }
         }
 
@@ -134,21 +140,23 @@ class IndexController extends Controller
     public function show($id = '', $type = null)
     {
         $profile = Profile::find($id);
-
         if(!empty($profile)){
-
             if($profile->stars != 0 && $profile->reviews != 0 ){
                 $reviews = round($profile->stars / $profile->reviews);
             }else{
                 $reviews = 0;
             }
 
-
             $profile->views = $profile->views + 1;
             $profile->save();
 
         }
-        return redirect('/');
+        //return redirect('/detail/' . $id);
+        return view('layouts.detail', [
+                'states'    => State::get(),
+                'services'  => Service::get(),
+                'profile'   => $profile
+            ]);
     }
 
     /**

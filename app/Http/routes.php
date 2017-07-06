@@ -14,7 +14,10 @@
 // Route::group(['middleware' => ['web']], function () {
 
 	//Route::get('/',                             ['as' => 'home',                        'uses' => 'IndexController@index']);
-
+// if (Request::is("api/*")) {
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, If-Modified-Since, Cache-Control, Pragma");
+// }
 	Route::resource('/','IndexController');
 	Route::get('/index/{type?}', 'IndexController@index');
 	Route::get('/detail/{id?}','IndexController@show');
@@ -82,6 +85,7 @@
 
 	//Serviços
 	Route::get('admin/tabelas-de-apoio/services/pesquisa','Admin\ApoioServicesController@pesquisa');
+	Route::get('admin/tabelas-de-apoio/services/index/{type?}','Admin\ApoioServicesController@index');
 	Route::resource('admin/tabelas-de-apoio/services', 'Admin\ApoioServicesController'); //Usando os verbos REST
 
 	//Produtos

@@ -1145,6 +1145,15 @@ i.ci {
 	#instructor .container {
 		background: rgba(255,255,255,0.8);
 		padding: 20px;
+		
+	}
+
+	#listagem-home .container {
+		margin: 0 0;
+	}
+
+	p .about {
+		max-width: 75ch;
 	}
 }
 
@@ -1153,12 +1162,29 @@ i.ci {
 	.logged-in .navbar-fixed-top {
 		top: 46px
 	}
+
+	#listagem-home .container {
+		margin: 0 0;
+	}
+
+	p .about {
+		max-width: 75ch;
+	}
+
 }
 
 /* Fix the top margin when logged in */
 @media screen and ( max-width: 600 ){
 	.logged-in .navbar-fixed-top {
 		top: 42px
+	}
+
+	#listagem-home .container {
+		margin: 0 0;
+	}
+
+	p .about {
+		max-width: 75ch;
 	}
 }
 @media screen and ( max-width: 768px ){
@@ -1172,6 +1198,10 @@ i.ci {
 		height: 240px;
 	}
 
+	#listagem-home .container {
+		margin: 0 0;
+	}
+
 	.resource {
 		width: 48%;
 		margin-right: 2%;
@@ -1183,6 +1213,10 @@ i.ci {
 		padding: 0 5px;
 		width: 100%;
 	}
+
+	p .about {
+		max-width: 75ch;
+	}
 }
 @media screen and ( max-width: 568px ){
 	#instructor .num {
@@ -1193,12 +1227,21 @@ i.ci {
 	#instructor .span {
 		font-size: 16px;
 	}
+
+	#listagem-home .container {
+		margin: 0 0;
+	}
 	
 	.resource {
 		width: 100%;
 		margin-right: 0;
 		min-height: 0;
 	}
+
+	p .about {
+		max-width: 75ch;
+	}
+	
 }
 /*@media screen and (max-width: 1199px){
 	#optin div .col-sm-4 {
