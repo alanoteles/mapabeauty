@@ -1,4 +1,4 @@
-<article>
+<article class="row">
     <input type="hidden" id="stars" value="">
     <input type="hidden" id="profile_id" value="{{ $profile->id }}">
     {{--<section>--}}
@@ -65,8 +65,8 @@
                 </div>
 
                 <div class="col-md-12 col-xs-12" style="margin-bottom: 20px;">
-                    {{--<div class="col-md-6 col-xs-6">--}}
-                        {{--<div class="form-group">--}}
+                    <div class="row visible-xs">
+                        <div class="col-xs-12">
                             <span>Avaliação :
                                 @if(empty($reviews))
                                     <img src="/assets/img/star_empty.png" alt="">
@@ -85,13 +85,40 @@
                                     @endfor
                                 @endif
                             </span>
+                        </div>
+                        <div class="col-xs-12">
+                            <a class="btn btn-info pull-right" id="review" data-toggle="modal" data-target="#reviewModal"  alt="">Avalie o profissional</a>
+                        </div>
+                    </div>
+                    {{--<div class="col-md-6 col-xs-6">--}}
+                        {{--<div class="form-group">--}}
+                            <div class="hidden-xs">
+                                <span>Avaliação :
+                                    @if(empty($reviews))
+                                        <img src="/assets/img/star_empty.png" alt="">
+                                        <img src="/assets/img/star_empty.png" alt="">
+                                        <img src="/assets/img/star_empty.png" alt="">
+                                        <img src="/assets/img/star_empty.png" alt="">
+                                        <img src="/assets/img/star_empty.png" alt="">
+                                    @else
+                                        @for($x = 1; $x <= 5; $x++)
+                                        {{-- {{ $x}} - {{ $reviews }} --}}
+                                            @if($x <= $reviews)
+                                                <img src="/assets/img/star_full.png" alt="">
+                                            @else
+                                                <img src="/assets/img/star_empty.png" alt="">
+                                            @endif
+                                        @endfor
+                                    @endif
+                                </span>
+                            </div>
 
                         {{--</div>--}}
                     {{--</div>--}}
                     {{--<div class="col-md-6 col-xs-6">--}}
                         {{--<div class="form-group">--}}
                             {{-- <a href="" class="btn btn-info pull-right" id="review"></a> --}}
-                            <a class="btn btn-info pull-right" id="review" data-toggle="modal" data-target="#reviewModal"  alt="">Avalie o profissional</a>
+                            <a class="btn btn-info pull-right hidden-xs" id="review" data-toggle="modal" data-target="#reviewModal"  alt="">Avalie o profissional</a>
                             {{-- <a class="btn" onclick = "$('#myModal').modal('show');$('#myModal').css('width', '250px').css('margin-left','auto').css('margin-right','auto');" ref="#myModal" >Launch Modal</a> --}}
 
                         {{--</div>--}}

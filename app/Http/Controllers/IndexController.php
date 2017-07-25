@@ -45,14 +45,26 @@ class IndexController extends Controller
         $profiles            = Profile::where('status', '1')->get();
         foreach ($profiles as $key => $profile) {
 
-            $results[$key] = array( 'id'                => $profile->id,
-                                    'professional_name' => $profile->professional_name,
-                                    'fantasy_name'      => $profile->fantasy_name,
-                                    'about'             => $profile->about,
-                                    'latitude'          => $profile->latitude,
-                                    'longitude'         => $profile->longitude,
-                                    'logo'              => '',
-                                    'detached'          => '');
+            $results[$key] = array( 'id'                    => $profile->id,
+                                    'professional_name'     => $profile->professional_name,
+                                    'fantasy_name'          => $profile->fantasy_name,
+                                    'about'                 => $profile->about,
+                                    'address'               => $profile->address,
+                                    'neighborhood'          => $profile->neighborhood,
+                                    'number'                => $profile->number,
+                                    'complement'            => $profile->complement,
+                                    'state'                 => $profile->state,
+                                    'city'                  => !empty($profile->cities->name) ? $profile->cities->name : 'GOIÂNIA',
+                                    'responsible_cellphone' => $profile->responsible_cellphone,
+                                    'facebook'              => $profile->facebook,
+                                    'whatsapp'              => $profile->whatsapp,
+                                    'twitter'               => $profile->twitter,
+                                    'instagram'             => $profile->instagram,
+                                    'views'                 => $profile->views,
+                                    'stars'                 => $profile->stars,
+                                    'reviews'               => $profile->reviews,
+                                    'logo'                  => '',
+                                    'detached'              => '');
 
             //-- Get last purchase
             $detached = $profile->users->purchases->where('status_id',2)->sortByDesc('transaction_date')->first();//, 'desc')->get();

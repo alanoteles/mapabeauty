@@ -514,20 +514,53 @@ img {
 	background: transparent url(../img/loader.gif) no-repeat center center;
 }
 
+.modal {
+		width: 100vw;
+}
+
 .modal-content {
  	background: url('../img/tile.jpg') top left repeat;
 }
 
 #reviewModal {
 	z-index: 100000 !important;
+	width: 100vw;
 }
 #reviewModal .modal-dialog{
 	width: 20%;
-	height: 150%;
+	/*height: 150%;*/
 }
 
-#reviewModal .modal-content{
-	top: 20%;
+.about {
+	max-height: 65px;
+	overflow: hidden;
+}
+
+@media screen and ( max-width: 768px){
+	.modal-content{
+		width: 20vw;
+	}
+
+	.col-esquerda {
+		border-right: 0px !important;
+	}
+
+	#review {
+		margin: 20px;
+	}
+
+	#reviewModal {
+		padding-right: 20px;
+	}
+
+	#reviewModal .modal-dialog{
+		width: 100%; 
+	}
+}
+
+.modal-content{
+	top: 20%; 
+	margin: auto;
 }
 
 #reviewModal .modal-header{
@@ -1250,3 +1283,7 @@ i.ci {
 		width: 30%;
 	}
 }*/
+
+#map-container{
+	/*display: none;*/
+}
