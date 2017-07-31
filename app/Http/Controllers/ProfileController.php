@@ -120,7 +120,10 @@ class ProfileController extends Controller
             $params             = $request->all();
             $params['user_id']  = $user->id;
 
-//echo '<pre>';print_r($params);//die;
+
+
+//echo '<pre>';print_r($user->profiles);die;
+
             // $state  = json_decode($params['state'], true);
             // $city   = json_decode($params['city'], true);
 
@@ -139,6 +142,8 @@ class ProfileController extends Controller
             }else{ //-- Create
                 $profile  = Profile::create($params);
                 $operation = 'create';
+
+                $user = User::find($user->id);
             }
 
             //-- Attach images
@@ -147,7 +152,7 @@ class ProfileController extends Controller
             if(count($gallery)){
                 
                 $user->profiles->galleries()->detach();
-
+//    echo '<pre>';print_r($params);die;
                 foreach($gallery as $img){
                     $img = json_decode($img);
                     $img->filename = $img->hash . '.' . $img->extension;
@@ -162,23 +167,27 @@ class ProfileController extends Controller
 // echo '<pre>';print_r($params);//die;
             //-- Attach services
             $services   = json_decode($params['services'], true);
-// print_r($services);
+//echo '<pre>';print_r($services);//die;
 // print_r(json_decode($service));
             if(count($services)){
                 foreach($services as $service){
                     $service        = json_decode($service);
-// print_r($service);
+//echo '<pre>';print_r($service);die;
                     $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                     $service->price = str_replace('.', '' , $service->price);
                     $service->price = str_replace(',', '.', $service->price);
 
                     $profile_service[] = ["service_id" => $service->id, "price" => $service->price];
                 }
-                $user->profiles->services()->detach();
+//echo '<pre>';print_r($user);die;
+//                if(!empty($user->profiles->services)){
+                    $user->profiles->services()->detach();
+//                }
+
                 $user->profiles->services()->attach($profile_service);
             }
 
-
+//echo '<pre>';print_r($profile_service);die;
 
             //-- Save purchase just if it is courtesy
             // if(!empty($params['product_id'])){

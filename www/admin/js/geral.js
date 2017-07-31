@@ -95,14 +95,14 @@ jQuery(document).ready(function(){
     });
 
     //-- Essa rotina ajusta um problema que o multi-idiomas causa nos links, duplicando-os.
-    $('a').each(function () {
-
-        if ($(this).attr('data-route')) {
-            var link = '/' + $('#app_locale').val() + $(this).data('route');
-            $(this).attr('href', link);
-        }
-
-    })
+    //$('a').each(function () {
+    //
+    //    if ($(this).attr('data-route')) {
+    //        var link = '/' + $('#app_locale').val() + $(this).data('route');
+    //        $(this).attr('href', link);
+    //    }
+    //
+    //})
 
 
 

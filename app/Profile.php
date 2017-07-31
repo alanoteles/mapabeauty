@@ -45,7 +45,7 @@ class Profile extends Model
     public function services()
     {
         //return $this->hasMany('App\Service');
-        return $this->belongsToMany('App\Service')->withPivot('price');;
+        return $this->belongsToMany('App\Service')->withPivot('price');
     }
 
 

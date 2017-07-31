@@ -184,7 +184,7 @@ class ProfileController extends Controller
 
             if(count($services) > 1){
                 foreach($services as $service){
-                    $service        = json_decode($service);
+                    //$service        = json_decode($service);
 
                     $service->price = ($service->price == 'Sob consulta') ? 0 : $service->price;
                     $service->price = str_replace('.', '' , $service->price);
@@ -490,9 +490,9 @@ class ProfileController extends Controller
         $params['nova_senha'] = $nova_pass;
 
         Mail::send('novasenha_mensagem',  ['params' => $params], function ($m) use ($params) {
-            $m->from('locness.dev@gmail.com', 'Portal IBA');
+            $m->from('faleconosco@mapabeauty.com.br', 'Mapa Beauty');
 
-            $m->to($params['email'], $params['name'])->subject('Admin IBA - Nova senha');
+            $m->to($params['email'], $params['name'])->subject('Admin Mapa Beauty - Nova senha');
         });
 
         if (Mail::failures()) {

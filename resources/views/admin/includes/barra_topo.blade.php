@@ -22,7 +22,7 @@
                         {{--<li><a href="#"><i class="icon-cog"></i>Settings</a></li>--}}
                         {{--<li><a href="#"><i class="icon-user"></i>Profile</a></li>--}}
                         {{--<li class="divider"></li>--}}
-                        <li><a href="#" data-route="/admin/logout"><i class="icon-off"></i>Logout </a></li>
+                        <li><a href="/admin/logout" data-route="/admin/logout"><i class="icon-off"></i>Logout </a></li>
                     </ul>
                 </li>
             </ul><!-- /.ace-nav -->
