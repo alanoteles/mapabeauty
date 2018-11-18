@@ -1,4 +1,4 @@
-*.html linguist-language=PHP
+*.html linguist-vendored
 * text=auto
 www/* linguist-vendored
 *.css linguist-vendored
